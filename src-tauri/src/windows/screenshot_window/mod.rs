@@ -15,8 +15,10 @@ pub fn start_screenshot_session(app: &AppHandle) -> Result<(), String> {
         .primary_monitor()
         .map_err(|e| format!("获取主显示器失败: {}", e))?
         .ok_or_else(|| "未找到主显示器".to_string())?;
-    let (mx, my) = (*monitor.position()).into();
-    let (mw, mh) = (*monitor.size()).into();
+    let mx = monitor.position().x;
+    let my = monitor.position().y;
+    let mw = monitor.size().width;
+    let mh = monitor.size().height;
 
     let session = screenshot::capture_monitor_at(mx, my)?;
 
