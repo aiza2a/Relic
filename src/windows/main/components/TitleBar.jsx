@@ -26,9 +26,6 @@ import {
 } from "@/plugins/context_menu/index.js";
 import { invoke } from "@tauri-apps/api/core";
 import { clearClipboardHistory } from "@shared/api";
-import { createTransferShelf } from "@shared/api/transferShelf";
-import { openReceiveBox } from "@shared/api/receiveBox";
-import { downloadWebdav, uploadWebdav } from "@shared/api/webdavSync";
 import { toast, TOAST_SIZES, TOAST_POSITIONS } from "@shared/store/toastStore";
 import {
   getOneTimePasteEnabled,
@@ -36,7 +33,6 @@ import {
   getOneTimePasteEventName,
 } from "@shared/services/oneTimePaste";
 import { normalizeDisplayPriorityValue } from "@shared/utils/displayFormatPriority";
-import { formatUserMessage } from "@shared/utils/userMessages";
 import logoIcon from "@/assets/icon32.png";
 import TitleBarSearch from "./TitleBarSearch";
 import Tooltip from "@shared/components/common/Tooltip.jsx";
@@ -72,7 +68,6 @@ const TitleBar = forwardRef(
       searchPlaceholder,
       position = "top",
       activeTab = "clipboard",
-      updateBannerState = null,
       compactActions = false,
     },
     ref,
@@ -89,7 +84,6 @@ const TitleBar = forwardRef(
     const [oneTimePasteEnabled, setOneTimePasteEnabledState] = useState(() =>
       getOneTimePasteEnabled(),
     );
-    const [webdavBusy, setWebdavBusy] = useState("");
     const isVertical = position === "left" || position === "right";
     const isCompactActions = compactActions && !isVertical;
     const actionContainerClass = isCompactActions
@@ -106,11 +100,6 @@ const TitleBar = forwardRef(
         ? "right"
         : "left"
       : "bottom";
-    const showUpdateHint = Boolean(
-      settingsSnap.disableUpdatePopup === true &&
-      updateBannerState?.currentVersion &&
-      updateBannerState?.latestVersion,
-    );
     const currentStore =
       activeTab === "clipboard"
         ? clipboardStore
@@ -194,122 +183,6 @@ const TitleBar = forwardRef(
         await openAppSettings();
       } catch (error) {
         console.error("标题栏打开设置失败:", error);
-      }
-    };
-    const handleOpenUpdater = async (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      try {
-        const opened = await invoke("open_cached_update_window");
-        if (!opened) {
-          await invoke("check_updates_and_open_window");
-        }
-      } catch (error) {
-        console.error("标题栏打开更新窗口失败:", error);
-        toast.error(
-          t("updater.checkFailed", {
-            msg: formatUserMessage(error, t, "errors.operationFailed"),
-          }),
-          TOAST_CONFIG,
-        );
-      }
-    };
-    const handleOpenTransferShelf = async (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      try {
-        await createTransferShelf();
-      } catch (error) {
-        console.error("标题栏新建文件盒失败:", error);
-        toast.error(
-          t("transferShelf.createFailed", {
-            reason: formatUserMessage(error, t, "errors.operationFailed"),
-          }),
-          TOAST_CONFIG,
-        );
-      }
-    };
-    const handleOpenReceiveBox = async (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      try {
-        await openReceiveBox();
-      } catch (error) {
-        console.error("标题栏打开收件盒失败:", error);
-        toast.error(
-          t("receiveBox.openFailed", {
-            reason: formatUserMessage(error, t, "errors.operationFailed"),
-          }),
-          TOAST_CONFIG,
-        );
-      }
-    };
-    const formatWebdavReport = (result, mode) => {
-      const total = mode === "push" ? result?.pushed || 0 : result?.pulled || 0;
-      const clipboard =
-        mode === "push"
-          ? result?.pushed_clipboard || 0
-          : result?.pulled_clipboard || 0;
-      const favorites =
-        mode === "push"
-          ? result?.pushed_favorites || 0
-          : result?.pulled_favorites || 0;
-      const groups =
-        mode === "push"
-          ? result?.pushed_groups || 0
-          : result?.pulled_groups || 0;
-      return t("settings.webdav.syncResultDetail", {
-        total,
-        clipboard,
-        favorites,
-        groups,
-      });
-    };
-    const handleWebdavAction = async (event, mode) => {
-      event.preventDefault();
-      event.stopPropagation();
-      if (webdavBusy) {
-        return;
-      }
-      if (
-        !settingsSnap.webdavEnabled ||
-        !String(settingsSnap.webdavUrl || "").trim()
-      ) {
-        toast.warning(t("settings.webdav.notReady"), TOAST_CONFIG);
-        return;
-      }
-      const action = mode === "push" ? uploadWebdav : downloadWebdav;
-      const successKey =
-        mode === "push"
-          ? "settings.webdav.pushComplete"
-          : "settings.webdav.pullComplete";
-      try {
-        setWebdavBusy(mode);
-        const result = await action();
-        toast.success(
-          t("settings.webdav.successWithDetail", {
-            title: t(successKey),
-            detail: formatWebdavReport(result, mode),
-          }),
-          {
-            ...TOAST_CONFIG,
-            duration: 5000,
-          },
-        );
-      } catch (error) {
-        console.error(
-          `标题栏 WebDAV ${mode === "push" ? "推送" : "拉取"}失败:`,
-          error,
-        );
-        toast.error(
-          formatUserMessage(error, t, "errors.webdav.operationFailed"),
-          {
-            ...TOAST_CONFIG,
-            duration: 6000,
-          },
-        );
-      } finally {
-        setWebdavBusy("");
       }
     };
     const handleToggleMultiSelect = (event) => {
@@ -437,46 +310,7 @@ const TitleBar = forwardRef(
           icon: checkIcon(oneTimePasteEnabled),
         }),
       ];
-      const fileHubItem = createMenuItem({
-        id: "menu-file-hub-group",
-        label: t("tools.moreMenu.fileHub", "文件中转"),
-        icon: "ti ti-transfer",
-      });
-      fileHubItem.children = [
-        createMenuItem({
-          id: "menu-open-transfer-shelf",
-          label: t("tools.moreMenu.newTransferShelf", "新建文件盒"),
-          icon: "ti ti-package",
-        }),
-        createMenuItem({
-          id: "menu-open-receive-box",
-          label: t("tools.moreMenu.openReceiveBox", "打开收件盒"),
-          icon: "ti ti-inbox",
-        }),
-      ];
-      const webdavItem = createMenuItem({
-        id: "menu-webdav-group",
-        label: t("tools.moreMenu.webdav", "WebDAV 同步"),
-        icon: webdavBusy ? "ti ti-loader-2" : "ti ti-cloud",
-      });
-      webdavItem.children = [
-        createMenuItem({
-          id: "menu-webdav-upload",
-          label: t("settings.webdav.upload"),
-          icon: webdavBusy === "push" ? "ti ti-loader-2" : "ti ti-cloud-up",
-          disabled: Boolean(webdavBusy),
-        }),
-        createMenuItem({
-          id: "menu-webdav-download",
-          label: t("settings.webdav.download"),
-          icon: webdavBusy === "pull" ? "ti ti-loader-2" : "ti ti-cloud-down",
-          disabled: Boolean(webdavBusy),
-        }),
-      ];
       const menuItems = [
-        fileHubItem,
-        webdavItem,
-        createSeparator(),
         previewItem,
         displayPriorityItem,
         pasteItem,
@@ -575,18 +409,6 @@ const TitleBar = forwardRef(
             console.error("切换一次性粘贴失败:", error);
           }
           break;
-        case "menu-open-transfer-shelf":
-          await handleOpenTransferShelf(event);
-          break;
-        case "menu-open-receive-box":
-          await handleOpenReceiveBox(event);
-          break;
-        case "menu-webdav-upload":
-          await handleWebdavAction(event, "push");
-          break;
-        case "menu-webdav-download":
-          await handleWebdavAction(event, "pull");
-          break;
         case "menu-clear-clipboard-history":
           try {
             const { showConfirm } = await import("@shared/utils/dialog");
@@ -640,46 +462,14 @@ const TitleBar = forwardRef(
         className={`title-bar flex-shrink-0 flex ${isVertical ? `w-10 h-full flex-col items-center justify-between py-2 bg-qc-panel ${position === "left" ? "border-r border-qc-border" : "border-l border-qc-border"}` : `h-9 flex-row items-center justify-between px-2 bg-qc-panel ${position === "top" ? "border-b border-qc-border" : "border-t border-qc-border"}`} relative overflow-hidden shadow-sm transition-colors duration-500`}
       >
         <div className="flex items-center gap-1.5 flex-shrink-0">
-          {showUpdateHint ? (
-            <Tooltip
-              content={t("updater.newVersionFound", {
-                version: updateBannerState.latestVersion,
-              })}
-              placement={tooltipPlacement}
-              asChild
-            >
-              <button
-                type="button"
-                className="relative flex h-7 w-7 items-center justify-center rounded-full border-2 border-emerald-500 bg-emerald-50/80 text-emerald-600 shadow-sm transition-all duration-200 hover:bg-emerald-100 dark:bg-emerald-500/12 dark:text-emerald-400"
-                onClick={handleOpenUpdater}
-                aria-label={t("updater.newVersionFound", {
-                  version: updateBannerState.latestVersion,
-                })}
-              >
-                <img
-                  src={logoIcon}
-                  alt="QuickClipboard"
-                  className="h-4.5 w-4.5 rounded-sm"
-                  style={TITLE_BAR_IMAGE_ICON_STYLE}
-                />
-                <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                  <i
-                    className="ti ti-arrow-big-up text-[12px] leading-none text-emerald-600 dark:text-emerald-400"
-                    style={TITLE_BAR_FONT_ICON_STYLE}
-                  />
-                </span>
-              </button>
-            </Tooltip>
-          ) : (
-            <div className="w-6 h-6 flex items-center justify-center pointer-events-none">
-              <img
-                src={logoIcon}
-                alt="QuickClipboard"
-                className="w-5 h-5"
-                style={TITLE_BAR_IMAGE_ICON_STYLE}
-              />
-            </div>
-          )}
+          <div className="w-6 h-6 flex items-center justify-center pointer-events-none">
+            <img
+              src={logoIcon}
+              alt="Relic"
+              className="w-5 h-5"
+              style={TITLE_BAR_IMAGE_ICON_STYLE}
+            />
+          </div>
         </div>
 
         <div

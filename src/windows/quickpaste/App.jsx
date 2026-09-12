@@ -18,7 +18,6 @@ import {
   DISPLAY_FORMAT_IMAGE,
   resolveDisplayFormatByPriority,
 } from '@shared/utils/displayFormatPriority';
-import { playScrollSound } from '@shared/api';
 
 const ITEM_HEIGHT = 52;
 const ITEM_PADDING = 16;
@@ -224,7 +223,6 @@ function QuickPasteWindow() {
       if (!reachedEdge) {
         resetWheelBoundary();
         setActiveIndex(currentIndex + direction);
-        playScrollSound();
         return;
       }
 
@@ -236,7 +234,6 @@ function QuickPasteWindow() {
       ) {
         resetWheelBoundary();
         setActiveIndex(direction > 0 ? 0 : max);
-        playScrollSound();
         return;
       }
 
@@ -253,7 +250,6 @@ function QuickPasteWindow() {
   useEffect(() => {
     const unlisten = listen('quickpaste-next', () => {
       resetWheelBoundary();
-      playScrollSound();
       const max = totalCount - 1;
       const currentIndex = activeIndexRef.current;
       setActiveIndex(currentIndex < max ? currentIndex + 1 : 0);

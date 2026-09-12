@@ -24,9 +24,7 @@ function SettingsSearch({ onNavigate, className = '' }) {
     const settings = bundle.settings || {};
     const sectionsMap = settings.sections || {};
     const visibleSectionIds = new Set((navigationItems || []).map(n => n.id));
-    const sectionAliases = {
-      webdav: 'syncTransfer',
-    };
+    const sectionAliases = {};
 
     const allIds = Array.from(new Set([
       ...Object.keys(settings.sections || {}),

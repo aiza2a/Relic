@@ -27,8 +27,6 @@ import {
   moveClipboardItemToTop,
   copyClipboardItem,
   getClipboardItemPasteOptions,
-  listTransferShelves,
-  addPathsToTransferShelf,
 } from "@shared/api";
 import { getFavoriteItemPasteOptions } from "@shared/api/favorites";
 import { clipboardStore } from "@shared/store/clipboardStore";
@@ -263,32 +261,8 @@ function isFileOrImageContentType(contentType) {
   const value = String(contentType || "").toLowerCase();
   return value.includes("file") || value.includes("image");
 }
-async function getTransferShelvesForContentType(contentType) {
-  if (!isFileOrImageContentType(contentType)) return [];
-  return await listTransferShelves().catch(() => []);
-}
-function createTransferShelfMenuItem(transferShelves = []) {
-  const shelves = Array.isArray(transferShelves) ? transferShelves : [];
-  const item = createMenuItem({
-    id: "add-to-transfer-shelf",
-    label: i18n.t("contextMenu.addToTransferShelf"),
-    icon: "ti ti-package",
-    disabled: shelves.length === 0,
-  });
-  if (shelves.length > 0) {
-    item.children = shelves.map((shelf) =>
-      createMenuItem({
-        id: `add-to-transfer-shelf-${shelf.id}`,
-        label: shelf.name || i18n.t("transferShelf.defaultName"),
-        icon: "ti ti-package",
-      }),
-    );
-  }
-  return item;
-}
-function createContentTypeMenuItems(contentType, transferShelves = []) {
+function createContentTypeMenuItems(contentType) {
   const value = String(contentType || "").toLowerCase();
-  const transferShelfItem = createTransferShelfMenuItem(transferShelves);
   if (value.includes("image")) {
     return [
       createMenuItem({
@@ -311,7 +285,6 @@ function createContentTypeMenuItems(contentType, transferShelves = []) {
         label: i18n.t("contextMenu.extractText"),
         icon: "ti ti-text-scan-2",
       }),
-      transferShelfItem,
     ];
   }
   if (value.includes("file")) {
@@ -331,7 +304,6 @@ function createContentTypeMenuItems(contentType, transferShelves = []) {
         label: i18n.t("contextMenu.copyPath"),
         icon: "ti ti-copy",
       }),
-      transferShelfItem,
     ];
   }
   const isRichText = contentType.includes("rich_text");
@@ -473,7 +445,6 @@ async function handleContentTypeActions(result, item, index) {
     Math.max(filePath.lastIndexOf("\\"), filePath.lastIndexOf("/")),
   );
   const actions = {
-    "add-to-transfer-shelf": async () => {},
     "pin-image": async () => {
       try {
         await pinImageToScreen(filePath);
@@ -535,12 +506,6 @@ async function handleContentTypeActions(result, item, index) {
       }
     },
   };
-  if (result.startsWith("add-to-transfer-shelf-")) {
-    const shelfId = result.substring("add-to-transfer-shelf-".length);
-    await addPathsToTransferShelf(shelfId, filePaths);
-    toast.success(i18n.t("contextMenu.addedToTransferShelf"), TOAST_CONFIG);
-    return true;
-  }
   if (actions[result]) {
     await actions[result]();
     return true;
@@ -559,7 +524,6 @@ export async function showClipboardItemContextMenu(event, item, index) {
   const pasteOptions = await getClipboardItemPasteOptions(item.id).catch(
     () => [],
   );
-  const transferShelves = await getTransferShelvesForContentType(contentType);
   const pasteMenuItem = createPasteMenuItem(pasteOptions);
   menuItems.push(pasteMenuItem);
   menuItems.push(
@@ -580,7 +544,6 @@ export async function showClipboardItemContextMenu(event, item, index) {
   }
   const contentMenuItems = createContentTypeMenuItems(
     contentType,
-    transferShelves,
   );
   if (contentMenuItems.length > 0) {
     menuItems.push(...contentMenuItems);
@@ -718,7 +681,6 @@ export async function showFavoriteItemContextMenu(event, item, index) {
   const pasteOptions = await getFavoriteItemPasteOptions(item.id).catch(
     () => [],
   );
-  const transferShelves = await getTransferShelvesForContentType(contentType);
   const pasteMenuItem = createPasteMenuItem(pasteOptions);
   menuItems.push(pasteMenuItem);
   menuItems.push(
@@ -739,7 +701,6 @@ export async function showFavoriteItemContextMenu(event, item, index) {
   // 添加内容类型特定菜单项（图片、文件等）
   const contentMenuItems = createContentTypeMenuItems(
     contentType,
-    transferShelves,
   );
   if (contentMenuItems.length > 0) {
     menuItems.push(...contentMenuItems, createSeparator());

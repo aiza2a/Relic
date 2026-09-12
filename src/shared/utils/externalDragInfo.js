@@ -29,7 +29,7 @@ export function getExternalDragInfo(item, renderType, t, fallbackIcon, source) {
       item: paths,
       iconPath: ({ paths: previewPaths, mode }) => createDragPreviewIcon(previewIcon, previewPaths.length, mode, {
         copy: t('common.copy', '复制'),
-        move: t('transferShelf.move', '移动'),
+        move: t('common.move', '移动'),
       }) || previewPaths[0],
     };
   } catch {

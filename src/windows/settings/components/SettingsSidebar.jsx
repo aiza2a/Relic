@@ -23,25 +23,13 @@ export const navigationItems = [{
   icon: "ti ti-clipboard-check",
   labelKey: 'settings.sections.quickpaste'
 }, {
-  id: 'sound',
-  icon: "ti ti-volume",
-  labelKey: 'settings.sections.sound'
-}, {
   id: 'appFilter',
   icon: "ti ti-filter",
   labelKey: 'settings.sections.appFilter'
 }, {
-  id: 'syncTransfer',
-  icon: "ti ti-arrows-transfer-up-down",
-  labelKey: 'settings.sections.syncTransfer'
-}, {
   id: 'dataManagement',
   icon: "ti ti-database",
   labelKey: 'settings.sections.dataManagement'
-}, {
-  id: 'about',
-  icon: "ti ti-info-circle",
-  labelKey: 'settings.sections.about'
 }];
 function SettingsSidebar({
   activeSection,

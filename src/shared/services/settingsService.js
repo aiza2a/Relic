@@ -53,7 +53,6 @@ export const defaultSettings = {
   toggleShortcut: 'Shift+Space',
   openSettingsShortcut: '',
   quickpasteShortcut: 'Ctrl+`',
-  transferShelfCreateShortcut: '',
   numberShortcuts: true,
   numberShortcutsModifier: 'Ctrl',
   
@@ -100,17 +99,7 @@ export const defaultSettings = {
   showListIndex: true,
   showBadges: true,
   showSourceIcon: true,
-  updateCheckInterval: 'daily',
-  disableUpdatePopup: false,
-  includeBetaUpdates: null,
   
-  // 音效设置
-  soundEnabled: true,
-  soundVolume: 50,
-  copySoundPath: '',
-  pasteSoundPath: '',
-  copySoundTiming: 'success',  
-  pasteSoundTiming: 'success', 
 
   // 图片显示限制
   imageMaxSizeMb: 15,
@@ -120,8 +109,6 @@ export const defaultSettings = {
   // 便捷粘贴设置
   quickpasteEnabled: true,
   quickpastePasteOnModifierRelease: true,
-  quickpasteScrollSound: true,
-  quickpasteScrollSoundPath: 'sounds/roll.mp3',
   
   // AI 配置
   aiTranslationEnabled: false,
@@ -155,23 +142,6 @@ export const defaultSettings = {
   customStoragePath: null,
   useCustomStorage: false,
 
-  // WebDAV Sync 设置
-  webdavEnabled: false,
-  webdavUrl: '',
-  webdavUsername: '',
-  webdavPassword: '',
-  webdavRootPath: 'quickclipboard',
-  webdavAutoPush: false,
-  webdavPushDelaySecs: 10,
-  webdavAutoPull: false,
-  webdavAutoPullOnWindowShow: false,
-  webdavPullIntervalSecs: 30,
-  webdavPushShortcut: '',
-  webdavPullShortcut: '',
-  webdavSyncClipboard: true,
-  webdavSyncFavorites: true,
-  webdavSyncImages: false,
-  syncTransferActiveMode: 'webdav',
 
 }
 

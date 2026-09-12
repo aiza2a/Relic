@@ -98,15 +98,6 @@ function ShortcutsSection({ settings, onSettingChange, activeTab }) {
             <SettingItem label={t('settings.shortcuts.quickpasteWindow')} description={t('settings.shortcuts.quickpasteWindowDesc')}>
               <ShortcutInput value={settings.quickpasteShortcut} onChange={value => handleShortcutChange('quickpasteShortcut', value)} onReset={() => handleShortcutChange('quickpasteShortcut', 'Ctrl+`')} hasError={hasErrorStatus('quickpasteShortcut', 'quickpaste')} errorMessage={getErrorMessage('quickpasteShortcut', 'quickpaste')} />
             </SettingItem>
-            <SettingItem label={t('settings.shortcuts.transferShelfCreate')} description={t('settings.shortcuts.transferShelfCreateDesc')}>
-              <ShortcutInput value={settings.transferShelfCreateShortcut} onChange={value => handleShortcutChange('transferShelfCreateShortcut', value)} onReset={() => handleShortcutChange('transferShelfCreateShortcut', '')} hasError={hasErrorStatus('transferShelfCreateShortcut', 'transfer_shelf_create')} errorMessage={getErrorMessage('transferShelfCreateShortcut', 'transfer_shelf_create')} />
-            </SettingItem>
-            <SettingItem label={t('settings.shortcuts.webdavPush')} description={t('settings.shortcuts.webdavPushDesc')}>
-              <ShortcutInput value={settings.webdavPushShortcut} onChange={value => handleShortcutChange('webdavPushShortcut', value)} onReset={() => handleShortcutChange('webdavPushShortcut', '')} hasError={hasErrorStatus('webdavPushShortcut', 'webdav_push')} errorMessage={getErrorMessage('webdavPushShortcut', 'webdav_push')} />
-            </SettingItem>
-            <SettingItem label={t('settings.shortcuts.webdavPull')} description={t('settings.shortcuts.webdavPullDesc')}>
-              <ShortcutInput value={settings.webdavPullShortcut} onChange={value => handleShortcutChange('webdavPullShortcut', value)} onReset={() => handleShortcutChange('webdavPullShortcut', '')} hasError={hasErrorStatus('webdavPullShortcut', 'webdav_pull')} errorMessage={getErrorMessage('webdavPullShortcut', 'webdav_pull')} />
-            </SettingItem>
             <SettingItem label={t('settings.shortcuts.toggleClipboardMonitor')} description={t('settings.shortcuts.toggleClipboardMonitorDesc')}>
               <ShortcutInput value={settings.toggleClipboardMonitorShortcut} onChange={value => handleShortcutChange('toggleClipboardMonitorShortcut', value)} onReset={() => handleShortcutChange('toggleClipboardMonitorShortcut', '')} hasError={hasErrorStatus('toggleClipboardMonitorShortcut', 'toggle_clipboard_monitor')} errorMessage={getErrorMessage('toggleClipboardMonitorShortcut', 'toggle_clipboard_monitor')} />
             </SettingItem>
