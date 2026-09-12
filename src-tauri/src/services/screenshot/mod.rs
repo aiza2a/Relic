@@ -29,11 +29,14 @@ pub fn capture_monitor_at(monitor_x: i32, monitor_y: i32) -> Result<ScreenshotSe
         .into_iter()
         .find(|s| s.display_info.x == monitor_x && s.display_info.y == monitor_y)
         .ok_or_else(|| "未找到主显示器对应的屏幕".to_string())?;
-    let image = screen
+    let captured = screen
         .capture()
         .map_err(|e| format!("抓取屏幕失败: {}", e))?;
-    let width = image.width();
-    let height = image.height();
+    let width = captured.width();
+    let height = captured.height();
+    // screenshots crate 内嵌旧版 image，这里转为本项目的图像类型后再保存
+    let image = image::RgbaImage::from_raw(width, height, captured.into_raw())
+        .ok_or_else(|| "转换截图数据失败".to_string())?;
 
     let dir = screenshots_dir()?;
     let seq = SESSION_SEQ.fetch_add(1, Ordering::Relaxed);
