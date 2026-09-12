@@ -59,8 +59,7 @@
   "bundle": {
     "active": true,
     "targets": [
-      "nsis",
-      "app"
+      "nsis"
     ],
     "copyright": "Personal build",
     "icon": [
