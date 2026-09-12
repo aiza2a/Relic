@@ -6,7 +6,6 @@ pub mod image;
 pub mod system;
 pub mod text;
 pub mod html;
-pub mod app_links;
 pub mod cf_html;
 
 pub use screen::init_screen_utils;

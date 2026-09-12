@@ -36,9 +36,6 @@ pub fn paste_merged_items(items: &[ClipboardItem], app: &tauri::AppHandle) -> Re
     let payload = build_merge_payload(items)?;
     let _monitor_guard = crate::services::clipboard::pause_clipboard_monitor_for(1000);
     apply_merge_payload(&payload, true)?;
-
-    crate::services::mark_paste_operation();
-
     if !crate::get_window_state().is_pinned {
         if let Some(window) = crate::get_main_window(app) {
             crate::hide_main_window(&window);
@@ -48,8 +45,6 @@ pub fn paste_merged_items(items: &[ClipboardItem], app: &tauri::AppHandle) -> Re
     std::thread::sleep(std::time::Duration::from_millis(50));
     simulate_paste()?;
     std::thread::sleep(std::time::Duration::from_millis(100));
-    crate::AppSounds::play_paste_on_success();
-
     Ok(())
 }
 

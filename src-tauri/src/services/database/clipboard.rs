@@ -1,9 +1,8 @@
 use super::models::{ClipboardDataItem, ClipboardDataSeed, ClipboardItem, PaginatedResult, QueryParams};
 use super::connection::{with_connection, MAX_CONTENT_LENGTH};
-use crate::services::webdav_sync::types::{CloudRecord, CloudRecordMeta};
 use crate::utils::{is_textual_content_type, truncate_string, truncate_around_keyword, truncate_html};
 use rusqlite::{params, OptionalExtension};
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 use chrono;
 use uuid::Uuid;
 
@@ -354,355 +353,6 @@ pub fn query_clipboard_items(params: QueryParams) -> Result<PaginatedResult<Clip
     })
 }
 
-pub fn webdav_list_history_records(device_id: &str) -> Result<Vec<CloudRecord>, String> {
-    with_connection(|conn| {
-        let mut stmt = conn.prepare(
-            "SELECT id, uuid, source_device_id, is_remote, content, html_content, content_type,
-                    image_id, item_order, is_pinned, paste_count, source_app, source_icon_hash,
-                    char_count, created_at, updated_at
-             FROM clipboard
-             ORDER BY item_order DESC, updated_at DESC, id DESC",
-        )?;
-
-        let rows = stmt.query_map([], |row| {
-            let id: i64 = row.get(0)?;
-            let uuid_opt: Option<String> = row.get(1)?;
-            let uuid = uuid_opt.filter(|s| !s.trim().is_empty()).unwrap_or_else(|| id.to_string());
-            let source_device_id = row
-                .get::<_, Option<String>>(2)?
-                .filter(|s| !s.trim().is_empty())
-                .unwrap_or_else(|| device_id.to_string());
-
-            Ok(CloudRecord {
-                uuid,
-                source_device_id,
-                is_remote: row.get::<_, i64>(3)? != 0,
-                content: row.get(4)?,
-                html_content: row.get(5)?,
-                content_type: row.get(6)?,
-                image_id: row.get(7)?,
-                item_order: row.get(8)?,
-                paste_count: row.get(10)?,
-                source_app: row.get(11)?,
-                source_icon_hash: row.get(12)?,
-                char_count: row.get(13)?,
-                title: String::new(),
-                group_name: "全部".to_string(),
-                created_at: row.get(14)?,
-                updated_at: row.get(15)?,
-            })
-        })?;
-
-        Ok(rows.filter_map(|row| row.ok()).collect())
-    })
-}
-
-pub fn webdav_list_history_record_metas() -> Result<Vec<CloudRecordMeta>, String> {
-    with_connection(|conn| {
-        let mut stmt = conn.prepare(
-            "SELECT id, uuid, updated_at, image_id
-             FROM clipboard
-             ORDER BY item_order DESC, updated_at DESC, id DESC",
-        )?;
-
-        let rows = stmt.query_map([], |row| {
-            let id: i64 = row.get(0)?;
-            let uuid_opt: Option<String> = row.get(1)?;
-            let uuid = uuid_opt.filter(|s| !s.trim().is_empty()).unwrap_or_else(|| id.to_string());
-            Ok(CloudRecordMeta {
-                uuid,
-                updated_at: row.get(2)?,
-                image_id: row.get(3)?,
-            })
-        })?;
-
-        Ok(rows.filter_map(|row| row.ok()).collect())
-    })
-}
-
-pub fn webdav_get_history_record_by_uuid(uuid: &str, device_id: &str) -> Result<Option<CloudRecord>, String> {
-    with_connection(|conn| {
-        let mut stmt = conn.prepare(
-            "SELECT id, uuid, source_device_id, is_remote, content, html_content, content_type,
-                    image_id, item_order, is_pinned, paste_count, source_app, source_icon_hash,
-                    char_count, created_at, updated_at
-             FROM clipboard
-             WHERE uuid = ?1 OR ((uuid IS NULL OR uuid = '') AND id = ?2)
-             LIMIT 1",
-        )?;
-        let id = uuid.parse::<i64>().ok();
-        let record = stmt.query_row(params![uuid, id], |row| {
-            let id: i64 = row.get(0)?;
-            let uuid_opt: Option<String> = row.get(1)?;
-            let uuid = uuid_opt.filter(|s| !s.trim().is_empty()).unwrap_or_else(|| id.to_string());
-            let source_device_id = row
-                .get::<_, Option<String>>(2)?
-                .filter(|s| !s.trim().is_empty())
-                .unwrap_or_else(|| device_id.to_string());
-
-            Ok(CloudRecord {
-                uuid,
-                source_device_id,
-                is_remote: row.get::<_, i64>(3)? != 0,
-                content: row.get(4)?,
-                html_content: row.get(5)?,
-                content_type: row.get(6)?,
-                image_id: row.get(7)?,
-                item_order: row.get(8)?,
-                paste_count: row.get(10)?,
-                source_app: row.get(11)?,
-                source_icon_hash: row.get(12)?,
-                char_count: row.get(13)?,
-                title: String::new(),
-                group_name: "全部".to_string(),
-                created_at: row.get(14)?,
-                updated_at: row.get(15)?,
-            })
-        }).optional()?;
-
-        Ok(record)
-    })
-}
-
-pub fn webdav_list_own_history_records(device_id: &str) -> Result<Vec<CloudRecord>, String> {
-    with_connection(|conn| {
-        let mut stmt = conn.prepare(
-            "SELECT id, uuid, source_device_id, is_remote, content, html_content, content_type,
-                    image_id, item_order, is_pinned, paste_count, source_app, source_icon_hash,
-                    char_count, created_at, updated_at
-             FROM clipboard
-             WHERE source_device_id IS NULL OR source_device_id = '' OR source_device_id = ?1
-             ORDER BY item_order DESC, updated_at DESC, id DESC",
-        )?;
-
-        let rows = stmt.query_map(params![device_id], |row| {
-            let id: i64 = row.get(0)?;
-            let uuid_opt: Option<String> = row.get(1)?;
-            let uuid = uuid_opt.filter(|s| !s.trim().is_empty()).unwrap_or_else(|| id.to_string());
-
-            Ok(CloudRecord {
-                uuid,
-                source_device_id: device_id.to_string(),
-                is_remote: row.get::<_, i64>(3)? != 0,
-                content: row.get(4)?,
-                html_content: row.get(5)?,
-                content_type: row.get(6)?,
-                image_id: row.get(7)?,
-                item_order: row.get(8)?,
-                paste_count: row.get(10)?,
-                source_app: row.get(11)?,
-                source_icon_hash: row.get(12)?,
-                char_count: row.get(13)?,
-                title: String::new(),
-                group_name: "全部".to_string(),
-                created_at: row.get(14)?,
-                updated_at: row.get(15)?,
-            })
-        })?;
-
-        Ok(rows.filter_map(|row| row.ok()).collect())
-    })
-}
-
-pub fn webdav_history_record_states() -> Result<HashMap<String, i64>, String> {
-    with_connection(|conn| {
-        let mut stmt = conn.prepare(
-            "SELECT uuid, updated_at FROM clipboard WHERE uuid IS NOT NULL AND uuid != ''",
-        )?;
-        let rows = stmt.query_map([], |row| Ok((row.get::<_, String>(0)?, row.get::<_, i64>(1)?)))?;
-        let mut states = HashMap::new();
-        for row in rows {
-            let (uuid, updated_at) = row?;
-            states.insert(uuid, updated_at);
-        }
-        Ok(states)
-    })
-}
-
-pub fn lan_upsert_history_records(records: &[CloudRecord]) -> Result<Vec<CloudRecord>, String> {
-    upsert_history_records(records, false)
-}
-
-pub fn webdav_repair_history_records(records: &[CloudRecord]) -> Result<Vec<CloudRecord>, String> {
-    upsert_history_records(records, true)
-}
-
-fn upsert_history_records(records: &[CloudRecord], ignore_tombstones: bool) -> Result<Vec<CloudRecord>, String> {
-    if records.is_empty() {
-        return Ok(Vec::new());
-    }
-
-    with_connection(|conn| {
-        let tx = conn.unchecked_transaction()?;
-        let mut changed = Vec::new();
-
-        for record in records {
-            if record.uuid.trim().is_empty() {
-                continue;
-            }
-            let tombstone_deleted_at = super::tombstones::sync_tombstone_deleted_at_in_conn(
-                &tx,
-                super::tombstones::COLLECTION_HISTORY,
-                &record.uuid,
-            )?;
-            if !ignore_tombstones && tombstone_deleted_at.map(|value| value >= record.updated_at).unwrap_or(false) {
-                continue;
-            }
-            let restored_updated_at = if ignore_tombstones {
-                super::tombstones::restored_record_updated_at(record.updated_at, tombstone_deleted_at)
-            } else {
-                record.updated_at
-            };
-
-            let existing = tx
-                .query_row(
-                    "SELECT COALESCE(source_device_id, ''), updated_at, content, html_content, content_type,
-                            image_id, item_order, paste_count, source_app, source_icon_hash, char_count, created_at
-                     FROM clipboard WHERE uuid = ?1 LIMIT 1",
-                    params![record.uuid],
-                    |row| {
-                        Ok((
-                            row.get::<_, String>(0)?,
-                            row.get::<_, i64>(1)?,
-                            row.get::<_, String>(2)?,
-                            row.get::<_, Option<String>>(3)?,
-                            row.get::<_, String>(4)?,
-                            row.get::<_, Option<String>>(5)?,
-                            row.get::<_, i64>(6)?,
-                            row.get::<_, i64>(7)?,
-                            row.get::<_, Option<String>>(8)?,
-                            row.get::<_, Option<String>>(9)?,
-                            row.get::<_, Option<i64>>(10)?,
-                            row.get::<_, i64>(11)?,
-                        ))
-                    },
-                )
-                .optional()?;
-
-            if let Some((
-                source_device_id,
-                updated_at,
-                content,
-                html_content,
-                content_type,
-                image_id,
-                item_order,
-                paste_count,
-                source_app,
-                source_icon_hash,
-                char_count,
-                created_at,
-            )) = existing {
-                let same = source_device_id == record.source_device_id
-                    && updated_at == restored_updated_at
-                    && content == record.content
-                    && html_content == record.html_content
-                    && content_type == record.content_type
-                    && image_id == record.image_id
-                    && item_order == record.item_order
-                    && paste_count == record.paste_count
-                    && source_app == record.source_app
-                    && source_icon_hash == record.source_icon_hash
-                    && char_count == record.char_count
-                    && created_at == record.created_at;
-
-                if updated_at >= restored_updated_at || same {
-                    if tombstone_deleted_at.map(|deleted_at| deleted_at < updated_at).unwrap_or(false) {
-                        super::tombstones::delete_sync_tombstone_in_conn(
-                            &tx,
-                            super::tombstones::COLLECTION_HISTORY,
-                            &record.uuid,
-                        )?;
-                    }
-                    continue;
-                }
-
-                tx.execute(
-                    "UPDATE clipboard SET
-                        source_device_id = ?1,
-                        is_remote = 1,
-                        content = ?2,
-                        html_content = ?3,
-                        content_type = ?4,
-                        image_id = ?5,
-                        item_order = ?6,
-                        paste_count = ?7,
-                        source_app = ?8,
-                        source_icon_hash = ?9,
-                        char_count = ?10,
-                        created_at = ?11,
-                        updated_at = ?12
-                     WHERE uuid = ?13",
-                    params![
-                        record.source_device_id,
-                        record.content,
-                        record.html_content,
-                        record.content_type,
-                        record.image_id,
-                        record.item_order,
-                        record.paste_count,
-                        record.source_app,
-                        record.source_icon_hash,
-                        record.char_count,
-                        record.created_at,
-                        restored_updated_at,
-                        record.uuid,
-                    ],
-                )?;
-                if tombstone_deleted_at.map(|deleted_at| deleted_at < restored_updated_at).unwrap_or(false) {
-                    super::tombstones::delete_sync_tombstone_in_conn(
-                        &tx,
-                        super::tombstones::COLLECTION_HISTORY,
-                        &record.uuid,
-                    )?;
-                }
-                let mut changed_record = record.clone();
-                changed_record.updated_at = restored_updated_at;
-                changed.push(changed_record);
-                continue;
-            }
-
-            tx.execute(
-                "INSERT INTO clipboard (
-                    uuid, source_device_id, is_remote, content, html_content, content_type,
-                    image_id, item_order, is_pinned, paste_count, source_app, source_icon_hash,
-                    char_count, created_at, updated_at
-                 ) VALUES (?1, ?2, 1, ?3, ?4, ?5, ?6, ?7, 0, ?8, ?9, ?10, ?11, ?12, ?13)",
-                params![
-                    record.uuid,
-                    record.source_device_id,
-                    record.content,
-                    record.html_content,
-                    record.content_type,
-                    record.image_id,
-                    record.item_order,
-                    record.paste_count,
-                    record.source_app,
-                    record.source_icon_hash,
-                    record.char_count,
-                    record.created_at,
-                    restored_updated_at,
-                ],
-            )?;
-            if tombstone_deleted_at.map(|deleted_at| deleted_at < restored_updated_at).unwrap_or(false) {
-                super::tombstones::delete_sync_tombstone_in_conn(
-                    &tx,
-                    super::tombstones::COLLECTION_HISTORY,
-                    &record.uuid,
-                )?;
-            }
-            let mut changed_record = record.clone();
-            changed_record.updated_at = restored_updated_at;
-            changed.push(changed_record);
-        }
-
-        tx.commit()?;
-        Ok(changed)
-    })
-}
-
-
-// 获取剪贴板总数
 pub fn get_clipboard_count() -> Result<i64, String> {
     with_connection(|conn| {
         conn.query_row("SELECT COUNT(*) FROM clipboard", [], |row| row.get(0))
@@ -932,16 +582,6 @@ pub fn delete_clipboard_item(id: i64) -> Result<(), String> {
         let Some((image_ids, uuid)) = item else {
             return Ok(Vec::new());
         };
-        let deleted_at = chrono::Local::now().timestamp();
-        let tombstone_id = uuid.filter(|value| !value.trim().is_empty()).unwrap_or_else(|| id.to_string());
-        super::tombstones::record_sync_tombstone_in_conn(
-            conn,
-            super::tombstones::COLLECTION_HISTORY,
-            &tombstone_id,
-            &crate::services::sync_transfer::device_id(),
-            deleted_at,
-        )?;
-
         conn.execute("DELETE FROM clipboard WHERE id = ?1", params![id])?;
 
         let mut to_delete = Vec::new();
@@ -973,7 +613,6 @@ pub fn delete_clipboard_items(ids: &[i64]) -> Result<(), String> {
 
     let images_to_delete: Vec<String> = with_connection(|conn| {
         let mut image_id_set: HashSet<String> = HashSet::new();
-        let mut tombstone_ids = Vec::new();
         for id in &unique_ids {
             let item: Option<(Option<String>, Option<String>)> = conn
                 .query_row(
@@ -989,22 +628,10 @@ pub fn delete_clipboard_items(ids: &[i64]) -> Result<(), String> {
                         image_id_set.insert(image_id);
                     }
                 }
-                tombstone_ids.push(uuid.filter(|value| !value.trim().is_empty()).unwrap_or_else(|| id.to_string()));
             }
         }
 
         let tx = conn.unchecked_transaction()?;
-        let deleted_at = chrono::Local::now().timestamp();
-        let local_device_id = crate::services::sync_transfer::device_id();
-        for uuid in &tombstone_ids {
-            super::tombstones::record_sync_tombstone_in_conn(
-                &tx,
-                super::tombstones::COLLECTION_HISTORY,
-                uuid,
-                &local_device_id,
-                deleted_at,
-            )?;
-        }
         for id in &unique_ids {
             tx.execute("DELETE FROM clipboard WHERE id = ?1", params![id])?;
         }
@@ -1040,7 +667,6 @@ pub fn clear_clipboard_history() -> Result<(), String> {
             ))
         })?;
         let mut set: HashSet<String> = HashSet::new();
-        let mut tombstone_ids = Vec::new();
         for r in ids_iter {
             if let Ok((id, image_ids, uuid)) = r {
                 if let Some(image_ids) = image_ids {
@@ -1048,23 +674,11 @@ pub fn clear_clipboard_history() -> Result<(), String> {
                         set.insert(iid);
                     }
                 }
-                tombstone_ids.push(uuid.filter(|value| !value.trim().is_empty()).unwrap_or_else(|| id.to_string()));
             }
         }
         drop(stmt);
 
         let tx = conn.unchecked_transaction()?;
-        let deleted_at = chrono::Local::now().timestamp();
-        let local_device_id = crate::services::sync_transfer::device_id();
-        for uuid in tombstone_ids {
-            super::tombstones::record_sync_tombstone_in_conn(
-                &tx,
-                super::tombstones::COLLECTION_HISTORY,
-                &uuid,
-                &local_device_id,
-                deleted_at,
-            )?;
-        }
         tx.execute("DELETE FROM clipboard", [])?;
         tx.commit()?;
 

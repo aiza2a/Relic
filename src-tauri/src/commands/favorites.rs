@@ -90,7 +90,6 @@ pub fn move_favorite_item_cmd(
 ) -> Result<(), String> {
     let result = move_favorite_item(from_id, to_id);
     if result.is_ok() {
-        notify_lan_change("favorites");
     }
     result
 }
@@ -100,7 +99,6 @@ pub fn move_favorite_item_cmd(
 pub fn add_clipboard_to_favorites(id: i64, group_name: Option<String>) -> Result<FavoriteItem, String> {
     let result = db_add_clipboard_to_favorites(id, group_name);
     if result.is_ok() {
-        notify_lan_change("favorites");
     }
     result
 }
@@ -110,7 +108,6 @@ pub fn add_clipboard_to_favorites(id: i64, group_name: Option<String>) -> Result
 pub fn move_quick_text_to_group(id: String, group_name: String) -> Result<(), String> {
     let result = db_move_favorite_to_group(id, group_name);
     if result.is_ok() {
-        notify_lan_change("favorites");
     }
     result
 }
@@ -120,7 +117,6 @@ pub fn move_quick_text_to_group(id: String, group_name: String) -> Result<(), St
 pub fn delete_quick_text(id: String) -> Result<(), String> {
     let result = db_delete_favorite(id);
     if result.is_ok() {
-        notify_lan_change("favorites");
     }
     result
 }
@@ -129,7 +125,6 @@ pub fn delete_quick_text(id: String) -> Result<(), String> {
 pub fn delete_favorite_items(ids: Vec<String>) -> Result<(), String> {
     let result = db_delete_favorites(&ids);
     if result.is_ok() {
-        notify_lan_change("favorites");
     }
     result
 }
@@ -151,7 +146,6 @@ pub fn get_favorite_item_by_id_cmd(id: String, max_length: Option<usize>) -> Res
 pub fn add_quick_text(title: String, content: String, group_name: Option<String>) -> Result<FavoriteItem, String> {
     let result = db_add_favorite(title, content, group_name);
     if result.is_ok() {
-        notify_lan_change("favorites");
     }
     result
 }
@@ -167,7 +161,6 @@ pub fn update_quick_text(
 ) -> Result<FavoriteItem, String> {
     let result = db_update_favorite(id, title, content, group_name, html_content);
     if result.is_ok() {
-        notify_lan_change("favorites");
     }
     result
 }
@@ -261,8 +254,3 @@ fn favorite_to_clipboard_item(id: &str) -> Result<crate::services::database::Cli
     })
 }
 
-fn notify_lan_change(reason: &'static str) {
-    if let Some(app) = crate::services::clipboard::get_app_handle() {
-        crate::services::sync_transfer::lan_notify_local_change(app, reason);
-    }
-}

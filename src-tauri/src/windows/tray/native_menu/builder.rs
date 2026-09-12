@@ -21,13 +21,12 @@ fn create_menu(app: &AppHandle) -> Result<Menu<tauri::Wry>, String> {
     let menu = Menu::new(app).map_err(|e| e.to_string())?;
 
     let settings = crate::get_settings();
-    let is_force_update = crate::windows::updater_window::is_force_update_mode();
 
     let toggle = MenuItem::with_id(
         app,
         "toggle",
         "切换低占用列表",
-        !is_force_update,
+        true,
         parse_accelerator(&settings.toggle_shortcut).as_deref(),
     )
     .map_err(|e| e.to_string())?;
@@ -83,7 +82,7 @@ fn create_menu(app: &AppHandle) -> Result<Menu<tauri::Wry>, String> {
         app,
         "exit-low-memory",
         "退出低占用模式",
-        !is_force_update,
+        true,
         None::<&str>,
     )
     .map_err(|e| e.to_string())?;

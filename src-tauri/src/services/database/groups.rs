@@ -1,212 +1,10 @@
 use super::models::GroupInfo;
 use super::connection::with_connection;
-use crate::services::webdav_sync::types::CloudGroup;
 use rusqlite::{params, OptionalExtension};
 use chrono;
 
 const DEFAULT_GROUP_COLOR: &str = "#dc2626";
 const DEFAULT_GROUP_ICON: &str = "ti ti-folder";
-
-// 获取所有分组
-pub fn webdav_list_groups(device_id: &str) -> Result<Vec<CloudGroup>, String> {
-    with_connection(|conn| {
-        let mut stmt = conn.prepare(
-            "SELECT g.name, g.icon, g.color, g.order_index, COALESCE(g.source_device_id, ''),
-                    g.created_at, g.updated_at
-             FROM groups g
-             ORDER BY g.order_index, g.name",
-        )?;
-        let rows = stmt.query_map([], |row| {
-            let source_device_id = row.get::<_, String>(4)?.trim().to_string();
-            let icon = row.get::<_, String>(1)?;
-            Ok(CloudGroup {
-                name: row.get(0)?,
-                icon: normalize_group_icon(&icon),
-                color: normalize_group_color(&row.get::<_, String>(2)?),
-                order: row.get(3)?,
-                source_device_id: if source_device_id.is_empty() { device_id.to_string() } else { source_device_id },
-                created_at: row.get(5)?,
-                updated_at: row.get(6)?,
-            })
-        })?;
-        Ok(rows.filter_map(|row| row.ok()).collect())
-    })
-}
-
-pub fn lan_save_groups(groups: &[CloudGroup]) -> Result<Vec<CloudGroup>, String> {
-    save_groups(groups, false)
-}
-
-pub fn webdav_repair_groups(groups: &[CloudGroup]) -> Result<Vec<CloudGroup>, String> {
-    save_groups(groups, true)
-}
-
-fn save_groups(groups: &[CloudGroup], ignore_tombstones: bool) -> Result<Vec<CloudGroup>, String> {
-    if groups.is_empty() {
-        return Ok(Vec::new());
-    }
-
-    with_connection(|conn| {
-        let tx = conn.unchecked_transaction()?;
-        let mut changed = Vec::new();
-
-        for group in groups {
-            let tombstone_deleted_at = super::tombstones::sync_tombstone_deleted_at_in_conn(
-                &tx,
-                super::tombstones::COLLECTION_GROUPS,
-                &group.name,
-            )?;
-            if !ignore_tombstones && tombstone_deleted_at.map(|value| value >= group.updated_at).unwrap_or(false) {
-                continue;
-            }
-            let restored_updated_at = if ignore_tombstones {
-                super::tombstones::restored_record_updated_at(group.updated_at, tombstone_deleted_at)
-            } else {
-                group.updated_at
-            };
-            let incoming_icon = normalize_group_icon(&group.icon);
-
-            let existing = tx
-                .query_row(
-                    "SELECT icon, color, order_index, COALESCE(source_device_id, ''), created_at, updated_at
-                     FROM groups WHERE name = ?1 LIMIT 1",
-                    params![group.name],
-                    |row| {
-                        Ok((
-                            row.get::<_, String>(0)?,
-                            row.get::<_, String>(1)?,
-                            row.get::<_, i32>(2)?,
-                            row.get::<_, String>(3)?,
-                            row.get::<_, i64>(4)?,
-                            row.get::<_, i64>(5)?,
-                        ))
-                    },
-                )
-                .optional()?;
-
-            if let Some((icon, color, order, source_device_id, created_at, updated_at)) = existing {
-                let existing_icon = normalize_group_icon(&icon);
-                let incoming_icon = merge_group_icon(&icon, &group.icon);
-                let existing_color = normalize_group_color(&color);
-                let incoming_color = normalize_incoming_group_color(&group.color)
-                    .unwrap_or_else(|| existing_color.clone());
-                let should_repair_existing_icon = icon != existing_icon;
-                let should_repair_existing_color = !is_canonical_group_color(&color);
-                let repair_icon = existing_icon.clone();
-                let repair_color = if is_empty_or_transparent_group_color(&color)
-                    && !is_empty_or_transparent_group_color(&group.color)
-                {
-                    incoming_color.clone()
-                } else {
-                    existing_color.clone()
-                };
-                let same = existing_icon == incoming_icon
-                    && existing_color == incoming_color
-                    && order == group.order
-                    && source_device_id == group.source_device_id
-                    && created_at == group.created_at
-                    && updated_at == restored_updated_at;
-
-                if updated_at >= restored_updated_at {
-                    if should_repair_existing_icon || should_repair_existing_color {
-                        tx.execute(
-                            "UPDATE groups SET icon = ?1, color = ?2 WHERE name = ?3",
-                            params![repair_icon, repair_color, group.name],
-                        )?;
-                        let mut changed_group = group.clone();
-                        changed_group.icon = repair_icon;
-                        changed_group.color = repair_color;
-                        changed_group.updated_at = updated_at;
-                        changed.push(changed_group);
-                    }
-                    if tombstone_deleted_at.map(|deleted_at| deleted_at < updated_at).unwrap_or(false) {
-                        super::tombstones::delete_sync_tombstone_in_conn(
-                            &tx,
-                            super::tombstones::COLLECTION_GROUPS,
-                            &group.name,
-                        )?;
-                    }
-                    continue;
-                }
-
-                if same {
-                    if tombstone_deleted_at.map(|deleted_at| deleted_at < updated_at).unwrap_or(false) {
-                        super::tombstones::delete_sync_tombstone_in_conn(
-                            &tx,
-                            super::tombstones::COLLECTION_GROUPS,
-                            &group.name,
-                        )?;
-                    }
-                    continue;
-                }
-
-                tx.execute(
-                    "UPDATE groups SET
-                        icon = ?1,
-                        color = ?2,
-                        order_index = ?3,
-                        source_device_id = ?4,
-                        created_at = ?5,
-                        updated_at = ?6
-                     WHERE name = ?7",
-                    params![
-                        incoming_icon,
-                        incoming_color,
-                        group.order,
-                        group.source_device_id,
-                        group.created_at,
-                        restored_updated_at,
-                        group.name,
-                    ],
-                )?;
-                if tombstone_deleted_at.map(|deleted_at| deleted_at < restored_updated_at).unwrap_or(false) {
-                    super::tombstones::delete_sync_tombstone_in_conn(
-                        &tx,
-                        super::tombstones::COLLECTION_GROUPS,
-                        &group.name,
-                    )?;
-                }
-                let mut changed_group = group.clone();
-                changed_group.icon = incoming_icon;
-                changed_group.color = incoming_color;
-                changed_group.updated_at = restored_updated_at;
-                changed.push(changed_group);
-                continue;
-            }
-
-            let incoming_color = normalize_incoming_group_color(&group.color)
-                .unwrap_or_else(|| DEFAULT_GROUP_COLOR.to_string());
-            tx.execute(
-                "INSERT INTO groups (name, icon, color, order_index, source_device_id, created_at, updated_at)
-                 VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
-                params![
-                    group.name,
-                    incoming_icon,
-                    incoming_color,
-                    group.order,
-                    group.source_device_id,
-                    group.created_at,
-                    restored_updated_at,
-                ],
-            )?;
-            if tombstone_deleted_at.map(|deleted_at| deleted_at < restored_updated_at).unwrap_or(false) {
-                super::tombstones::delete_sync_tombstone_in_conn(
-                    &tx,
-                    super::tombstones::COLLECTION_GROUPS,
-                    &group.name,
-                )?;
-            }
-            let mut changed_group = group.clone();
-            changed_group.icon = incoming_icon;
-            changed_group.color = incoming_color;
-            changed_group.updated_at = restored_updated_at;
-            changed.push(changed_group);
-        }
-
-        tx.commit()?;
-        Ok(changed)
-    })
-}
 
 // 获取所有分组
 pub fn get_all_groups() -> Result<Vec<GroupInfo>, String> {
@@ -357,15 +155,6 @@ pub fn delete_group(name: String) -> Result<(), String> {
         )?;
         
         let tx = conn.unchecked_transaction()?;
-        if exists > 0 {
-            super::tombstones::record_sync_tombstone_in_conn(
-                &tx,
-                super::tombstones::COLLECTION_GROUPS,
-                &name,
-                &crate::services::sync_transfer::device_id(),
-                chrono::Local::now().timestamp(),
-            )?;
-        }
         
         tx.execute(
             "UPDATE favorites SET group_name = '全部' WHERE group_name = ?1",
@@ -392,14 +181,6 @@ fn normalize_group_icon(raw: &str) -> String {
         DEFAULT_GROUP_ICON.to_string()
     } else {
         icon.to_string()
-    }
-}
-
-fn merge_group_icon(existing: &str, incoming: &str) -> String {
-    if incoming.trim().is_empty() && !existing.trim().is_empty() {
-        normalize_group_icon(existing)
-    } else {
-        normalize_group_icon(incoming)
     }
 }
 
@@ -470,32 +251,9 @@ fn rgb_to_hex(rgb: u32) -> String {
     format!("#{:06x}", rgb & 0x00ff_ffff)
 }
 
-fn is_canonical_group_color(raw: &str) -> bool {
-    let text = raw.trim();
-    text.len() == 7
-        && text.starts_with('#')
-        && text[1..].chars().all(|ch| ch.is_ascii_hexdigit())
-}
-
-fn is_empty_or_transparent_group_color(raw: &str) -> bool {
-    let text = raw.trim();
-    if text.is_empty() || text == "0" {
-        return true;
-    }
-
-    if let Some(hex) = text.strip_prefix('#') {
-        if !hex.chars().all(|ch| ch.is_ascii_hexdigit()) {
-            return true;
-        }
-        return matches!(hex.len(), 8) && u8::from_str_radix(&hex[0..2], 16).unwrap_or(0) == 0;
-    }
-
-    parse_numeric_group_color(text).is_none()
-}
-
 #[cfg(test)]
 mod tests {
-    use super::{merge_group_icon, normalize_group_color, normalize_group_icon};
+    use super::{normalize_group_color, normalize_group_icon};
 
     #[test]
     fn normalizes_group_color_variants() {
@@ -515,13 +273,6 @@ mod tests {
         assert_eq!(normalize_group_icon(" ti ti-star "), "ti ti-star");
     }
 
-    #[test]
-    fn keeps_existing_group_icon_when_incoming_empty() {
-        assert_eq!(merge_group_icon("ti ti-star", ""), "ti ti-star");
-        assert_eq!(merge_group_icon("", ""), "ti ti-folder");
-        assert_eq!(merge_group_icon("ti ti-star", "ti ti-tag"), "ti ti-tag");
-    }
-}
 
 // 更新分组排序
 pub fn reorder_groups(group_orders: Vec<(String, i32)>) -> Result<(), String> {

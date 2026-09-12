@@ -40,15 +40,11 @@
         "default",
         "settings",
         "quickpaste",
-        "community",
         "text-editor",
         "pin-image",
         "input-dialog",
         "context-menu",
-        "preview-window",
-        "transfer-shelf",
-        "receive-box",
-        "updater"
+        "preview-window"
       ],
       "assetProtocol": {
         "enable": true,

@@ -122,7 +122,6 @@ pub fn get_clipboard_total_count() -> Result<i64, String> {
 pub fn move_clipboard_item(id: i64) -> Result<(), String> {
     let result = move_clipboard_item_to_top(id);
     if result.is_ok() {
-        notify_lan_change("clipboard");
     }
     result
 }
@@ -132,7 +131,6 @@ pub fn move_clipboard_item(id: i64) -> Result<(), String> {
 pub fn move_clipboard_item_by_id(from_id: i64, to_id: i64) -> Result<(), String> {
     let result = db_move_clipboard_item_by_id(from_id, to_id);
     if result.is_ok() {
-        notify_lan_change("clipboard");
     }
     result
 }
@@ -238,7 +236,6 @@ pub fn delete_clipboard_item(id: i64) -> Result<(), String> {
     let result = db_delete_clipboard_item(id);
     if result.is_ok() {
         crate::services::clipboard::clear_last_content_cache();
-        notify_lan_change("clipboard");
     }
     result
 }
@@ -248,7 +245,6 @@ pub fn delete_clipboard_items(ids: Vec<i64>) -> Result<(), String> {
     let result = db_delete_clipboard_items(&ids);
     if result.is_ok() {
         crate::services::clipboard::clear_last_content_cache();
-        notify_lan_change("clipboard");
     }
     result
 }
@@ -259,7 +255,6 @@ pub fn clear_clipboard_history() -> Result<(), String> {
     let result = db_clear_clipboard_history();
     if result.is_ok() {
         crate::services::clipboard::clear_last_content_cache();
-        notify_lan_change("clipboard");
     }
     result
 }
@@ -284,7 +279,6 @@ pub fn update_clipboard_item_cmd(
 ) -> Result<(), String> {
     let result = db_update_clipboard_item(id, content, html_content);
     if result.is_ok() {
-        notify_lan_change("clipboard");
     }
     result
 }
@@ -294,7 +288,6 @@ pub fn update_clipboard_item_cmd(
 pub fn toggle_pin_clipboard_item(id: i64) -> Result<bool, String> {
     let result = db_toggle_pin(id);
     if result.is_ok() {
-        notify_lan_change("clipboard");
     }
     result
 }
@@ -484,8 +477,3 @@ pub fn resolve_image_path(stored_path: String) -> Result<String, String> {
     Ok(resolve_stored_path(&stored_path))
 }
 
-fn notify_lan_change(reason: &'static str) {
-    if let Some(app) = crate::services::clipboard::get_app_handle() {
-        crate::services::sync_transfer::lan_notify_local_change(app, reason);
-    }
-}

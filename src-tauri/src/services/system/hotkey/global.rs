@@ -318,59 +318,6 @@ pub fn register_quickpaste_hotkey(shortcut_str: &str) -> Result<(), String> {
     Ok(())
 }
 
-pub fn register_transfer_shelf_create_hotkey(shortcut_str: &str) -> Result<(), String> {
-    register_shortcut("transfer_shelf_create", shortcut_str, |app| {
-        if is_foreground_globally_disabled() {
-            return;
-        }
-
-        let app = app.clone();
-        std::thread::spawn(move || {
-            if !matches!(ensure_normal_mode_for_hotkey(&app, "创建文件盒"), Ok(true)) {
-                return;
-            }
-
-            if let Err(error) = crate::windows::transfer_shelf::open_or_create_shelf(&app) {
-                eprintln!("快捷键创建文件盒失败: {}", error);
-            }
-        });
-    })
-}
-
-fn run_webdav_hotkey_action(action_name: &'static str, mode: &'static str) {
-    tauri::async_runtime::spawn(async move {
-        let result = match mode {
-            "push" => crate::services::webdav_sync::upload().await.map(|_| ()),
-            "pull" => crate::services::webdav_sync::download(false).await.map(|_| ()),
-            _ => Ok(()),
-        };
-
-        if let Err(error) = result {
-            eprintln!("{} 失败: {}", action_name, error);
-        }
-    });
-}
-
-pub fn register_webdav_push_hotkey(shortcut_str: &str) -> Result<(), String> {
-    register_shortcut("webdav_push", shortcut_str, |_app| {
-        if is_foreground_globally_disabled() {
-            return;
-        }
-
-        run_webdav_hotkey_action("快捷键推送到 WebDAV", "push");
-    })
-}
-
-pub fn register_webdav_pull_hotkey(shortcut_str: &str) -> Result<(), String> {
-    register_shortcut("webdav_pull", shortcut_str, |_app| {
-        if is_foreground_globally_disabled() {
-            return;
-        }
-
-        run_webdav_hotkey_action("快捷键从 WebDAV 拉取", "pull");
-    })
-}
-
 pub fn register_toggle_clipboard_monitor_hotkey(shortcut_str: &str) -> Result<(), String> {
     register_shortcut("toggle_clipboard_monitor", shortcut_str, |app| {
         let app_clone = app.clone();
@@ -751,23 +698,6 @@ pub fn reload_from_settings() -> Result<(), String> {
             }
         }
 
-        if !settings.transfer_shelf_create_shortcut.is_empty() {
-            if let Err(e) = register_transfer_shelf_create_hotkey(&settings.transfer_shelf_create_shortcut) {
-                eprintln!("注册文件盒创建快捷键失败: {}", e);
-            }
-        }
-
-        if !settings.webdav_push_shortcut.is_empty() {
-            if let Err(e) = register_webdav_push_hotkey(&settings.webdav_push_shortcut) {
-                eprintln!("注册 WebDAV 推送快捷键失败: {}", e);
-            }
-        }
-
-        if !settings.webdav_pull_shortcut.is_empty() {
-            if let Err(e) = register_webdav_pull_hotkey(&settings.webdav_pull_shortcut) {
-                eprintln!("注册 WebDAV 拉取快捷键失败: {}", e);
-            }
-        }
         
         
         

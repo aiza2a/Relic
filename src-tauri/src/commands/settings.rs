@@ -21,14 +21,6 @@ fn handle_disable_edge_hide(app: &tauri::AppHandle) {
     }
 }
 
-fn normalize_update_check_interval(value: &str) -> String {
-    match value {
-        "every3days" => "every3days".to_string(),
-        "weekly" => "weekly".to_string(),
-        _ => "daily".to_string(),
-    }
-}
-
 fn capture_main_window_logical_size(app: &tauri::AppHandle) -> Option<(u32, u32)> {
     let window = app.get_webview_window("main")?;
     let size = window.inner_size().ok()?;
@@ -76,14 +68,6 @@ pub fn reload_settings() -> Result<AppSettings, String> {
 #[tauri::command]
 pub fn save_settings(mut settings: AppSettings, app: tauri::AppHandle) -> Result<(), String> {
     let old_settings = get_settings();
-    let webdav_password = std::mem::take(&mut settings.webdav_password);
-    if !webdav_password.is_empty() {
-        crate::services::secure_credentials::set_webdav_password(
-            &settings.webdav_url,
-            &settings.webdav_username,
-            &webdav_password,
-        )?;
-    }
     if settings.settings_migration_version.is_none()
         || settings.settings_migration_version < old_settings.settings_migration_version
     {
@@ -97,9 +81,6 @@ pub fn save_settings(mut settings: AppSettings, app: tauri::AppHandle) -> Result
         !old_settings.remember_window_size && settings.remember_window_size;
     let remember_window_size_disabled =
         old_settings.remember_window_size && !settings.remember_window_size;
-    let webdav_crypto_scope_changed = old_settings.webdav_url != settings.webdav_url
-        || old_settings.webdav_username != settings.webdav_username
-        || old_settings.webdav_root_path != settings.webdav_root_path;
     let show_tray_icon_changed = old_settings.show_tray_icon != settings.show_tray_icon;
 
     if edge_hide_changed && !settings.edge_hide_enabled {
@@ -110,16 +91,11 @@ pub fn save_settings(mut settings: AppSettings, app: tauri::AppHandle) -> Result
         handle_disable_edge_hide(&app);
     }
 
-    settings.update_check_interval = normalize_update_check_interval(&settings.update_check_interval);
     if remember_window_size_enabled {
         settings.saved_window_size = capture_main_window_logical_size(&app);
     } else if !settings.remember_window_size {
         settings.saved_window_size = None;
     }
-    if webdav_crypto_scope_changed {
-        crate::services::webdav_sync::crypto::clear_cached_keys();
-    }
-    
     update_settings(settings.clone())?;
 
     if remember_window_size_disabled {

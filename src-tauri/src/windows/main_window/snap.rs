@@ -708,7 +708,6 @@ pub fn show_snapped_window(window: &WebviewWindow) -> Result<(), String> {
     save_snap_layout(resolved.edge, ratio, Some(resolved.monitor_id));
     
     super::state::set_window_state(super::state::WindowState::Visible);
-    crate::services::webdav_sync::notify_main_window_shown(window.app_handle().clone());
     let _ = super::refresh_always_on_top(window);
 
     crate::input_monitor::enable_mouse_monitoring();

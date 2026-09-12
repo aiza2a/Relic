@@ -336,12 +336,6 @@ fn process_clipboard_change_once() {
         }
     }
 
-    if any_stored {
-        if let Some(app) = get_app_handle() {
-            crate::services::sync_transfer::lan_notify_local_change(app, "clipboard");
-        }
-        crate::AppSounds::play_copy_on_success();
-    }
 }
 
 fn handle_clipboard_change() -> Result<(), String> {
@@ -349,7 +343,6 @@ fn handle_clipboard_change() -> Result<(), String> {
         return Ok(());
     }
     // 检查应用过滤
-    crate::AppSounds::play_copy_immediate();
     let settings = crate::services::get_settings();
 
     if crate::services::system::is_front_app_globally_disabled(

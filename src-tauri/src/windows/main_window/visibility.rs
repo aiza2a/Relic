@@ -146,10 +146,6 @@ fn show_normal_window(window: &WebviewWindow) {
 
     set_window_state(WindowState::Visible);
 
-    if !was_visible {
-        crate::services::webdav_sync::notify_main_window_shown(window.app_handle().clone());
-    }
-
     crate::input_monitor::enable_mouse_monitoring();
     crate::input_monitor::enable_navigation_keys();
 }

@@ -140,26 +140,6 @@ fn create_tables(conn: &Connection) -> Result<(), String> {
     ).map_err(|e| format!("创建分组表失败: {}", e))?;
 
     conn.execute(
-        "CREATE TABLE IF NOT EXISTS sync_tombstones (
-            collection TEXT NOT NULL,
-            item_id TEXT NOT NULL,
-            source_device_id TEXT NOT NULL,
-            deleted_at INTEGER NOT NULL,
-            created_at INTEGER NOT NULL,
-            PRIMARY KEY (collection, item_id)
-        )",
-        [],
-    ).map_err(|e| format!("创建同步删除状态表失败: {}", e))?;
-
-    let color_exists = conn
-        .prepare("PRAGMA table_info(groups)")
-        .and_then(|mut stmt| {
-            let columns = stmt.query_map([], |row| {
-                Ok(row.get::<_, String>(1)?)
-            })?;
-            Ok(columns.into_iter().any(|col| col.map(|c| c == "color").unwrap_or(false)))
-        })
-        .unwrap_or(false);
     
     if !color_exists {
         conn.execute(
@@ -364,7 +344,6 @@ fn create_tables(conn: &Connection) -> Result<(), String> {
     ).map_err(|e| format!("创建收藏来源历史唯一索引失败: {}", e))?;
 
     conn.execute(
-        "CREATE INDEX IF NOT EXISTS idx_sync_tombstones_deleted_at ON sync_tombstones(deleted_at)",
         [],
     ).map_err(|e| format!("创建同步删除状态索引失败: {}", e))?;
     migrate_favorites_auto_titles(conn);

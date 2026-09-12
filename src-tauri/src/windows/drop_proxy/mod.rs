@@ -1,7 +1,6 @@
 use once_cell::sync::Lazy;
 use parking_lot::Mutex;
 use serde::{Deserialize, Serialize};
-use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 use std::time::{Duration, SystemTime};
 use tauri::{
@@ -13,7 +12,6 @@ const DROP_PROXY_LABEL: &str = "drop-proxy";
 const DROP_PROXY_PATHS_EVENT: &str = "drop-proxy-paths";
 const DROP_PROXY_LEAVE_EVENT: &str = "drop-proxy-leave";
 const DROP_PROXY_RESOURCE_DIR: &str = "drop_proxy_resources";
-const TRANSFER_SHELF_LABEL_PREFIX: &str = "transfer-shelf-";
 
 static DROP_PROXY_TARGET_LABEL: Lazy<Mutex<Option<String>>> = Lazy::new(|| Mutex::new(None));
 
@@ -279,33 +277,7 @@ pub fn route_paths_at_cursor(
         });
     }
 
-    let x = cursor_pos.x.round() as i32;
-    let y = cursor_pos.y.round() as i32;
-    let target_label = app
-        .webview_windows()
-        .into_iter()
-        .filter(|(label, _)| {
-            label.starts_with(TRANSFER_SHELF_LABEL_PREFIX) && label.as_str() != source_label
-        })
-        .find_map(|(label, window)| {
-            let position = window.outer_position().ok()?;
-            let size = window.outer_size().ok()?;
-            let left = position.x;
-            let top = position.y;
-            let right = left.saturating_add(size.width as i32);
-            let bottom = top.saturating_add(size.height as i32);
-            (x >= left && x <= right && y >= top && y <= bottom).then_some(label)
-        });
-
-    if let Some(target_label) = target_label {
-        emit_drop_paths_to(app, &target_label, paths);
-        emit_drop_leave_to(app, &target_label);
-        let _ = hide_drop_proxy(app);
-        return Ok(DropProxyRouteResult {
-            routed: true,
-            target_label: Some(target_label),
-        });
-    }
+    let _ = (app, source_label);
 
     Ok(DropProxyRouteResult {
         routed: false,
@@ -411,13 +383,6 @@ fn cleanup_orphan_resources_blocking(min_age: Duration) -> Result<DropProxyClean
     let target_root = target_dir
         .canonicalize()
         .map_err(|error| format!("读取拖放资源目录失败: {}", error))?;
-    let referenced_paths = crate::windows::transfer_shelf::persisted_file_paths();
-    let referenced = referenced_paths
-        .into_iter()
-        .filter_map(|path| PathBuf::from(path).canonicalize().ok())
-        .filter(|path| path.starts_with(&target_root))
-        .collect::<HashSet<_>>();
-
     let now = SystemTime::now();
     let mut deleted = 0;
     let entries = std::fs::read_dir(&target_root)
@@ -435,7 +400,7 @@ fn cleanup_orphan_resources_blocking(min_age: Duration) -> Result<DropProxyClean
             Ok(value) => value,
             Err(_) => continue,
         };
-        if !path.starts_with(&target_root) || referenced.contains(&path) {
+        if !path.starts_with(&target_root) {
             continue;
         }
 

@@ -11,7 +11,6 @@ pub fn get_groups() -> Result<Vec<GroupInfo>, String> {
 pub fn add_group(name: String, icon: String, color: String) -> Result<GroupInfo, String> {
     let result = db_add_group(name, icon, color);
     if result.is_ok() {
-        notify_lan_change("groups");
     }
     result
 }
@@ -21,7 +20,6 @@ pub fn add_group(name: String, icon: String, color: String) -> Result<GroupInfo,
 pub fn update_group(old_name: String, new_name: String, new_icon: String, new_color: String) -> Result<GroupInfo, String> {
     let result = db_update_group(old_name, new_name, new_icon, new_color);
     if result.is_ok() {
-        notify_lan_change("groups");
     }
     result
 }
@@ -31,7 +29,6 @@ pub fn update_group(old_name: String, new_name: String, new_icon: String, new_co
 pub fn delete_group(name: String) -> Result<(), String> {
     let result = db_delete_group(name);
     if result.is_ok() {
-        notify_lan_change("groups");
     }
     result
 }
@@ -41,14 +38,7 @@ pub fn delete_group(name: String) -> Result<(), String> {
 pub fn reorder_groups(group_orders: Vec<(String, i32)>) -> Result<(), String> {
     let result = db_reorder_groups(group_orders);
     if result.is_ok() {
-        notify_lan_change("groups");
     }
     result
-}
-
-fn notify_lan_change(reason: &'static str) {
-    if let Some(app) = crate::services::clipboard::get_app_handle() {
-        crate::services::sync_transfer::lan_notify_local_change(app, reason);
-    }
 }
 

@@ -13,7 +13,7 @@ mod utils;
 mod windows;
 
 pub use utils::{mouse, screen};
-pub use services::{AppSettings, get_settings, update_settings, get_data_directory, hotkey, SoundPlayer, AppSounds};
+pub use services::{AppSettings, get_settings, update_settings, get_data_directory, hotkey};
 pub use services::system::input_monitor;
 pub use services::system::focus;
 pub use services::clipboard::{
@@ -133,8 +133,6 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_os::init())
-        .plugin(tauri_plugin_updater::Builder::new().build())
-        .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_drag::init())
         .plugin(tauri_plugin_store::Builder::new().build());
     
@@ -156,7 +154,6 @@ pub fn run() {
                 commands::set_window_pinned,
                 commands::toggle_window_visibility,
                 commands::open_settings_window,
-                commands::open_community_window,
                 commands::open_text_editor_window,
                 commands::drop_proxy::drop_proxy_ensure,
                 commands::drop_proxy::drop_proxy_show,
@@ -172,29 +169,6 @@ pub fn run() {
                 windows::preview_window::reveal_preview_window,
                 windows::preview_window::finalize_hide_preview_window,
                 windows::preview_window::get_preview_window_data,
-                windows::transfer_shelf::commands::transfer_shelf_create,
-                windows::transfer_shelf::commands::transfer_shelf_list,
-                windows::transfer_shelf::commands::transfer_shelf_focus,
-                windows::transfer_shelf::commands::transfer_shelf_rename,
-                windows::transfer_shelf::commands::transfer_shelf_close,
-                windows::transfer_shelf::commands::transfer_shelf_describe_paths,
-                windows::transfer_shelf::commands::transfer_shelf_add_paths,
-                windows::transfer_shelf::commands::transfer_shelf_send,
-                windows::transfer_shelf::commands::transfer_shelf_upload_cloud,
-                windows::transfer_shelf::commands::transfer_shelf_load_state,
-                windows::transfer_shelf::commands::transfer_shelf_save_state,
-                windows::transfer_shelf::commands::transfer_shelf_save_geometry,
-                windows::transfer_shelf::commands::transfer_shelf_apply_geometry,
-                windows::receive_box::commands::receive_box_open,
-                windows::receive_box::commands::receive_box_focus,
-                windows::receive_box::commands::receive_box_list_lan_files,
-                windows::receive_box::commands::receive_box_list_cloud_files,
-                windows::receive_box::commands::receive_box_download_cloud_file,
-                windows::receive_box::commands::receive_box_open_local_file,
-                windows::receive_box::commands::receive_box_reveal_local_file,
-                windows::receive_box::commands::receive_box_delete_local_file,
-                windows::receive_box::commands::receive_box_delete_cloud_file,
-                windows::receive_box::commands::receive_box_add_to_transfer_shelf,
                 commands::emit_clipboard_updated,
                 commands::emit_quick_texts_updated,
                 commands::get_clipboard_history,
@@ -288,44 +262,7 @@ pub fn run() {
                 commands::enter_low_memory_mode,
                 commands::exit_low_memory_mode,
                 commands::is_low_memory_mode,
-                commands::play_sound,
-                commands::play_beep,
-                commands::play_copy_sound,
-                commands::play_paste_sound,
-                commands::play_scroll_sound,
-                commands::get_app_links_cmd,
                 commands::reload_all_windows,
-                commands::check_updates_and_open_window,
-                commands::get_update_banner_state,
-                commands::open_cached_update_window,
-                commands::webdav_test_connection,
-                commands::webdav_upload,
-                commands::webdav_download,
-                commands::webdav_download_all,
-                commands::webdav_get_status,
-                commands::webdav_get_last_report,
-                commands::webdav_start_scheduler,
-                commands::webdav_stop_scheduler,
-                commands::webdav_has_saved_password,
-                commands::webdav_set_password,
-                commands::webdav_has_saved_encryption_password,
-                commands::webdav_set_encryption_password,
-                commands::sync_transfer_get_mode_infos,
-                commands::sync_transfer_lan_get_status,
-                commands::sync_transfer_lan_start_http_server,
-                commands::sync_transfer_lan_stop_http_server,
-                commands::sync_transfer_lan_refresh_pairing_code,
-                commands::sync_transfer_lan_list_paired_peers,
-                commands::sync_transfer_lan_remove_paired_peer,
-                commands::sync_transfer_lan_pair_with_peer,
-                commands::sync_transfer_lan_fetch_peer_snapshot,
-                commands::sync_transfer_lan_get_local_snapshot,
-                commands::sync_transfer_lan_discover_peers,
-                commands::sync_transfer_lan_get_auto_sync_status,
-                commands::sync_transfer_lan_update_auto_sync_settings,
-                commands::sync_transfer_lan_pull_from_peer,
-                commands::sync_transfer_lan_push_to_peer,
-                commands::sync_transfer_lan_send_file_to_peer,
                 windows::plugins::context_menu::commands::show_context_menu,
                 windows::plugins::context_menu::commands::get_context_menu_options,
                 windows::plugins::context_menu::commands::submit_context_menu,
@@ -437,21 +374,9 @@ pub fn run() {
                 quickpaste::init_quickpaste_state();
                 let _ = quickpaste::init_quickpaste_window(&app.handle());
                 set_clipboard_app_handle(app.handle().clone());
-                services::webdav_sync::sync_scheduler::set_app_handle(app.handle().clone());
 
                 windows::pin_image_window::init_pin_image_window();
                 focus::start_focus_listener(app.handle().clone());
-
-                if settings.webdav_enabled {
-                    services::webdav_sync::start_scheduler();
-                }
-
-                {
-                    let app_handle = app.handle().clone();
-                    tauri::async_runtime::spawn(async move {
-                        services::sync_transfer::lan_start_configured_services(app_handle).await;
-                    });
-                }
 
                 if settings.clipboard_monitor {
                     let _ = start_clipboard_monitor();
@@ -476,7 +401,6 @@ pub fn run() {
             match event {
                 tauri::RunEvent::Ready => {
                     startup_diagnostics::mark_ready();
-                    windows::transfer_shelf::schedule_startup_restore_persisted_shelves(app.clone());
                     tauri::async_runtime::spawn(async {
                         tokio::time::sleep(std::time::Duration::from_millis(
                             STARTUP_HOTKEY_RETRY_DELAY_MS,
@@ -498,7 +422,6 @@ pub fn run() {
                         api.prevent_exit();
                     } else {
                         SHUTDOWN_REQUESTED.store(true, Ordering::SeqCst);
-                        services::webdav_sync::crypto::clear_cached_keys();
                     }
                 }
                 tauri::RunEvent::WindowEvent { label, event: tauri::WindowEvent::Destroyed, .. } => {
@@ -507,7 +430,6 @@ pub fn run() {
                         && !SHUTDOWN_REQUESTED.load(Ordering::SeqCst)
                         && !MAIN_WINDOW_RECOVERY_PENDING.swap(true, Ordering::SeqCst)
                     {
-                        services::webdav_sync::crypto::clear_cached_keys();
                         let app_handle = app.clone();
                         tauri::async_runtime::spawn(async move {
                             tokio::time::sleep(std::time::Duration::from_millis(100)).await;

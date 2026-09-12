@@ -25,8 +25,6 @@ fn emit_favorite_paste_count_updated(id: &str) {
 // 直接粘贴文本
 pub fn paste_text_direct(text: &str) -> Result<(), String> {
     crate::services::clipboard::set_last_hash_text(text);
-
-    crate::services::mark_paste_operation();
     let _monitor_guard = crate::services::clipboard::pause_clipboard_monitor_for(1000);
 
     let ctx = ClipboardContext::new().map_err(|e| format!("创建剪贴板上下文失败: {}", e))?;
@@ -36,7 +34,6 @@ pub fn paste_text_direct(text: &str) -> Result<(), String> {
     std::thread::sleep(std::time::Duration::from_millis(50));
     simulate_paste()?;
     std::thread::sleep(std::time::Duration::from_millis(100));
-    crate::AppSounds::play_paste_on_success();
     Ok(())
 }
 
@@ -50,7 +47,6 @@ pub fn paste_image_file(file_path: &str) -> Result<(), String> {
     }
 
     crate::services::clipboard::set_last_hash_file(file_path);
-    crate::services::mark_paste_operation();
     let _monitor_guard = crate::services::clipboard::pause_clipboard_monitor_for(1000);
 
     set_clipboard_image_file(file_path)?;
@@ -58,8 +54,6 @@ pub fn paste_image_file(file_path: &str) -> Result<(), String> {
     std::thread::sleep(std::time::Duration::from_millis(50));
     simulate_paste()?;
     std::thread::sleep(std::time::Duration::from_millis(100));
-    crate::AppSounds::play_paste_on_success();
-
     Ok(())
 }
 
@@ -163,8 +157,6 @@ fn paste_item_internal(
     let _monitor_guard =
         crate::services::clipboard::pause_clipboard_monitor_for(if simulate { 1000 } else { 500 });
     crate::services::clipboard::set_last_hash_contents(&payload);
-    crate::services::mark_paste_operation();
-
     if resolved_action == PasteAction::ImageBundle {
         set_clipboard_image_file(&resolve_item_image_path(item)?)?;
     } else {
@@ -208,7 +200,6 @@ fn paste_item_internal(
         std::thread::sleep(std::time::Duration::from_millis(50));
         simulate_paste()?;
         std::thread::sleep(std::time::Duration::from_millis(100));
-        crate::AppSounds::play_paste_on_success();
     }
 
     Ok(())

@@ -28,7 +28,6 @@ mod windows_raw_input {
         WM_KEYDOWN, WM_KEYUP, WM_SYSKEYDOWN, WM_SYSKEYUP, WNDCLASSEXW, WS_OVERLAPPEDWINDOW,
     };
 
-    use crate::services::sound::AppSounds;
 
     static RAW_INPUT_ACTIVE: AtomicBool = AtomicBool::new(false);
     static RAW_INPUT_THREAD_ID: AtomicU32 = AtomicU32::new(0);
@@ -290,9 +289,6 @@ mod windows_raw_input {
                 let is_keyup = message == WM_KEYUP || message == WM_SYSKEYUP;
 
                 if kb.ExtraInformation as usize == PASTE_INPUT_MARKER {
-                    if is_keydown && (vkey == b'V' as u32 || vkey == VK_INSERT_CODE) {
-                        AppSounds::play_paste_immediate();
-                    }
                     return;
                 }
 
@@ -338,11 +334,6 @@ mod windows_raw_input {
                 if is_keydown {
                     let is_ctrl_v = CTRL_DOWN.load(Ordering::Relaxed)
                         && (vkey == b'V' as u32 || vkey == b'v' as u32);
-                    let is_shift_insert = SHIFT_DOWN.load(Ordering::Relaxed) && vkey == VK_INSERT_CODE;
-
-                    if is_ctrl_v || is_shift_insert {
-                        AppSounds::play_paste_immediate();
-                    }
                 }
             }
             _ => {}

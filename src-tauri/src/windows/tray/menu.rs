@@ -10,7 +10,6 @@ use crate::windows::plugins::context_menu::window::{
     MenuPlacement,
     show_menu,
 };
-use crate::utils::app_links;
 
 fn get_pin_images_dir() -> Result<PathBuf, String> {
     let data_dir = crate::services::get_data_directory()?;
@@ -111,48 +110,24 @@ fn build_pin_images_children() -> Vec<CtxMenuItem> {
 // 托盘菜单
 pub async fn show_tray_menu(app: AppHandle) -> Result<(), String> {
     let settings = crate::get_settings();
-    let is_force_update = crate::windows::updater_window::is_force_update_mode();
-    
     let hotkeys_label = if settings.hotkeys_enabled { "禁用快捷键" } else { "启用快捷键" };
     let monitor_label = if settings.clipboard_monitor { "禁用剪贴板监听" } else { "启用剪贴板监听" };
     
     let items = vec![
-        menu_item_with_state("toggle", "显示/隐藏", Some("ti ti-app-window"), is_force_update),
+        menu_item("toggle", "显示/隐藏", Some("ti ti-app-window")),
         separator_item(),
-        menu_item_with_state("settings", "设置", Some("ti ti-settings"), is_force_update),
+        menu_item("settings", "设置", Some("ti ti-settings")),
         CtxMenuItem::submenu(
             "pin-images",
             "贴图",
             Some("ti ti-pinned"),
             build_pin_images_children(),
-        )
-        .with_disabled(is_force_update),
-        separator_item(),
-        CtxMenuItem::submenu(
-            "file-hub",
-            "文件中转",
-            Some("ti ti-transfer"),
-            vec![
-                menu_item("transfer-shelf", "新建文件盒", Some("ti ti-package")),
-                menu_item("receive-box", "打开收件盒", Some("ti ti-inbox")),
-            ],
-        )
-        .with_disabled(is_force_update),
-        separator_item(),
-        menu_item_with_state("toggle-hotkeys", hotkeys_label, Some("ti ti-keyboard"), is_force_update),
-        menu_item_with_state("toggle-clipboard-monitor", monitor_label, Some("ti ti-clipboard"), is_force_update),
-        separator_item(),
-        menu_item_with_state("low-memory-mode", "进入低占用模式", Some("ti ti-leaf"), is_force_update),
-        separator_item(),
-        CtxMenuItem::button_row(
-            "tray-links",
-            "",
-            vec![
-                CtxMenuButton::new("open-website", "官网").with_icon("ti ti-world"),
-                CtxMenuButton::new("open-github", "GitHub").with_icon("ti ti-brand-github"),
-                CtxMenuButton::new("open-qq-group", "社区交流").with_icon("ti ti-users"),
-            ],
         ),
+        separator_item(),
+        menu_item_with_state("toggle-hotkeys", hotkeys_label, Some("ti ti-keyboard"), false),
+        menu_item_with_state("toggle-clipboard-monitor", monitor_label, Some("ti ti-clipboard"), false),
+        separator_item(),
+        menu_item("low-memory-mode", "进入低占用模式", Some("ti ti-leaf")),
         separator_item(),
         menu_item("restart", "重启程序", Some("ti ti-refresh")),
         menu_item("quit", "退出", Some("ti ti-power")),
@@ -188,29 +163,6 @@ pub async fn show_tray_menu(app: AppHandle) -> Result<(), String> {
 // 处理托盘菜单选择
 fn handle_tray_menu_selection(app: &AppHandle, selected_id: &str) {
     match selected_id {
-        "open-website" => {
-            if let Ok(links) = app_links::app_links() {
-                let _ = tauri_plugin_opener::open_url(&links.website, None::<&str>);
-            }
-        }
-        "open-github" => {
-            if let Ok(links) = app_links::app_links() {
-                let _ = tauri_plugin_opener::open_url(&links.github, None::<&str>);
-            }
-        }
-        "open-qq-group" => {
-            let _ = crate::windows::community_window::open_community_window(app);
-        }
-        "transfer-shelf" => {
-            if let Err(e) = crate::windows::transfer_shelf::open_or_create_shelf(app) {
-                eprintln!("创建文件盒失败: {}", e);
-            }
-        }
-        "receive-box" => {
-            if let Err(e) = crate::windows::receive_box::open_receive_box(app) {
-                eprintln!("打开收件盒失败: {}", e);
-            }
-        }
         "toggle" => {
             crate::toggle_main_window_visibility(app);
         }

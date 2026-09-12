@@ -19,13 +19,11 @@ const WEBVIEW_LABELS: &[&str] = &[
     "context-menu",
     "settings",
     "text-editor",
-    "updater",
 ];
 
 const AUTO_LOW_MEMORY_WINDOW_LABELS: &[&str] = &[
     "settings",
     "text-editor",
-    "updater",
     "preview-window",
     "context-menu",
 ];

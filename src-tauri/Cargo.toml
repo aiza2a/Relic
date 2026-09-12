@@ -18,8 +18,6 @@ tauri-plugin-opener = "2.5.0"
 tauri-plugin-notification = "2"
 tauri-plugin-dialog = "2.4.2"
 tauri-plugin-single-instance = "2.2.1"
-tauri-plugin-updater = "2"
-tauri-plugin-process = "2"
 tauri-plugin-fs = "2"
 tauri-plugin-global-shortcut = "2"
 rusqlite = { version = "0.32", features = ["bundled"] }
@@ -34,33 +32,20 @@ uuid = { version = "1.0", features = ["v4"] }
 chrono = "0.4"
 dirs = "5.0"
 sha2 = "0.10"
-hmac = "0.12"
 hex = "0.4"
-blake3 = "1.5"
-argon2 = "0.5"
-chacha20poly1305 = "0.10"
-rand_core = { version = "0.6", features = ["getrandom"] }
-zeroize = { version = "1", features = ["zeroize_derive"] }
-rodio = "0.17"
-if-addrs = "0.13"
 tokio = { version = "1.0", features = ["rt-multi-thread", "macros", "time", "fs", "io-util", "net"] }
-tokio-util = { version = "0.7", features = ["io"] }
-futures-util = "0.3"
 fastrand = "2.0"
 regex = "1.11.1"
 zip = "2.1"
 reqwest = { version = "0.11", features = ["json", "stream", "blocking"] }
 file_icon_provider = {git="https://github.com/iohannrabeson/file_icon_provider"}
 parking_lot = "0.12"
-tungstenite = "0.26"
 tauri-plugin-http = "2.5.2"
 tauri-plugin-os = "2.3.2"
 tauri-plugin-drag = "2"
 enigo = "0.6.1"
 tauri-plugin-store = "2"
 active-win-pos-rs = "0.8"
-atree = "0.5.2"
-rstar = "0.12.2"
 qcocr = {git="https://github.com/mosheng1/qcocr"}
 winreg = "0.55"
 low-memory-fltk = { path = "plugins/low-memory-fltk" }
@@ -69,7 +54,6 @@ crossterm = "0.28"
 trash = "5.2.6"
 
 [target.'cfg(windows)'.dependencies]
-keyring = { version = "3.6.3", features = ["windows-native"] }
 windows = { version = "0.62", features = [
     "Win32_UI_WindowsAndMessaging",
     "Win32_UI_Input",
@@ -96,10 +80,8 @@ windows = { version = "0.62", features = [
 windows-core = "0.62"
 
 [target.'cfg(target_os = "macos")'.dependencies]
-keyring = { version = "3.6.3", features = ["apple-native"] }
 
 [target.'cfg(all(unix, not(target_os = "macos")))'.dependencies]
-keyring = { version = "3.6.3", features = ["sync-secret-service", "crypto-rust"] }
 
 [features]
 default = []

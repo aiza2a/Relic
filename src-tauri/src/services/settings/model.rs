@@ -47,14 +47,6 @@ pub struct AppSettings {
     pub settings_migration_version: Option<u32>,
     pub display_priority_order: String,
 
-    // 音效设置
-    pub sound_enabled: bool,
-    pub sound_volume: f64,
-    pub copy_sound_path: String,
-    pub paste_sound_path: String,
-    pub copy_sound_timing: String,
-    pub paste_sound_timing: String,
-
     // 图片显示限制
     pub image_max_size_mb: u32,
     pub image_max_width: u32,
@@ -63,10 +55,6 @@ pub struct AppSettings {
     // 预览窗口设置
     pub quickpaste_enabled: bool,
     pub quickpaste_shortcut: String,
-    pub transfer_shelf_create_shortcut: String,
-    pub quickpaste_paste_on_modifier_release: bool,
-    pub quickpaste_scroll_sound: bool,
-    pub quickpaste_scroll_sound_path: String,
     pub quickpaste_window_width: u32,
     pub quickpaste_window_height: u32,
 
@@ -144,9 +132,6 @@ pub struct AppSettings {
     pub show_list_index: bool,
     pub show_badges: bool,
     pub show_source_icon: bool,
-    pub update_check_interval: String,
-    pub disable_update_popup: bool,
-    pub include_beta_updates: Option<bool>,
 
     // 快捷键设置
     pub hotkeys_enabled: bool,
@@ -170,25 +155,6 @@ pub struct AppSettings {
     pub custom_storage_path: Option<String>,
     #[serde(alias = "use_custom_storage")]
     pub use_custom_storage: bool,
-
-    // WebDAV Sync 设置
-    pub webdav_enabled: bool,
-    pub webdav_url: String,
-    pub webdav_username: String,
-    #[serde(default, skip_serializing)]
-    pub webdav_password: String,
-    pub webdav_root_path: String,
-    pub webdav_auto_push: bool,
-    pub webdav_push_delay_secs: u64,
-    pub webdav_auto_pull: bool,
-    pub webdav_auto_pull_on_window_show: bool,
-    pub webdav_pull_interval_secs: u64,
-    pub webdav_push_shortcut: String,
-    pub webdav_pull_shortcut: String,
-    pub webdav_sync_clipboard: bool,
-    pub webdav_sync_favorites: bool,
-    pub webdav_sync_images: bool,
-    pub sync_transfer_active_mode: String,
 
 }
 
@@ -235,23 +201,12 @@ impl Default for AppSettings {
             settings_migration_version: Some(SETTINGS_MIGRATION_VERSION_V3),
             display_priority_order: "text,html,image".to_string(),
 
-            sound_enabled: true,
-            sound_volume: 50.0,
-            copy_sound_path: String::new(),
-            paste_sound_path: String::new(),
-            copy_sound_timing: "success".to_string(),
-            paste_sound_timing: "success".to_string(),
-
             image_max_size_mb: 15,
             image_max_width: 4096,
             image_max_height: 4096,
 
             quickpaste_enabled: true,
             quickpaste_shortcut: "Ctrl+`".to_string(),
-            transfer_shelf_create_shortcut: String::new(),
-            quickpaste_paste_on_modifier_release: true,
-            quickpaste_scroll_sound: true,
-            quickpaste_scroll_sound_path: "sounds/roll.mp3".to_string(),
             quickpaste_window_width: 300,
             quickpaste_window_height: 400,
 
@@ -315,9 +270,6 @@ impl Default for AppSettings {
             show_list_index: true,
             show_badges: true,
             show_source_icon: true,
-            update_check_interval: "daily".to_string(),
-            disable_update_popup: false,
-            include_beta_updates: None,
 
             hotkeys_enabled: true,
             navigate_up_shortcut: "ArrowUp".to_string(),
@@ -337,23 +289,6 @@ impl Default for AppSettings {
 
             custom_storage_path: None,
             use_custom_storage: false,
-
-            webdav_enabled: false,
-            webdav_url: String::new(),
-            webdav_username: String::new(),
-            webdav_password: String::new(),
-            webdav_root_path: "quickclipboard".to_string(),
-            webdav_auto_push: false,
-            webdav_push_delay_secs: 10,
-            webdav_auto_pull: false,
-            webdav_auto_pull_on_window_show: false,
-            webdav_pull_interval_secs: 30,
-            webdav_push_shortcut: String::new(),
-            webdav_pull_shortcut: String::new(),
-            webdav_sync_clipboard: true,
-            webdav_sync_favorites: true,
-            webdav_sync_images: false,
-            sync_transfer_active_mode: "webdav".to_string(),
 
         }
     }

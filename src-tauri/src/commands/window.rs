@@ -186,10 +186,6 @@ pub async fn open_settings_window(app: AppHandle) -> Result<(), String> {
     crate::windows::settings_window::open_settings_window(&app)
 }
 
-#[tauri::command]
-pub async fn open_community_window(app: AppHandle) -> Result<(), String> {
-    crate::windows::community_window::open_community_window(&app)
-}
 
 #[tauri::command]
 pub async fn open_text_editor_window(
@@ -230,17 +226,3 @@ pub fn reload_all_windows(app: AppHandle) -> Result<(), String> {
     Ok(())
 }
 
-#[tauri::command]
-pub async fn check_updates_and_open_window(app: AppHandle) -> Result<bool, String> {
-    crate::windows::updater_window::check_updates_and_open_window(&app).await
-}
-
-#[tauri::command]
-pub fn get_update_banner_state() -> Option<crate::windows::updater_window::UpdateBannerState> {
-    crate::windows::updater_window::get_update_banner_state()
-}
-
-#[tauri::command]
-pub async fn open_cached_update_window(app: AppHandle) -> Result<bool, String> {
-    crate::windows::updater_window::open_cached_update_window(&app).await
-}

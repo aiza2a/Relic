@@ -74,24 +74,10 @@ impl SettingsStorage {
         let content = fs::read_to_string(&path).map_err(|e| e.to_string())?;
         let has_legacy_lan_sync_settings = content.contains("\"lanSync");
         let mut settings: AppSettings = serde_json::from_str(&content).map_err(|e| e.to_string())?;
-        let had_legacy_webdav_password = !settings.webdav_password.is_empty();
-        if had_legacy_webdav_password {
-            if !settings.webdav_url.trim().is_empty() && !settings.webdav_username.trim().is_empty() {
-                if let Err(e) = crate::services::secure_credentials::set_webdav_password(
-                    &settings.webdav_url,
-                    &settings.webdav_username,
-                    &settings.webdav_password,
-                ) {
-                    eprintln!("迁移 WebDAV 密码到系统凭据库失败: {}", e);
-                }
-            }
-            settings.webdav_password.clear();
-        }
         let normalized = settings.normalize_app_filter_blocklist();
         let migrated = Self::migrate_settings(&mut settings)
             || normalized
-            || has_legacy_lan_sync_settings
-            || had_legacy_webdav_password;
+            || has_legacy_lan_sync_settings;
 
         if migrated {
             let _ = Self::save(&settings);
