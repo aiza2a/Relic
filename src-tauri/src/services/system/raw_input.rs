@@ -331,10 +331,6 @@ mod windows_raw_input {
                     return;
                 }
 
-                if is_keydown {
-                    let is_ctrl_v = CTRL_DOWN.load(Ordering::Relaxed)
-                        && (vkey == b'V' as u32 || vkey == b'v' as u32);
-                }
             }
             _ => {}
         }

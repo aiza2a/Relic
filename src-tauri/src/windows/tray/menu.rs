@@ -5,7 +5,6 @@ use crate::windows::plugins::context_menu::window::{
     ContextMenuRequest,
     MenuAppearance,
     MenuBehavior,
-    MenuButton as CtxMenuButton,
     MenuItem as CtxMenuItem,
     MenuPlacement,
     show_menu,

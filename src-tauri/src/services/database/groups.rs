@@ -1,6 +1,6 @@
 use super::models::GroupInfo;
 use super::connection::with_connection;
-use rusqlite::{params, OptionalExtension};
+use rusqlite::params;
 use chrono;
 
 const DEFAULT_GROUP_COLOR: &str = "#dc2626";
@@ -148,12 +148,6 @@ pub fn delete_group(name: String) -> Result<(), String> {
             ));
         }
 
-        let exists: i64 = conn.query_row(
-            "SELECT COUNT(*) FROM groups WHERE name = ?1",
-            params![&name],
-            |row| row.get(0),
-        )?;
-        
         let tx = conn.unchecked_transaction()?;
         
         tx.execute(

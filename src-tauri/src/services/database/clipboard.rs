@@ -579,7 +579,7 @@ pub fn delete_clipboard_item(id: i64) -> Result<(), String> {
                 |row| Ok((row.get::<_, Option<String>>(0)?, row.get::<_, Option<String>>(1)?)),
             )
             .optional()?;
-        let Some((image_ids, uuid)) = item else {
+        let Some((image_ids, _uuid)) = item else {
             return Ok(Vec::new());
         };
         conn.execute("DELETE FROM clipboard WHERE id = ?1", params![id])?;
@@ -622,7 +622,7 @@ pub fn delete_clipboard_items(ids: &[i64]) -> Result<(), String> {
                 )
                 .optional()?;
 
-            if let Some((image_ids, uuid)) = item {
+            if let Some((image_ids, _uuid)) = item {
                 if let Some(image_ids) = image_ids {
                     for image_id in split_image_ids(&image_ids) {
                         image_id_set.insert(image_id);
@@ -668,7 +668,7 @@ pub fn clear_clipboard_history() -> Result<(), String> {
         })?;
         let mut set: HashSet<String> = HashSet::new();
         for r in ids_iter {
-            if let Ok((id, image_ids, uuid)) = r {
+            if let Ok((_id, image_ids, _uuid)) = r {
                 if let Some(image_ids) = image_ids {
                     for iid in split_image_ids(&image_ids) {
                         set.insert(iid);

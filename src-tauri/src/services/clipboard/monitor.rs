@@ -298,12 +298,10 @@ fn process_clipboard_change_once() {
         return;
     }
 
-    let mut any_stored = false;
     for content in new_contents {
         match process_content(content) {
             Ok(processed) => match store_clipboard_item(processed) {
                 Ok(id) => {
-                    any_stored = true;
                     match crate::services::database::get_clipboard_item_by_id(id) {
                         Ok(Some(mut item)) => {
                             crate::commands::clipboard::hydrate_clipboard_item_for_ui(&mut item);

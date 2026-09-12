@@ -1,6 +1,6 @@
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
-use tauri::{AppHandle, Manager};
+use tauri::AppHandle;
 
 pub fn handle_tray_click(app: &AppHandle) {
     crate::toggle_main_window_visibility(app);

@@ -277,7 +277,7 @@ pub fn route_paths_at_cursor(
         });
     }
 
-    let _ = (app, source_label);
+    let _ = (app, source_label, cursor_pos);
 
     Ok(DropProxyRouteResult {
         routed: false,

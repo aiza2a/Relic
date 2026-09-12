@@ -139,6 +139,16 @@ fn create_tables(conn: &Connection) -> Result<(), String> {
         [],
     ).map_err(|e| format!("创建分组表失败: {}", e))?;
 
+    let color_exists = conn
+        .prepare("PRAGMA table_info(groups)")
+        .and_then(|mut stmt| {
+            let columns = stmt.query_map([], |row| {
+                Ok(row.get::<_, String>(1)?)
+            })?;
+            Ok(columns.into_iter().any(|col| col.map(|c| c == "color").unwrap_or(false)))
+        })
+        .unwrap_or(false);
+
     if !color_exists {
         conn.execute(
             "ALTER TABLE groups ADD COLUMN color TEXT NOT NULL DEFAULT '#dc2626'",

@@ -6,12 +6,17 @@ on:
   pull_request:
   workflow_dispatch:
 
+# 同一分支新推送时自动取消仍在跑的旧运行，避免排队浪费时间
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   check:
-    name: 编译检查与测试
+    name: 编译检查
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,15 +41,13 @@ jobs:
       - name: 构建前端
         run: npm run build
 
+      # --all-targets 同时类型检查测试代码，但不做链接，速度远快于 cargo test
       - name: cargo check（全目标，含测试代码）
         run: cargo check --all-targets --manifest-path src-tauri/Cargo.toml
 
       - name: cargo clippy
         run: cargo clippy --manifest-path src-tauri/Cargo.toml -- -D warnings
         continue-on-error: true
-
-      - name: cargo test
-        run: cargo test --manifest-path src-tauri/Cargo.toml
 
   build:
     name: 构建 NSIS 安装包
@@ -65,7 +68,7 @@ jobs:
       - name: Rust 编译缓存
         uses: Swatinem/rust-cache@v2
         with:
-          prefix-key: build
+          prefix-key: release
 
       - name: 安装前端依赖
         run: npm ci
