@@ -182,7 +182,7 @@ const ImageGroupSidebarButton = ({
           onClick={() => onSelect(group.name)}
           className={`w-full h-full flex items-center justify-center rounded-lg transition-colors ${
             isActive
-              ? 'bg-blue-100 text-blue-600'
+              ? 'bg-accent-soft text-accent-hover'
               : isDropOver
                 ? 'bg-qc-active text-qc-fg'
                 : 'text-qc-fg-muted hover:bg-qc-hover'
@@ -190,17 +190,17 @@ const ImageGroupSidebarButton = ({
         >
           <i
             className={`${group.icon || 'ti ti-photo'} text-base`}
-            style={{ color: isActive ? undefined : (group.color || '#2563eb') }}
+            style={{ color: isActive ? undefined : (group.color || '#73ae52') }}
           ></i>
           {isDropOver && !isActive && (
-            <span className="absolute inset-0 rounded-lg ring-2 ring-blue-400 pointer-events-none" />
+            <span className="absolute inset-0 rounded-lg ring-2 ring-accent pointer-events-none" />
           )}
         </button>
       </Tooltip>
       <button
         type="button"
         onClick={(e) => onEdit(e, group)}
-        className="absolute -right-0.5 -top-0.5 w-3.5 h-3.5 rounded-full bg-qc-panel border border-qc-border text-qc-fg-muted hover:text-blue-600 hover:border-blue-400 opacity-0 hover:opacity-100 group-hover:opacity-100 flex items-center justify-center"
+        className="absolute -right-0.5 -top-0.5 w-3.5 h-3.5 rounded-full bg-qc-panel border border-qc-border text-qc-fg-muted hover:text-accent-hover hover:border-accent opacity-0 hover:opacity-100 group-hover:opacity-100 flex items-center justify-center"
         title={t('groups.edit')}
       >
         <i className="ti ti-pencil text-[9px]"></i>
@@ -574,14 +574,14 @@ function EmojiTab({ emojiMode, onEmojiModeChange }) {
     
     const oldBtn = sidebarButtonsRef.current[activeCategoryRef.current];
     if (oldBtn) {
-      oldBtn.classList.remove('bg-blue-100', 'text-blue-600');
+      oldBtn.classList.remove('bg-accent-soft', 'text-accent-hover');
       oldBtn.classList.add('text-qc-fg-muted', 'hover:bg-qc-hover');
     }
     
     const newBtn = sidebarButtonsRef.current[catId];
     if (newBtn) {
       newBtn.classList.remove('text-qc-fg-muted', 'hover:bg-qc-hover');
-      newBtn.classList.add('bg-blue-100', 'text-blue-600');
+      newBtn.classList.add('bg-accent-soft', 'text-accent-hover');
     }
     
     activeCategoryRef.current = catId;
@@ -747,7 +747,7 @@ function EmojiTab({ emojiMode, onEmojiModeChange }) {
       id: group.name,
       icon: group.icon || 'ti ti-photo',
       label: group.name,
-      color: group.color || '#2563eb',
+      color: group.color || '#73ae52',
       itemCount: group.item_count || 0
     }));
     if (showSymbols) return SYMBOL_CATS;
@@ -925,7 +925,7 @@ function EmojiTab({ emojiMode, onEmojiModeChange }) {
               <button
                 type="button"
                 onClick={handleAddImageGroup}
-                className="w-8 h-8 mx-auto mt-auto flex items-center justify-center rounded-lg transition-colors text-qc-fg-muted hover:bg-qc-hover hover:text-blue-600"
+                className="w-8 h-8 mx-auto mt-auto flex items-center justify-center rounded-lg transition-colors text-qc-fg-muted hover:bg-qc-hover hover:text-accent-hover"
               >
                 <i className="ti ti-plus text-base"></i>
               </button>
@@ -938,7 +938,7 @@ function EmojiTab({ emojiMode, onEmojiModeChange }) {
               onClick={() => handleCategoryClick(cat.id)}
               className={`w-8 h-8 mx-auto mb-0.5 flex items-center justify-center rounded-lg transition-colors ${
                 idx === 0
-                  ? 'bg-blue-100 text-blue-600'
+                  ? 'bg-accent-soft text-accent-hover'
                   : 'text-qc-fg-muted hover:bg-qc-hover'
               }`}
             >
@@ -960,7 +960,7 @@ function EmojiTab({ emojiMode, onEmojiModeChange }) {
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder={showImages ? (t('emoji.searchImagePlaceholder') || '搜索文件名...') : t('emoji.searchPlaceholder')}
-              className="w-full h-8 pl-8 pr-8 text-sm bg-qc-panel border border-qc-border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 text-qc-fg placeholder:text-qc-fg-subtle"
+              className="w-full h-8 pl-8 pr-8 text-sm bg-qc-panel border border-qc-border rounded-lg focus:outline-none focus:ring-1 focus:ring-accent text-qc-fg placeholder:text-qc-fg-subtle"
             />
             {searchQuery && (
               <button onClick={() => setSearchQuery('')} className="absolute right-2 top-1/2 -translate-y-1/2 text-qc-fg-subtle hover:text-qc-fg-muted">
@@ -1039,7 +1039,7 @@ function EmojiTab({ emojiMode, onEmojiModeChange }) {
                     }}
                     className={`w-8 h-8 flex items-center justify-center text-xl rounded-lg transition-all hover:scale-110 ${
                       isCurrent
-                        ? 'bg-blue-100 ring-2 ring-blue-500'
+                        ? 'bg-accent-soft ring-2 ring-accent'
                         : 'hover:bg-qc-hover'
                     }`}
                   >

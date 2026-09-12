@@ -111,7 +111,7 @@ function PresetInput({
 
   return (
     <div ref={rootRef} className={`relative inline-flex ${className}`}>
-      <div className="flex h-10 w-full items-center rounded-lg border border-qc-border bg-qc-panel text-qc-fg transition-shadow focus-within:ring-2 focus-within:ring-blue-500">
+      <div className="flex h-10 w-full items-center rounded-lg border border-qc-border bg-qc-panel text-qc-fg transition-shadow focus-within:ring-2 focus-within:ring-accent">
         <input
           value={draftValue}
           disabled={disabled}
@@ -152,7 +152,7 @@ function PresetInput({
             >
               <span className="whitespace-nowrap">{option.label}</span>
               {String(option.value) === String(value) && (
-                <i className="ti ti-check text-sm text-blue-500"></i>
+                <i className="ti ti-check text-sm text-accent"></i>
               )}
             </button>
           ))}

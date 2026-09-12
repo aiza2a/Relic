@@ -53,6 +53,7 @@ export const defaultSettings = {
   toggleShortcut: 'Shift+Space',
   openSettingsShortcut: '',
   quickpasteShortcut: 'Ctrl+`',
+  screenshotShortcut: 'Ctrl+Shift+A',
   numberShortcuts: true,
   numberShortcutsModifier: 'Ctrl',
   

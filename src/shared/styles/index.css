@@ -26,7 +26,7 @@ body {
   --qc-panel: #f9f9f9;
   --qc-panel-2: #e5e7eb;
   --qc-hover: rgba(156, 163, 175, 0.25);
-  --qc-active: rgba(59, 130, 246, 0.12);
+  --qc-active: rgba(115, 174, 82, 0.14);
   --qc-favorite: #eab308;
   --qc-border: rgba(17, 24, 39, 0.12);
   --qc-border-strong: rgba(17, 24, 39, 0.22);
@@ -34,8 +34,8 @@ body {
   --qc-search-highlight-fg: #111827;
 
   /* accent (for slider/radio/etc.) */
-  --qc-accent: #3b82f6;
-  --qc-accent-hover: #2563eb;
+  --qc-accent: #73ae52;
+  --qc-accent-hover: #5c9639;
   --qc-accent-fg: #ffffff;
 
   /* controls */
@@ -75,8 +75,8 @@ body.theme-dark {
   --qc-border: rgba(255, 255, 255, 0.12);
   --qc-border-strong: rgba(255, 255, 255, 0.22);
 
-  --qc-accent: #3b82f6;
-  --qc-accent-hover: #2563eb;
+  --qc-accent: #73ae52;
+  --qc-accent-hover: #5c9639;
   --qc-accent-fg: #ffffff;
 
   --qc-toggle-track-off: var(--qc-panel-2);

@@ -58,14 +58,14 @@ export async function getImageGroups() {
 }
 
 // 新增图库分组
-export async function addImageGroup(name, icon = 'ti ti-photo', color = '#2563eb') {
+export async function addImageGroup(name, icon = 'ti ti-photo', color = '#73ae52') {
   return await invoke('il_add_group', {
     payload: { name, icon, color }
   })
 }
 
 // 更新图库分组
-export async function updateImageGroup(oldName, newName, icon = 'ti ti-photo', color = '#2563eb') {
+export async function updateImageGroup(oldName, newName, icon = 'ti ti-photo', color = '#73ae52') {
   return await invoke('il_update_group', {
     payload: { old_name: oldName, new_name: newName, icon, color }
   })

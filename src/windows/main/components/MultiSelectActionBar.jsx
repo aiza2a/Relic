@@ -188,7 +188,7 @@ function MultiSelectActionBar({ activeTab }) {
         <div className="flex min-w-0 flex-col items-start leading-tight">
           <div className="whitespace-nowrap text-xs font-medium text-qc-fg">
             {t("multiSelect.selectedLabel")}{" "}
-            <span className="font-semibold text-blue-500">{selectedCount}</span>{" "}
+            <span className="font-semibold text-accent">{selectedCount}</span>{" "}
             {t("multiSelect.selectedUnit")}
           </div>
           <div className="mt-0.5 whitespace-nowrap text-[10px] font-normal text-qc-fg-subtle">

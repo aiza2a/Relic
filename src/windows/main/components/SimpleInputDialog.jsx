@@ -56,7 +56,7 @@ function SimpleInputDialog({
           onFocus={focusWindowImmediately}
           onBlur={restoreFocus}
           autoFocus
-          className="h-9 w-full appearance-none rounded-lg border border-qc-border bg-qc-panel-2 px-3 text-sm text-qc-fg outline-none transition-colors placeholder:text-qc-fg-subtle focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+          className="h-9 w-full appearance-none rounded-lg border border-qc-border bg-qc-panel-2 px-3 text-sm text-qc-fg outline-none transition-colors placeholder:text-qc-fg-subtle focus:border-accent focus:ring-2 focus:ring-accent/20"
           style={{
             backgroundColor: 'var(--qc-panel-2)',
             color: 'var(--qc-fg)',
@@ -76,7 +76,7 @@ function SimpleInputDialog({
             type="button"
             onClick={handleConfirm}
             disabled={!canConfirm}
-            className="h-8 rounded-lg bg-blue-500 px-3 text-sm font-medium text-white transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-8 rounded-lg bg-accent px-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
           >
             {confirmText || t('common.confirm', '确认')}
           </button>

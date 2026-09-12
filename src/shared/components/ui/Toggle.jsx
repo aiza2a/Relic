@@ -52,7 +52,7 @@ function Toggle({
   const trackBackgroundColor = checked
     ? (contained
       ? 'var(--qc-toggle-track-contained-on, rgba(255, 255, 255, 0.28))'
-      : 'var(--qc-toggle-track-on, #3b82f6)')
+      : 'var(--qc-toggle-track-on, #73ae52)')
     : 'var(--qc-toggle-track-off, var(--qc-panel-2))';
   const trackBorderColor = checked && contained
     ? 'rgba(255, 255, 255, 0.36)'
@@ -93,7 +93,7 @@ function Toggle({
         </span>
 
         {/* 粒子效果 */}
-        {uiAnimationEnabled && particles.map(particle => <div key={particle.id} className="absolute top-1/2 w-1.5 h-1.5 rounded-full bg-blue-400 pointer-events-none" style={{
+        {uiAnimationEnabled && particles.map(particle => <div key={particle.id} className="absolute top-1/2 w-1.5 h-1.5 rounded-full bg-accent pointer-events-none" style={{
         left: checked ? 'calc(100% - 12px)' : '12px',
         '--particle-angle': `${particle.angle}deg`,
         '--particle-distance': `${particle.distance}px`,

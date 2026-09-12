@@ -113,7 +113,7 @@ function ShortcutInput({
               bg-qc-panel
               focus:outline-none cursor-pointer
               transition-all duration-200
-              ${hasError ? 'text-red-600 border-red-500 ring-2 ring-red-500/30' : isListening ? 'text-qc-fg border-blue-500 ring-2 ring-blue-500/50' : 'text-qc-fg border-qc-border hover:border-qc-border-strong'}
+              ${hasError ? 'text-red-600 border-red-500 ring-2 ring-red-500/30' : isListening ? 'text-qc-fg border-accent ring-2 ring-accent/50' : 'text-qc-fg border-qc-border hover:border-qc-border-strong'}
             `} />
           {value && !isListening && !hasError && (
             <Tooltip content={t('settings.common.clear')} placement="top" asChild>

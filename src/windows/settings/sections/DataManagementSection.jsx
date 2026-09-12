@@ -374,7 +374,7 @@ function DataManagementSection() {
       {busy && createPortal(
         <div className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-sm flex items-center justify-center">
           <div className="bg-qc-surface rounded-xl p-6 shadow-xl flex items-center gap-3 border border-qc-border">
-            <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+            <div className="w-5 h-5 border-2 border-accent border-t-transparent rounded-full animate-spin" />
             <div className="text-sm text-qc-fg">{busyText || t('settings.dataManagement.overlayMigrating')}</div>
           </div>
         </div>,
@@ -433,7 +433,7 @@ function DataManagementSection() {
                 onClick={() => handleMigrationModeSelect('source_only')}
                 className="flex items-start gap-3 p-3 border border-qc-border rounded-lg hover:bg-qc-hover transition-colors text-left"
               >
-                <i className="ti ti-replace text-blue-500 mt-0.5"></i>
+                <i className="ti ti-replace text-accent mt-0.5"></i>
                 <div className="flex-1">
                   <div className="font-medium text-qc-fg">
                     {t('settings.dataManagement.migrationSourceOnly')}
@@ -493,8 +493,8 @@ function DataManagementSection() {
         <div className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-sm flex items-center justify-center">
           <div className="bg-qc-surface rounded-xl p-6 shadow-xl max-w-lg w-full mx-4 max-h-[80vh] flex flex-col border border-qc-border">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                <i className="ti ti-history text-blue-600 text-xl"></i>
+              <div className="w-10 h-10 rounded-full bg-accent-soft flex items-center justify-center">
+                <i className="ti ti-history text-accent-hover text-xl"></i>
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-qc-fg">
@@ -513,7 +513,7 @@ function DataManagementSection() {
                   onClick={() => handleSelectBackup(backup.path)}
                   className="w-full flex items-center gap-3 p-3 border border-qc-border rounded-lg hover:bg-qc-hover transition-colors text-left"
                 >
-                  <i className="ti ti-file-zip text-blue-500 text-xl"></i>
+                  <i className="ti ti-file-zip text-accent text-xl"></i>
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-qc-fg truncate">
                       {backup.name}

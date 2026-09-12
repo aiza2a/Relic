@@ -77,7 +77,7 @@ function ShortcutsSection({ settings, onSettingChange, activeTab }) {
                 />
                 <button
                   type="button"
-                  className="text-xs text-blue-500 hover:text-blue-600 hover:underline"
+                  className="text-xs text-accent hover:text-accent-hover hover:underline"
                   onClick={async () => {
                     try {
                       await onSettingChange('toggleShortcut', 'Shift+Space');
@@ -97,6 +97,9 @@ function ShortcutsSection({ settings, onSettingChange, activeTab }) {
             </SettingItem>
             <SettingItem label={t('settings.shortcuts.quickpasteWindow')} description={t('settings.shortcuts.quickpasteWindowDesc')}>
               <ShortcutInput value={settings.quickpasteShortcut} onChange={value => handleShortcutChange('quickpasteShortcut', value)} onReset={() => handleShortcutChange('quickpasteShortcut', 'Ctrl+`')} hasError={hasErrorStatus('quickpasteShortcut', 'quickpaste')} errorMessage={getErrorMessage('quickpasteShortcut', 'quickpaste')} />
+            </SettingItem>
+            <SettingItem label={t('settings.shortcuts.screenshot')} description={t('settings.shortcuts.screenshotDesc')}>
+              <ShortcutInput value={settings.screenshotShortcut} onChange={value => handleShortcutChange('screenshotShortcut', value)} onReset={() => handleShortcutChange('screenshotShortcut', 'Ctrl+Shift+A')} hasError={hasErrorStatus('screenshotShortcut', 'screenshot')} errorMessage={getErrorMessage('screenshotShortcut', 'screenshot')} />
             </SettingItem>
             <SettingItem label={t('settings.shortcuts.toggleClipboardMonitor')} description={t('settings.shortcuts.toggleClipboardMonitorDesc')}>
               <ShortcutInput value={settings.toggleClipboardMonitorShortcut} onChange={value => handleShortcutChange('toggleClipboardMonitorShortcut', value)} onReset={() => handleShortcutChange('toggleClipboardMonitorShortcut', '')} hasError={hasErrorStatus('toggleClipboardMonitorShortcut', 'toggle_clipboard_monitor')} errorMessage={getErrorMessage('toggleClipboardMonitorShortcut', 'toggle_clipboard_monitor')} />

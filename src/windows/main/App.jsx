@@ -22,6 +22,7 @@ import { toast, TOAST_POSITIONS, TOAST_SIZES } from '@shared/store/toastStore';
 import { mergePasteSelectedItems } from './utils/multiSelect';
 import TitleBar from './components/TitleBar';
 import TabNavigation from './components/TabNavigation';
+import SideDock from './components/SideDock';
 import ClipboardTab from './components/ClipboardTab';
 import FavoritesTab from './components/FavoritesTab';
 const EmojiTab = lazy(() => import('./components/EmojiTab'));
@@ -504,7 +505,20 @@ function App() {
 
     return <div className="flex flex-1 min-h-0 min-w-0 flex-col overflow-hidden">
         {TabNavigationComponent}
-        {ContentComponent}
+        <div className="flex flex-1 min-h-0 min-w-0 flex-row overflow-hidden">
+          {ContentComponent}
+          <SideDock
+            activeTab={activeTab}
+            contentFilter={contentFilter}
+            onFilterChange={setContentFilter}
+            pasteFilter={pasteFilter}
+            onPasteFilterChange={setPasteFilter}
+            emojiMode={emojiMode}
+            onEmojiModeChange={setEmojiMode}
+            onGroupChange={handleGroupChange}
+            groupsPopupRef={groupsPopupRef}
+          />
+        </div>
         {ActionBarComponent}
       </div>;
   };

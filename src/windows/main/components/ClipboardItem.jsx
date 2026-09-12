@@ -517,12 +517,12 @@ function ClipboardItem({
   const selectedClasses = isCardStyle
     ? (
       isActiveSelected
-        ? `${baseSurfaceClasses} ring-2 ring-blue-500 ring-inset`
+        ? `${baseSurfaceClasses} ring-2 ring-accent ring-inset`
         : `${baseSurfaceClasses} ring-1 ring-qc-border ring-inset shadow-sm shadow-black/5`
     )
     : (
       isActiveSelected
-        ? `${baseSurfaceClasses} ${gaplessDividerClasses} ring-2 ring-blue-500 ring-inset`
+        ? `${baseSurfaceClasses} ${gaplessDividerClasses} ring-2 ring-accent ring-inset`
         : `${baseSurfaceClasses} border-b border-qc-border`
     );
   const smallElementClasses = `
@@ -564,7 +564,7 @@ function ClipboardItem({
   // 序号样式
   const numberBadgeClasses = `
     ${smallElementClasses}
-    text-blue-600
+    text-accent-hover
     border-qc-border
     bg-qc-panel/80
     backdrop-blur-md
@@ -625,7 +625,7 @@ function ClipboardItem({
         <div className="absolute left-2 top-1/2 -translate-y-1/2 z-20 pointer-events-none">
           <span className={`flex items-center justify-center w-5 h-5 rounded-md border text-[12px] transition-colors ${
             isMultiSelected
-              ? 'border-blue-500 bg-blue-500 text-white'
+              ? 'border-accent bg-accent text-white'
               : 'border-qc-border bg-qc-panel text-transparent'
           }`}>
             {selectionNumber}

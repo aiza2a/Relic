@@ -46,18 +46,18 @@ function HtmlEditor({
         color: 'var(--qc-fg-muted)',
       },
       '.cm-activeLine': {
-        backgroundColor: 'color-mix(in srgb, var(--qc-accent, #3b82f6) 14%, transparent)',
+        backgroundColor: 'color-mix(in srgb, var(--qc-accent, #73ae52) 14%, transparent)',
         borderRadius: '8px',
       },
       '.cm-activeLineGutter': {
-        backgroundColor: 'color-mix(in srgb, var(--qc-accent, #3b82f6) 10%, transparent)',
+        backgroundColor: 'color-mix(in srgb, var(--qc-accent, #73ae52) 10%, transparent)',
         color: 'var(--qc-fg)',
       },
       '.cm-cursor': {
         borderLeftColor: 'var(--qc-fg)',
       },
       '&.cm-focused .cm-selectionBackground, ::selection': {
-        backgroundColor: 'color-mix(in srgb, var(--qc-accent, #3b82f6) 28%, transparent)',
+        backgroundColor: 'color-mix(in srgb, var(--qc-accent, #73ae52) 28%, transparent)',
       },
     },
     { dark },

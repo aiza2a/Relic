@@ -55,7 +55,7 @@ function ThemeOption({
       </button>
 
       {/* 粒子效果 */}
-      {uiAnimationEnabled && particles.map(particle => <div key={particle.id} className="absolute top-1/2 left-1/2 w-2 h-2 rounded-full bg-blue-400 pointer-events-none" style={{
+      {uiAnimationEnabled && particles.map(particle => <div key={particle.id} className="absolute top-1/2 left-1/2 w-2 h-2 rounded-full bg-accent pointer-events-none" style={{
       '--particle-angle': `${particle.angle}deg`,
       '--particle-distance': `${particle.distance}px`,
       animation: 'particleExplosion 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'

@@ -28,7 +28,7 @@ function StatusBar({
         }}></i>
           <span className="hidden sm:inline">{t('common.cancel')}</span>
         </button>
-        <button className="flex items-center gap-2 px-3 h-9 rounded bg-blue-500 hover:bg-blue-600 text-white font-medium transition-colors" onClick={onSave}>
+        <button className="flex items-center gap-2 px-3 h-9 rounded bg-accent hover:bg-accent-hover text-white font-medium transition-colors" onClick={onSave}>
           <i className="ti ti-device-floppy" style={{
           fontSize: 16
         }}></i>

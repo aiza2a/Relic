@@ -114,7 +114,7 @@ const BottomMenuPopup = forwardRef(({
           </h3>
           <div className="flex items-center gap-0.5">
             <Tooltip content={isPinned ? '取消固定' : '固定'} placement="bottom" asChild>
-              <button onClick={togglePin} className={`p-1 rounded transition-all ${isPinned ? 'bg-blue-500 text-white' : 'hover:bg-qc-hover text-qc-fg-muted'}`}>
+              <button onClick={togglePin} className={`p-1 rounded transition-all ${isPinned ? 'bg-accent text-white' : 'hover:bg-qc-hover text-qc-fg-muted'}`}>
                 {isPinned ? <i className="ti ti-pinned" style={{
                   fontSize: 12
                 }}></i> : <i className="ti ti-pin" style={{
@@ -163,7 +163,7 @@ const BottomMenuPopup = forwardRef(({
                     e.stopPropagation();
                     handleSelectOption(menuItem, option);
                   }} className="group relative">
-                    <div className={`flex items-center gap-2 px-4 py-1.5 cursor-pointer transition-all ${isActive ? 'bg-blue-500 text-white' : 'text-qc-fg hover:bg-qc-hover'}`}>
+                    <div className={`flex items-center gap-2 px-4 py-1.5 cursor-pointer transition-all ${isActive ? 'bg-accent text-white' : 'text-qc-fg hover:bg-qc-hover'}`}>
                       {OptionIcon && <div className="flex-shrink-0">
                         <OptionIcon size={12} />
                       </div>}

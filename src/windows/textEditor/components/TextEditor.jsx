@@ -53,13 +53,13 @@ function TextEditor({
       color: 'var(--qc-fg-muted)'
     },
     '.cm-activeLine': {
-      backgroundColor: 'color-mix(in srgb, var(--qc-accent, #3b82f6) 14%, transparent)',
+      backgroundColor: 'color-mix(in srgb, var(--qc-accent, #73ae52) 14%, transparent)',
       backdropFilter: 'blur(var(--theme-superbg-blur-10, 10px))',
       WebkitBackdropFilter: 'blur(var(--theme-superbg-blur-10, 10px))',
       borderRadius: '8px'
     },
     '.cm-activeLineGutter': {
-      backgroundColor: 'color-mix(in srgb, var(--qc-accent, #3b82f6) 10%, transparent)',
+      backgroundColor: 'color-mix(in srgb, var(--qc-accent, #73ae52) 10%, transparent)',
       backdropFilter: 'blur(var(--theme-superbg-blur-10, 10px))',
       WebkitBackdropFilter: 'blur(var(--theme-superbg-blur-10, 10px))',
       color: 'var(--qc-fg)'
@@ -71,7 +71,7 @@ function TextEditor({
       borderLeftColor: 'var(--qc-fg)'
     },
     '&.cm-focused .cm-selectionBackground, ::selection': {
-      backgroundColor: 'color-mix(in srgb, var(--qc-accent, #3b82f6) 28%, transparent)'
+      backgroundColor: 'color-mix(in srgb, var(--qc-accent, #73ae52) 28%, transparent)'
     }
   }, {
     dark

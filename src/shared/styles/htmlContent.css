@@ -32,22 +32,22 @@
 }
 
 .html-content a {
-  color: #3b82f6;
+  color: var(--qc-accent-hover, #5c9639);
   text-decoration: underline;
   cursor: default;
   pointer-events: none;
 }
 
 .html-content a:hover {
-  color: #3b82f6;
+  color: var(--qc-accent-hover, #5c9639);
 }
 
 .dark .html-content a {
-  color: #60a5fa;
+  color: #9ccb7f;
 }
 
 .dark .html-content a:hover {
-  color: #60a5fa;
+  color: #b1d698;
 }
 
 .html-content strong {

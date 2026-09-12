@@ -6,4 +6,5 @@ pub mod tray;
 pub mod plugins;
 pub mod pin_image_window;
 pub mod preview_window;
+pub mod screenshot_window;
 pub mod drop_proxy;

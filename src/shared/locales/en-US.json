@@ -445,7 +445,9 @@
         "rightClick": "Right Click",
         "leftHold": "Hold Left",
         "scroll": "Scroll"
-      }
+      },
+      "screenshot": "Screenshot",
+      "screenshotDesc": "Capture a screen region and copy it to the clipboard"
     },
     "clipboard": {
       "title": "Clipboard",

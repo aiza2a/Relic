@@ -122,6 +122,7 @@ pub async fn show_tray_menu(app: AppHandle) -> Result<(), String> {
             Some("ti ti-pinned"),
             build_pin_images_children(),
         ),
+        menu_item("screenshot", "截图", Some("ti ti-scissors")),
         separator_item(),
         menu_item_with_state("toggle-hotkeys", hotkeys_label, Some("ti ti-keyboard"), false),
         menu_item_with_state("toggle-clipboard-monitor", monitor_label, Some("ti ti-clipboard"), false),
@@ -162,6 +163,14 @@ pub async fn show_tray_menu(app: AppHandle) -> Result<(), String> {
 // 处理托盘菜单选择
 fn handle_tray_menu_selection(app: &AppHandle, selected_id: &str) {
     match selected_id {
+        "screenshot" => {
+            let app = app.clone();
+            std::thread::spawn(move || {
+                if let Err(e) = crate::windows::screenshot_window::start_screenshot_session(&app) {
+                    eprintln!("启动截图失败: {}", e);
+                }
+            });
+        }
         "toggle" => {
             crate::toggle_main_window_visibility(app);
         }

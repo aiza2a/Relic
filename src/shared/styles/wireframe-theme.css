@@ -449,7 +449,7 @@ body:is(.theme-light.theme-light-wireframe, .theme-dark.theme-dark-sketch) butto
 }
 
 body:is(.theme-light.theme-light-wireframe, .theme-dark.theme-dark-sketch) :is(
-  .bg-blue-500, .bg-blue-600, .qc-accent-button, .tab-active,
+  .bg-accent, .bg-accent-hover, .qc-accent-button, .tab-active,
   .theme-option-button.is-active, .theme-style-option.is-active, .qc-active-icon-button
 ) {
   background:

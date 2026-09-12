@@ -5,14 +5,14 @@ body.theme-dark.theme-dark-classic {
   --qc-fg-muted: #c7c7c7;
   --qc-fg-subtle: #9a9a9a;
 
-  --qc-surface: #1e1e1e;
-  --qc-panel: #2a2a2a;
-  --qc-panel-2: #333333;
+  --qc-surface: #161616;
+  --qc-panel: #212121;
+  --qc-panel-2: #2d2d2d;
 
   --qc-hover: rgba(255, 255, 255, 0.08);
-  --qc-active: rgba(74, 137, 220, 0.18);
-  --qc-accent: #4a89dc;
-  --qc-accent-hover: #5b95e1;
+  --qc-active: rgba(125, 187, 89, 0.20);
+  --qc-accent: #7dbb59;
+  --qc-accent-hover: #8ec66b;
   --qc-border: rgba(255, 255, 255, 0.12);
   --qc-border-strong: rgba(255, 255, 255, 0.22);
   --qc-toggle-track-off: #4a4a4a;

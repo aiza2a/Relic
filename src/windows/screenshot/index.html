@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relic - 截图</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #000; cursor: crosshair; }
+    #shot { position: absolute; inset: 0; width: 100%; height: 100%; }
+    #mask { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.35); }
+    #selection {
+      position: absolute; display: none;
+      border: 1.5px solid #73ae52;
+      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.35);
+      background: transparent;
+    }
+    #selection.confirmable { cursor: pointer; }
+    #size-badge {
+      position: absolute; display: none;
+      background: rgba(20, 20, 20, 0.85);
+      color: #d8e8cc;
+      font: 12px/1.6 "Segoe UI", "Microsoft YaHei", sans-serif;
+      padding: 1px 8px; border-radius: 4px;
+      pointer-events: none; white-space: nowrap; z-index: 30;
+    }
+    #hint {
+      position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+      background: rgba(20, 20, 20, 0.78);
+      color: #cfd8c8;
+      font: 13px/1.8 "Segoe UI", "Microsoft YaHei", sans-serif;
+      padding: 4px 14px; border-radius: 6px;
+      pointer-events: none; z-index: 40; transition: opacity .25s;
+    }
+    #hint.hidden { opacity: 0; }
+    #toolbar {
+      position: absolute; display: none; z-index: 25;
+      background: #1d1d1d; border: 1px solid #3a3a3a; border-radius: 8px;
+      padding: 6px; gap: 6px;
+    }
+    #toolbar button {
+      width: 34px; height: 30px; border: none; border-radius: 6px;
+      background: transparent; color: #d6d6d6; cursor: pointer;
+      font-size: 15px; display: flex; align-items: center; justify-content: center;
+    }
+    #toolbar button:hover { background: #2e2e2e; }
+    #toolbar button.primary { background: #73ae52; color: #fff; }
+    #toolbar button.primary:hover { background: #5c9639; }
+  </style>
+</head>
+<body>
+  <img id="shot" alt="" draggable="false" />
+  <div id="mask"></div>
+  <div id="selection"></div>
+  <div id="size-badge"></div>
+  <div id="toolbar">
+    <button id="btn-cancel" title="取消 (Esc)"><i class="ti ti-x"></i></button>
+    <button id="btn-confirm" class="primary" title="复制到剪贴板 (Enter)"><i class="ti ti-check"></i></button>
+  </div>
+  <div id="hint">拖拽框选区域 · 双击或 Enter 复制 · Esc 取消</div>
+  <script type="module" src="./index.js"></script>
+</body>
+</html>

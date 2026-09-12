@@ -241,7 +241,7 @@ async function createImagesDragPreviewIcon(paths) {
     ctx.shadowColor = 'rgba(15, 23, 42, 0.24)';
     ctx.shadowBlur = 8;
     ctx.shadowOffsetY = 3;
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#73ae52';
     ctx.beginPath();
     drawRoundRect(ctx, 66, 4, badgeWidth, 22, 11);
     ctx.fill();
@@ -289,21 +289,21 @@ function ImageTile({
         role="button"
         className={`relative group aspect-square rounded-lg bg-qc-panel-2 flex items-center justify-center cursor-pointer transition-all overflow-hidden ${
           isDragging
-            ? 'opacity-45 scale-95 saturate-50 ring-2 ring-dashed ring-blue-400 bg-qc-active'
+            ? 'opacity-45 scale-95 saturate-50 ring-2 ring-dashed ring-accent bg-qc-active'
             : isSelected
-              ? 'bg-qc-active ring-2 ring-blue-500 shadow-sm'
-              : 'hover:bg-qc-hover hover:ring-2 hover:ring-blue-400'
+              ? 'bg-qc-active ring-2 ring-accent shadow-sm'
+              : 'hover:bg-qc-hover hover:ring-2 hover:ring-accent'
         }`}
         style={{ touchAction: 'none' }}
       >
         {isSelected && !isDragging && (
-          <div className="absolute left-1 top-1 z-20 w-4 h-4 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-sm pointer-events-none">
+          <div className="absolute left-1 top-1 z-20 w-4 h-4 rounded-full bg-accent text-white flex items-center justify-center shadow-sm pointer-events-none">
             <i className="ti ti-check text-[10px]"></i>
           </div>
         )}
         {isDragging && (
           <div className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center bg-qc-surface/25">
-            <i className="ti ti-drag-drop text-xl text-blue-500"></i>
+            <i className="ti ti-drag-drop text-xl text-accent"></i>
           </div>
         )}
         <div className="absolute inset-0 rounded-lg overflow-hidden">
@@ -346,7 +346,7 @@ function ImageTile({
                   onPointerDown={(e) => e.stopPropagation()}
                   onMouseDown={(e) => e.stopPropagation()}
                   onClick={(e) => onRename(e, item)}
-                  className="w-5 h-5 shrink-0 rounded-full bg-black/50 hover:bg-blue-500 text-white flex items-center justify-center pointer-events-auto"
+                  className="w-5 h-5 shrink-0 rounded-full bg-black/50 hover:bg-accent text-white flex items-center justify-center pointer-events-auto"
                 >
                   <i className="ti ti-pencil text-xs"></i>
                 </button>
@@ -1102,9 +1102,9 @@ function ImageLibraryTab({
         ) : imageTotal === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center text-qc-fg-subtle">
             <div className={`w-20 h-20 rounded-2xl border-2 border-dashed flex items-center justify-center mb-3 transition-colors ${
-              isDragging ? 'border-blue-500 bg-blue-50' : 'border-qc-border-strong'
+              isDragging ? 'border-accent bg-accent-soft' : 'border-qc-border-strong'
             }`}>
-              <i className={`${activeGroupMeta?.icon || 'ti ti-photo'} text-4xl ${isDragging ? 'text-blue-500' : ''}`}></i>
+              <i className={`${activeGroupMeta?.icon || 'ti ti-photo'} text-4xl ${isDragging ? 'text-accent' : ''}`}></i>
             </div>
             <p className="text-sm mb-1">{t('emoji.dragToAdd') || '拖入图片添加'}</p>
             <p className="text-xs text-qc-fg-subtle">{t('emoji.supportFormats') || '支持 PNG, JPG, GIF, WebP'}</p>
@@ -1130,9 +1130,9 @@ function ImageLibraryTab({
         )}
 
       {isDragging && (
-        <div className="absolute inset-0 bg-blue-500/10 pointer-events-none flex items-center justify-center z-10 ring-2 ring-blue-500 ring-inset">
+        <div className="absolute inset-0 bg-accent/10 pointer-events-none flex items-center justify-center z-10 ring-2 ring-accent ring-inset">
           <div className="bg-qc-panel rounded-xl shadow-lg px-6 py-4 flex items-center gap-3">
-            <i className="ti ti-upload text-2xl text-blue-500"></i>
+            <i className="ti ti-upload text-2xl text-accent"></i>
             <span className="text-qc-fg">{t('emoji.dropToAdd')}</span>
           </div>
         </div>
@@ -1140,7 +1140,7 @@ function ImageLibraryTab({
 
       {selectionBox && (
         <div
-          className={`absolute z-30 pointer-events-none rounded border border-blue-500 bg-blue-500/15 ${
+          className={`absolute z-30 pointer-events-none rounded border border-accent bg-accent/15 ${
             selectionBox.visible ? 'opacity-100' : 'opacity-0'
           }`}
           style={{
@@ -1155,13 +1155,13 @@ function ImageLibraryTab({
       {isUploading && (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-[9999]">
           <div className="bg-qc-panel rounded-xl shadow-lg px-6 py-4 flex flex-col items-center gap-3">
-            <i className="ti ti-loader-2 animate-spin text-3xl text-blue-500"></i>
+            <i className="ti ti-loader-2 animate-spin text-3xl text-accent"></i>
             <span className="text-qc-fg">
               {t('emoji.uploading', { current: uploadProgress.current, total: uploadProgress.total })}
             </span>
             <div className="w-40 h-1.5 bg-qc-panel-2 rounded-full overflow-hidden">
               <div 
-                className="h-full bg-blue-500 transition-all duration-200"
+                className="h-full bg-accent transition-all duration-200"
                 style={{ width: `${(uploadProgress.current / uploadProgress.total) * 100}%` }}
               />
             </div>

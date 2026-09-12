@@ -59,12 +59,12 @@ function Input({
 
   if (suffix) {
     return <div className="flex items-center gap-2">
-        <input type={type} value={inputValue} onChange={handleChange} placeholder={placeholder} className={`px-3 py-2 bg-qc-panel border border-qc-border rounded-lg text-qc-fg placeholder:text-qc-fg-subtle focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`} {...restProps} onBlur={handleBlur} onFocus={handleFocus} onKeyDown={handleKeyDown} />
+        <input type={type} value={inputValue} onChange={handleChange} placeholder={placeholder} className={`px-3 py-2 bg-qc-panel border border-qc-border rounded-lg text-qc-fg placeholder:text-qc-fg-subtle focus:outline-none focus:ring-2 focus:ring-accent ${className}`} {...restProps} onBlur={handleBlur} onFocus={handleFocus} onKeyDown={handleKeyDown} />
         <span className="text-sm text-qc-fg-muted whitespace-nowrap">
           {suffix}
         </span>
       </div>;
   }
-  return <input type={type} value={inputValue} onChange={handleChange} placeholder={placeholder} className={`px-3 py-2 bg-qc-panel border border-qc-border rounded-lg text-qc-fg placeholder:text-qc-fg-subtle focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`} {...restProps} onBlur={handleBlur} onFocus={handleFocus} onKeyDown={handleKeyDown} />;
+  return <input type={type} value={inputValue} onChange={handleChange} placeholder={placeholder} className={`px-3 py-2 bg-qc-panel border border-qc-border rounded-lg text-qc-fg placeholder:text-qc-fg-subtle focus:outline-none focus:ring-2 focus:ring-accent ${className}`} {...restProps} onBlur={handleBlur} onFocus={handleFocus} onKeyDown={handleKeyDown} />;
 }
 export default Input;

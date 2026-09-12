@@ -29,7 +29,7 @@ function FileInput({
     }
   };
   return <div className="flex items-center gap-2">
-      <input type="text" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} className="flex-1 px-3 py-2 text-sm border border-qc-border rounded-lg bg-qc-panel text-qc-fg placeholder:text-qc-fg-subtle focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <input type="text" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} className="flex-1 px-3 py-2 text-sm border border-qc-border rounded-lg bg-qc-panel text-qc-fg placeholder:text-qc-fg-subtle focus:outline-none focus:ring-2 focus:ring-accent" />
       
       <Tooltip content={t('settings.common.browse')} placement="top" asChild>
         <button onClick={handleBrowse} className="h-10 w-10 inline-flex items-center justify-center rounded-lg hover:bg-qc-hover text-qc-fg-muted transition-colors">

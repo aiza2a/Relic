@@ -403,7 +403,7 @@ function QuickPasteWindow() {
                     w-full flex items-center gap-3 px-4 rounded-xl cursor-pointer
                     transition-all duration-100 ease-out origin-center
                     ${active
-                      ? 'bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg shadow-blue-500/40 scale-100'
+                      ? 'bg-gradient-to-r from-accent to-accent-hover shadow-lg shadow-accent/40 scale-100'
                       : 'bg-qc-surface/80 backdrop-blur-xl shadow-md shadow-black/8 scale-[0.92] opacity-80 hover:opacity-90 hover:shadow-lg'
                     }
                   `}

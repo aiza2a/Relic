@@ -237,7 +237,7 @@ function AppearanceSection({
                         console.error('Failed to select font:', error)
                       }
                     }}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover text-white rounded-lg transition-colors"
                   >
                     <i className="ti ti-file-text" style={{ fontSize: 18 }}></i>
                     {settings.customFontPath ? (t('settings.appearance.changeFontFile') || '更换字体文件') : (t('settings.appearance.selectFontFile') || '选择字体文件')}
@@ -251,7 +251,7 @@ function AppearanceSection({
                       {t('settings.appearance.clearFontFile') || '清除字体文件'}
                     </button>
                   )}
-                  {customFontStatus === 'loading' && <i className="ti ti-loader-2 animate-spin text-blue-500" style={{ fontSize: 18 }}></i>}
+                  {customFontStatus === 'loading' && <i className="ti ti-loader-2 animate-spin text-accent" style={{ fontSize: 18 }}></i>}
                   {customFontStatus === 'loaded' && <i className="ti ti-circle-check text-green-500" style={{ fontSize: 18 }}></i>}
                   {customFontStatus === 'error' && <i className="ti ti-alert-circle text-red-500" style={{ fontSize: 18 }}></i>}
                 </div>
@@ -307,7 +307,7 @@ function AppearanceSection({
                       }}
                       className="w-full px-3 py-2 pr-8 rounded-lg border border-qc-border bg-qc-surface text-qc-fg text-sm"
                     />
-                    {customFontStatus === 'loading' && <i className="ti ti-loader-2 animate-spin absolute right-2 top-1/2 -translate-y-1/2 text-blue-500" style={{ fontSize: 16 }}></i>}
+                    {customFontStatus === 'loading' && <i className="ti ti-loader-2 animate-spin absolute right-2 top-1/2 -translate-y-1/2 text-accent" style={{ fontSize: 16 }}></i>}
                     {customFontStatus === 'loaded' && <i className="ti ti-circle-check absolute right-2 top-1/2 -translate-y-1/2 text-green-500" style={{ fontSize: 16 }}></i>}
                     {customFontStatus === 'error' && <i className="ti ti-alert-circle absolute right-2 top-1/2 -translate-y-1/2 text-red-500" style={{ fontSize: 16 }}></i>}
                   </div>
@@ -361,7 +361,7 @@ function AppearanceSection({
             </p>
             
             <div className="flex items-center gap-3">
-              <button onClick={handleSelectBackgroundImage} className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
+              <button onClick={handleSelectBackgroundImage} className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover text-white rounded-lg transition-colors">
                 <i className="ti ti-photo" style={{
               fontSize: 18
             }}></i>

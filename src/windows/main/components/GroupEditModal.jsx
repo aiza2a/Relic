@@ -71,7 +71,7 @@ function GroupEditModal({
                   onKeyDown={handleKeyDown}
                   placeholder={t('groups.modal.namePlaceholder')}
                   disabled={nameDisabled}
-                  className="w-full px-3 py-2 appearance-none bg-qc-panel-2 border border-qc-border rounded-md text-qc-fg placeholder:text-qc-fg-subtle focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="w-full px-3 py-2 appearance-none bg-qc-panel-2 border border-qc-border rounded-md text-qc-fg placeholder:text-qc-fg-subtle focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-70 disabled:cursor-not-allowed"
                   style={{
                     backgroundColor: 'var(--qc-panel-2)',
                     color: 'var(--qc-fg)',
@@ -87,7 +87,7 @@ function GroupEditModal({
                 </label>
                 <div className="flex gap-2">
                   <Tooltip content={t('groups.modal.customColor')} placement="top" asChild>
-                    <label className="w-8 h-8 rounded-md border border-qc-border-strong flex items-center justify-center cursor-pointer hover:border-blue-500 transition text-qc-fg-muted">
+                    <label className="w-8 h-8 rounded-md border border-qc-border-strong flex items-center justify-center cursor-pointer hover:border-accent transition text-qc-fg-muted">
                       <input
                         type="color"
                         value={color}
@@ -103,7 +103,7 @@ function GroupEditModal({
                       onClick={() => onColorChange?.(presetColor)}
                       className={`w-8 h-8 rounded-md border transition ${
                         color === presetColor
-                          ? 'border-blue-500 scale-110 shadow'
+                          ? 'border-accent scale-110 shadow'
                           : 'border-qc-border hover:border-qc-border-strong'
                       }`}
                       style={{ backgroundColor: presetColor }}
@@ -123,8 +123,8 @@ function GroupEditModal({
                       onClick={() => onIconChange?.(iconName)}
                       className={`p-2 rounded-md transition flex items-center justify-center border ${
                         icon === iconName
-                          ? 'bg-blue-500 border-blue-500 text-white shadow-md'
-                          : 'bg-qc-panel text-qc-fg border-qc-border hover:border-blue-400'
+                          ? 'bg-accent border-accent text-white shadow-md'
+                          : 'bg-qc-panel text-qc-fg border-qc-border hover:border-accent'
                       }`}
                     >
                       <i
@@ -156,7 +156,7 @@ function GroupEditModal({
             <button
               onClick={onSave}
               disabled={saving}
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-hover rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {saving ? t('groups.modal.saving') : t('common.save')}
             </button>

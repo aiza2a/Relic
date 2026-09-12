@@ -36,10 +36,10 @@ function EditorToolbar({
     flex items-center gap-1 px-3 h-8
     rounded
     text-sm font-medium
-    bg-blue-500
-    hover:bg-blue-600
+    bg-accent
+    hover:bg-accent-hover
     text-white
-    border border-blue-500
+    border border-accent
     transition-colors
     cursor-pointer
   `.trim().replace(/\s+/g, ' ');
@@ -65,7 +65,7 @@ function EditorToolbar({
                 value={title}
                 onChange={(e) => onTitleChange(e.target.value)}
                 placeholder={t('textEditor.titlePlaceholder')}
-                className="text-editor-input min-w-32 max-w-48 h-8 px-2 text-sm rounded border border-qc-border bg-qc-surface text-qc-fg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="text-editor-input min-w-32 max-w-48 h-8 px-2 text-sm rounded border border-qc-border bg-qc-surface text-qc-fg focus:outline-none focus:ring-2 focus:ring-accent"
               />
             </div>
 
@@ -77,7 +77,7 @@ function EditorToolbar({
                 <select
                   value={selectedGroup}
                   onChange={(e) => onGroupChange(e.target.value)}
-                  className="text-editor-input h-8 px-2 text-sm rounded border border-qc-border bg-qc-surface text-qc-fg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="text-editor-input h-8 px-2 text-sm rounded border border-qc-border bg-qc-surface text-qc-fg focus:outline-none focus:ring-2 focus:ring-accent"
                 >
                   {groups.map((group) => (
                     <option key={group.name} value={group.name}>
@@ -99,13 +99,13 @@ function EditorToolbar({
         {showModeSwitch && (
           <div className="text-editor-mode-switch flex items-center rounded border border-qc-border bg-qc-surface overflow-hidden">
             <button
-              className={`${modeButtonClasses} ${editMode === 'text' ? 'bg-blue-500 text-white border-blue-500' : 'text-qc-fg hover:bg-qc-hover'}`}
+              className={`${modeButtonClasses} ${editMode === 'text' ? 'bg-accent text-white border-accent' : 'text-qc-fg hover:bg-qc-hover'}`}
               onClick={() => onEditModeChange?.('text')}
             >
               {t('textEditor.plainText')}
             </button>
             <button
-              className={`${modeButtonClasses} ${editMode === 'html' ? 'bg-blue-500 text-white border-blue-500' : 'text-qc-fg hover:bg-qc-hover'}`}
+              className={`${modeButtonClasses} ${editMode === 'html' ? 'bg-accent text-white border-accent' : 'text-qc-fg hover:bg-qc-hover'}`}
               onClick={() => onEditModeChange?.('html')}
             >
               {t('textEditor.htmlMode', 'HTML')}

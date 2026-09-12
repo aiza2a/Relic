@@ -337,7 +337,7 @@ function TabNavigation({
               focus:outline-none
               ${uiAnimationEnabled ? 'hover:scale-[1.01]' : ''}
               ${isActive
-                ? 'bg-blue-500 text-white shadow-md hover:bg-blue-500'
+                ? 'bg-accent text-white shadow-md hover:bg-accent'
                 : 'text-qc-fg-muted hover:bg-qc-hover'}
             `}
             style={uiAnimationEnabled ? {
@@ -503,10 +503,7 @@ function TabNavigation({
   }`}>
     <div className={isSidebarLayout ? 'flex h-full min-h-0 flex-col' : 'flex items-stretch h-9 whitespace-nowrap'}>
       <div
-        className={isSidebarLayout ? 'flex flex-col gap-1 p-2 pb-1' : 'flex items-center px-2 relative min-w-0'}
-        style={!isSidebarLayout ? {
-          flex: `0 0 calc(${horizontalTabAreaPercent}% - 1px)`
-        } : undefined}
+        className={isSidebarLayout ? 'flex flex-col gap-1 p-2 pb-1' : 'flex items-center px-2 relative min-w-0 flex-1'}
       >
         <div ref={tabsContainerRef} className={isSidebarLayout ? 'flex flex-col gap-1 w-full' : 'flex items-center justify-center gap-1 w-full relative'}>
           {!isSidebarLayout && (
@@ -535,92 +532,6 @@ function TabNavigation({
         </div>
       </div>
 
-      {!isSidebarLayout && (
-        <div
-          className="w-[1.5px] my-1.5 shrink-0"
-          style={{ backgroundColor: 'var(--bg-titlebar-border, var(--qc-border-strong))', opacity: 0.95 }}
-        />
-      )}
-
-      <div
-        ref={rightAreaRef}
-        className={isSidebarLayout ? 'tab-navigation-right flex-1 flex items-end px-2 pb-2 relative min-w-0' : 'tab-navigation-right flex items-center pl-1 pr-1 relative min-w-0'}
-        style={!isSidebarLayout ? {
-          flex: `0 0 calc(${horizontalRightAreaPercent}% - 1px)`
-        } : undefined}
-      >
-        <div
-          ref={controlsContainerRef}
-          className="flex min-w-0 max-w-full items-center gap-1 relative overflow-visible w-full"
-        >
-          {!isSidebarLayout && (
-            <div ref={controlsIndicatorRef} className={`absolute left-0 w-0 rounded-lg pointer-events-none ${uiAnimationEnabled ? 'transition-all duration-300 ease-out' : ''}`} style={{
-              height: '28px',
-              top: '50%',
-              transform: 'translateY(-50%)'
-            }}>
-              <div key={`emoji-mode-bounce-${emojiModeAnimationKey}`} className={`w-full h-full rounded-lg bg-[var(--qc-accent)] ${uiAnimationEnabled ? 'animate-button-bounce' : ''}`} />
-            </div>
-          )}
-          {activeTab === 'emoji'
-            ? emojiModes.map(mode => (
-                <div key={mode.id} ref={el => emojiModesRef.current[mode.id] = el} className="relative flex-1 h-7">
-                  <Tooltip content={mode.label} placement={isSidebarLayout ? 'right' : 'bottom'} asChild>
-                    <button
-                      onClick={() => handleEmojiModeChange(mode.id)}
-                      className={`relative z-10 flex items-center justify-center w-full h-full rounded-lg focus:outline-none ${uiAnimationEnabled ? 'hover:scale-105' : ''} ${
-                        emojiMode === mode.id
-                          ? 'qc-active-icon-button bg-[var(--qc-accent)] text-[var(--qc-accent-fg)] shadow-md hover:bg-[var(--qc-accent)]'
-                          : 'text-qc-fg-muted hover:bg-qc-hover'
-                      }`}
-                      style={uiAnimationEnabled ? {
-                        transitionProperty: 'transform, box-shadow, background-color, color',
-                        transitionDuration: '200ms, 200ms, 500ms, 500ms'
-                      } : {}}
-                    >
-                      {mode.emoji ? <span style={{ fontSize: 16 }}>{mode.emoji}</span> : <i className={mode.icon} style={{ fontSize: 16 }} />}
-                    </button>
-                  </Tooltip>
-                </div>
-              ))
-            : (
-                <>
-                  <div className={isCompactFiltersLayout
-                    ? 'grid grid-cols-3 grid-rows-2 gap-0 h-8 flex-1 min-w-0'
-                    : 'flex items-center gap-0 h-9 flex-1 min-w-0'}>
-                    {[...filters, ...pasteFilters].map(filter => (
-                      <FilterButton key={filter.id} id={filter.id} label={filter.label}
-                        icon={filter.icon}
-                        isActive={FILTER_IDS.includes(filter.id)
-                          ? isFilterSelected(filter.id)
-                          : isPasteFilterSelected(filter.id)}
-                        onClick={FILTER_IDS.includes(filter.id)
-                          ? handleFilterChange
-                          : handlePasteFilterChange}
-                        stretch
-                        compact={isCompactFiltersLayout}
-                        buttonRef={el => { filtersRef.current[filter.id] = el; }} />
-                    ))}
-                  </div>
-                  <div
-                    className="w-px h-6 shrink-0"
-                    style={{ backgroundColor: 'var(--bg-titlebar-border, var(--qc-border-strong))', opacity: 0.95 }}
-                  />
-                  <div className="overflow-visible shrink-0 w-[60px]">
-                    <GroupsPopup
-                      ref={groupsPopupRef}
-                      activeTab={activeTab}
-                      onTabChange={onTabChange}
-                      onGroupChange={onGroupChange}
-                      onOpenChange={setIsGroupsPanelOpen}
-                      mode={isSidebarLayout ? 'tab-sidebar' : 'tab'}
-                    />
-                  </div>
-                </>
-              )
-          }
-        </div>
-      </div>
     </div>
   </div>;
 }

@@ -17,7 +17,7 @@ function Button({
   };
   const baseClasses = `${sizeClasses[size]} rounded-lg font-medium transition-all duration-200 inline-flex items-center gap-2 justify-center whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed`;
   const variantClasses = {
-    primary: 'bg-blue-500 hover:bg-blue-600 text-white',
+    primary: 'bg-accent hover:bg-accent-hover text-white',
     secondary: 'bg-qc-panel-2 hover:bg-qc-hover text-qc-fg border border-qc-border',
     danger: 'bg-red-500 hover:bg-red-600 text-white'
   };

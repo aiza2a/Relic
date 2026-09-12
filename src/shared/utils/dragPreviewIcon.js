@@ -233,7 +233,7 @@ export async function createImagesDragPreviewIcon(paths) {
     ctx.shadowColor = 'rgba(15, 23, 42, 0.24)';
     ctx.shadowBlur = 8;
     ctx.shadowOffsetY = 3;
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#73ae52';
     ctx.beginPath();
     drawRoundRect(ctx, badgeX, 4, badgeWidth, 22, 11);
     ctx.fill();

@@ -37,7 +37,7 @@ import logoIcon from "@/assets/icon32.png";
 import TitleBarSearch from "./TitleBarSearch";
 import Tooltip from "@shared/components/common/Tooltip.jsx";
 const ACTIVE_ICON_BUTTON_CLASS =
-  "bg-blue-500 bg-dynamic-primary text-white hover:bg-blue-600";
+  "bg-accent bg-dynamic-primary text-white hover:bg-accent-hover";
 const TITLE_BAR_IMAGE_ICON_STYLE = {
   imageRendering: "pixelated",
 };

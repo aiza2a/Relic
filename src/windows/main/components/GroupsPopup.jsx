@@ -128,7 +128,8 @@ const GroupsPopup = forwardRef(({
   onGroupChange,
   onOpenChange,
   mode = 'footer',
-  compact = false
+  compact = false,
+  compactTrigger = false
 }, ref) => {
   const { t } = useTranslation();
   const groups = useSnapshot(groupsStore);
@@ -748,7 +749,9 @@ const GroupsPopup = forwardRef(({
       <div
         ref={rootRef}
         className={isTabMode
-          ? 'relative h-full w-[60px] flex items-center justify-center'
+          ? (compactTrigger
+            ? 'relative h-9 w-full flex items-center justify-center'
+            : 'relative h-full w-[60px] flex items-center justify-center')
           : 'relative flex flex-col h-full w-full'}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

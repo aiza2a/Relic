@@ -222,7 +222,7 @@ function ShortcutComboInput({
             ${hasError 
               ? 'border-red-500 ring-1 ring-red-500/30' 
               : isDropdownOpen || isListeningKey
-                ? 'border-blue-500 ring-1 ring-blue-500/50' 
+                ? 'border-accent ring-1 ring-accent/50' 
                 : 'border-qc-border hover:border-qc-border-strong'
             }
           `}
@@ -238,7 +238,7 @@ function ShortcutComboInput({
               className={`
                 inline-flex items-center gap-0.5 px-2 py-0.5 rounded text-xs font-medium
                 ${fixedModifiers.includes(mod)
-                  ? 'bg-blue-100 text-blue-700'
+                  ? 'bg-accent-soft text-accent-hover'
                   : 'bg-qc-panel-2 text-qc-fg'
                 }
               `}
@@ -304,7 +304,7 @@ function ShortcutComboInput({
                 className={`
                   px-2 py-0.5 rounded text-xs border border-dashed
                   ${isListeningKey 
-                    ? 'border-blue-400 bg-blue-50 text-blue-600 animate-pulse'
+                    ? 'border-accent bg-accent-soft text-accent-hover animate-pulse'
                     : 'border-qc-border text-qc-fg-subtle hover:border-qc-border-strong hover:text-qc-fg-muted'
                   }
                 `}
@@ -354,14 +354,14 @@ function ShortcutComboInput({
                     ${isFixed 
                       ? 'text-qc-fg-subtle cursor-not-allowed' 
                       : isSelected
-                        ? 'bg-blue-50 text-blue-700 font-medium'
+                        ? 'bg-accent-soft text-accent-hover font-medium'
                         : 'text-qc-fg hover:bg-qc-hover'
                     }
                   `}
                 >
                   <span>{mod}</span>
                   {isSelected && (
-                    <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   )}

@@ -445,7 +445,9 @@
         "rightClick": "右键",
         "leftHold": "按住左键",
         "scroll": "滚轮"
-      }
+      },
+      "screenshot": "截图",
+      "screenshotDesc": "截取屏幕选定区域并复制到剪贴板"
     },
     "clipboard": {
       "title": "剪贴板设置",

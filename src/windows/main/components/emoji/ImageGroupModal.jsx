@@ -11,7 +11,7 @@ const PRESET_COLORS = [
   '#ea580c',
   '#ca8a04',
   '#16a34a',
-  '#2563eb',
+  '#84a92c',
   '#7c3aed',
   '#6b7280',
 ];
@@ -38,7 +38,7 @@ function ImageGroupModal({ group, onClose, onSave }) {
   const { t } = useTranslation();
   const [name, setName] = useState(group?.name || '');
   const [selectedIcon, setSelectedIcon] = useState(group?.icon || 'ti ti-photo');
-  const [selectedColor, setSelectedColor] = useState(group?.color || '#2563eb');
+  const [selectedColor, setSelectedColor] = useState(group?.color || '#73ae52');
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -50,7 +50,7 @@ function ImageGroupModal({ group, onClose, onSave }) {
   useEffect(() => {
     setName(group?.name || '');
     setSelectedIcon(group?.icon || 'ti ti-photo');
-    setSelectedColor(group?.color || '#2563eb');
+    setSelectedColor(group?.color || '#73ae52');
     setShowDeleteConfirm(false);
   }, [group]);
 

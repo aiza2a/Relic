@@ -318,6 +318,17 @@ pub fn register_quickpaste_hotkey(shortcut_str: &str) -> Result<(), String> {
     Ok(())
 }
 
+pub fn register_screenshot_hotkey(shortcut_str: &str) -> Result<(), String> {
+    register_shortcut("screenshot", shortcut_str, |app| {
+        let app_clone = app.clone();
+        std::thread::spawn(move || {
+            if let Err(e) = crate::windows::screenshot_window::start_screenshot_session(&app_clone) {
+                eprintln!("启动截图失败: {}", e);
+            }
+        });
+    })
+}
+
 pub fn register_toggle_clipboard_monitor_hotkey(shortcut_str: &str) -> Result<(), String> {
     register_shortcut("toggle_clipboard_monitor", shortcut_str, |app| {
         let app_clone = app.clone();
@@ -695,6 +706,12 @@ pub fn reload_from_settings() -> Result<(), String> {
         if settings.quickpaste_enabled && !settings.quickpaste_shortcut.is_empty() {
             if let Err(e) = register_quickpaste_hotkey(&settings.quickpaste_shortcut) {
                 eprintln!("注册预览窗口快捷键失败: {}", e);
+            }
+        }
+
+        if !settings.screenshot_shortcut.is_empty() {
+            if let Err(e) = register_screenshot_hotkey(&settings.screenshot_shortcut) {
+                eprintln!("注册截图快捷键失败: {}", e);
             }
         }
 

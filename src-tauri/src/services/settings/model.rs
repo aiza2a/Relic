@@ -55,6 +55,7 @@ pub struct AppSettings {
     // 预览窗口设置
     pub quickpaste_enabled: bool,
     pub quickpaste_shortcut: String,
+    pub screenshot_shortcut: String,
     pub quickpaste_paste_on_modifier_release: bool,
     pub quickpaste_window_width: u32,
     pub quickpaste_window_height: u32,
@@ -208,6 +209,7 @@ impl Default for AppSettings {
 
             quickpaste_enabled: true,
             quickpaste_shortcut: "Ctrl+`".to_string(),
+            screenshot_shortcut: "Ctrl+Shift+A".to_string(),
             quickpaste_paste_on_modifier_release: true,
             quickpaste_window_width: 300,
             quickpaste_window_height: 400,

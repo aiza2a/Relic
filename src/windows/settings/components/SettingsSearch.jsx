@@ -179,7 +179,7 @@ function SettingsSearch({ onNavigate, className = '' }) {
           onKeyDown={handleKeyDown}
           ref={inputRef}
           placeholder={t('settings.searchPlaceholder')}
-          className="relative z-0 w-full h-10 pl-10 pr-10 text-sm border border-qc-border rounded-lg bg-qc-panel text-qc-fg placeholder:text-qc-fg-subtle focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+          className="relative z-0 w-full h-10 pl-10 pr-10 text-sm border border-qc-border rounded-lg bg-qc-panel text-qc-fg placeholder:text-qc-fg-subtle focus:ring-2 focus:ring-accent focus:border-transparent transition-colors"
         />
         {searchQuery && (
           <button
@@ -211,7 +211,7 @@ function SettingsSearch({ onNavigate, className = '' }) {
                         <span className="font-medium text-qc-fg text-sm">
                           {highlightMatch(result.label, searchQuery)}
                         </span>
-                        <span className="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded-full whitespace-nowrap flex-shrink-0">
+                        <span className="text-xs px-2 py-1 bg-accent-soft text-accent-hover rounded-full whitespace-nowrap flex-shrink-0">
                           {result.sectionName}
                         </span>
                       </div>
