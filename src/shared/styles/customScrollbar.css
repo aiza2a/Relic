@@ -1,0 +1,88 @@
+/* 自定义滚动条样式 */
+
+/* 容器样式 */
+.custom-scrollbar-container {
+  position: relative;
+}
+
+/* 隐藏 Virtuoso 的原生滚动条 */
+.custom-scrollbar-container div[style*="overflow"] {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.custom-scrollbar-container div[style*="overflow"]::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* 自定义滚动条 */
+.custom-scrollbar {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  bottom: 2px;
+  width: 8px;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.custom-scrollbar-container:hover .custom-scrollbar {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.custom-scrollbar.dragging {
+  opacity: 1 !important;
+}
+
+/* 滚动条轨道 */
+.custom-scrollbar__track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  background: transparent;
+}
+
+/* 滚动条滑块 */
+.custom-scrollbar__thumb {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background: rgba(156, 163, 175, 0.4);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.custom-scrollbar__thumb:hover {
+  background: rgba(156, 163, 175, 0.6);
+}
+
+.custom-scrollbar.dragging .custom-scrollbar__thumb {
+  background: rgba(59, 130, 246, 0.6);
+}
+
+/* 深色模式 */
+.dark .custom-scrollbar__thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dark .custom-scrollbar__thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.dark .custom-scrollbar.dragging .custom-scrollbar__thumb {
+  background: rgba(96, 165, 250, 0.5);
+}
+
+/* 禁止选择文本 */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+

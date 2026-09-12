@@ -1,0 +1,12 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📖 官方网站
+    url: https://quickclipboard.cn/
+    about: 访问官网获取更多信息和文档
+  - name: 🎬 哔哩哔哩频道
+    url: https://space.bilibili.com/438982697
+    about: 观看功能演示和使用教程
+  - name: 💬 讨论区
+    url: https://github.com/mosheng1/QuickClipboard/discussions
+    about: 参与社区讨论，分享使用经验
+

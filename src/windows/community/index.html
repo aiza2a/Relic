@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="overflow: hidden;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickClipboard - 社区交流</title>
+  <style>
+    :root {
+      --text-primary: #1f2937;
+      --text-secondary: #4b5563;
+      --text-tertiary: #6b7280;
+      --text-muted: #9ca3af;
+
+      --bg-primary: rgba(255, 255, 255, 0.98);
+      --bg-secondary: rgba(255, 255, 255, 0.95);
+      --bg-tertiary: rgba(243, 244, 246, 0.95);
+      --bg-hover: rgba(229, 231, 235, 0.95);
+
+      --border-primary: rgba(209, 213, 219, 0.98);
+      --border-hover: rgba(156, 163, 175, 0.98);
+
+      --shadow-primary: rgba(0, 0, 0, 0.08);
+      --shadow-secondary: rgba(0, 0, 0, 0.12);
+      --shadow-hover: rgba(0, 0, 0, 0.16);
+
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --accent-soft: rgba(59, 130, 246, 0.15);
+      --accent-soft-hover: rgba(59, 130, 246, 0.25);
+
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+
+      --radius: 12px;
+      --radius-sm: 8px;
+
+      --transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      overflow: hidden;
+    }
+
+    #app {
+      min-height: 100%;
+      height: 100%;
+      padding: 16px;
+      background: linear-gradient(180deg, rgba(245, 247, 250, 0.98), rgba(235, 240, 246, 0.98));
+    }
+
+    .container {
+      display: flex;
+      gap: 14px;
+      align-items: stretch;
+      flex-wrap: nowrap;
+      height: 100%;
+      min-height: 0;
+    }
+
+    /* 左侧列表区域 */
+    .left-panel {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+      height: 100%;
+    }
+
+    .left-panel .item-card {
+      flex: 1 1 0;
+      min-height: 0;
+    }
+
+    .item-card {
+      background: var(--bg-secondary);
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-radius: var(--radius);
+      box-shadow: 0 1px 3px var(--shadow-primary);
+      transition: var(--transition);
+      cursor: pointer;
+      border: 1px solid var(--border-primary);
+      user-select: none;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .item-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: transparent;
+      transition: var(--transition);
+    }
+
+    .item-card.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-soft);
+    }
+
+    .item-card.active::before {
+      background: var(--accent);
+    }
+
+    .item-card:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-hover);
+      box-shadow: 0 4px 12px var(--shadow-secondary);
+      transform: translateY(-1px);
+    }
+
+    .item-card.active:hover {
+      background: var(--bg-secondary);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-soft-hover);
+    }
+
+    .clipboard-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .clipboard-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+
+    .clipboard-data {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: var(--bg-tertiary);
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.4;
+      border: 1px solid var(--border-primary);
+    }
+
+    .qr-placeholder {
+      width: 60px;
+      aspect-ratio: 1 / 1;
+      background: var(--bg-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1px solid var(--border-primary);
+      transition: var(--transition);
+    }
+
+    .item-card:hover .qr-placeholder {
+      border-color: var(--border-hover);
+      transform: scale(1.02);
+    }
+
+    .qr-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* 右侧面板 */
+    .right-panel {
+      flex: 1;
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 3px var(--shadow-primary);
+      display: flex;
+      flex-direction: column;
+      padding: 14px;
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
+      border: 1px solid var(--border-primary);
+      min-width: 0;
+    }
+
+    .big-qr-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      min-height: 0;
+      padding: 10px;
+    }
+
+    .big-qr-placeholder {
+      aspect-ratio: 1 / 1;
+      max-width: 100%;
+      max-height: 100%;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-primary);
+      transition: var(--transition);
+      box-shadow: 0 2px 8px var(--shadow-primary);
+    }
+
+    .big-qr-placeholder:hover {
+      transform: scale(1.01);
+      box-shadow: 0 4px 12px var(--shadow-secondary);
+    }
+
+    .big-qr-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .content-area {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-top: 4px;
+    }
+
+    .detail-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+
+    .detail-url {
+      font-size: 14px;
+      color: var(--text-secondary);
+      background: var(--bg-tertiary);
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: center;
+      border: 1px solid var(--border-primary);
+      font-weight: 500;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      padding-top: 2px;
+      flex-wrap: wrap;
+      width: 100%;
+      padding-left: 2px;
+      padding-right: 2px;
+    }
+
+    .btn {
+      background: var(--accent);
+      color: #ffffff;
+      border: 1px solid var(--accent);
+      padding: 10px 14px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+      flex: 1 1 0;
+      min-width: 0;
+      max-width: 100%;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px var(--shadow-secondary);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent-hover);
+      color: var(--accent-hover);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .btn-danger:hover {
+      background: var(--danger-hover);
+      border-color: var(--danger-hover);
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(156, 163, 175, 0.5);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(156, 163, 175, 0.8);
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        gap: 12px;
+      }
+
+      .left-panel {
+        flex: 1.5;
+      }
+
+      .right-panel {
+        flex: 1;
+      }
+
+      .clipboard-title {
+        font-size: 17px;
+      }
+
+      .clipboard-data {
+        font-size: 13px;
+      }
+
+      .detail-title {
+        font-size: 17px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      #app {
+        padding: 12px;
+      }
+
+      .container {
+        gap: 10px;
+      }
+
+      .left-panel {
+        flex: 1.35;
+        gap: 10px;
+      }
+
+      .right-panel {
+        padding: 12px;
+      }
+
+      .item-card {
+        padding: 12px;
+        gap: 12px;
+        border-radius: 10px;
+      }
+
+      .clipboard-title {
+        font-size: 16px;
+      }
+
+      .clipboard-data {
+        font-size: 12px;
+        padding: 6px 8px;
+        border-radius: 8px;
+      }
+
+      .qr-placeholder {
+        width: 46px;
+        border-radius: 8px;
+      }
+
+      .big-qr-container {
+        margin-bottom: 8px;
+      }
+
+      .detail-title {
+        font-size: 15px;
+      }
+
+      .detail-url {
+        font-size: 12px;
+        padding: 8px 10px;
+        border-radius: 8px;
+      }
+
+      .action-buttons {
+        gap: 8px;
+      }
+
+      .btn {
+        padding: 8px 10px;
+        font-size: 13px;
+        border-radius: 8px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .left-panel {
+        flex: 1;
+        max-height: 45%;
+      }
+
+      .right-panel {
+        flex: 1;
+        min-height: 55%;
+      }
+
+      .item-card {
+        padding: 10px;
+      }
+
+      .clipboard-title {
+        font-size: 15px;
+      }
+
+      .clipboard-data {
+        font-size: 12px;
+      }
+
+      .qr-placeholder {
+        width: 40px;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .item-card {
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .item-card:nth-child(1) { animation-delay: 0.05s; }
+    .item-card:nth-child(2) { animation-delay: 0.1s; }
+    .item-card:nth-child(3) { animation-delay: 0.15s; }
+    .item-card:nth-child(4) { animation-delay: 0.2s; }
+  </style>
+</head>
+<body style="overflow: hidden;">
+  <div id="app"></div>
+  <script type="module" src="/windows/community/index.js"></script>
+</body>
+</html>

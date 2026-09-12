@@ -1,0 +1,117 @@
+/* HTML 富文本内容样式 */
+.html-content {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.html-content * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.html-content p {
+  margin: 0;
+}
+
+.html-content img {
+  max-width: 100%;
+  height: auto;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+/* 加载中的图片占位符 */
+.html-content img.html-image-pending {
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.html-content a {
+  color: #3b82f6;
+  text-decoration: underline;
+  cursor: default;
+  pointer-events: none;
+}
+
+.html-content a:hover {
+  color: #3b82f6;
+}
+
+.dark .html-content a {
+  color: #60a5fa;
+}
+
+.dark .html-content a:hover {
+  color: #60a5fa;
+}
+
+.html-content strong {
+  font-weight: 600;
+}
+
+.html-content em {
+  font-style: italic;
+}
+
+.html-content ul,
+.html-content ol {
+  margin: 0;
+  padding-left: 1.5em;
+}
+
+.html-content code {
+  background-color: #f9f9f9;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.85em;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.dark .html-content code {
+  background-color: #374151;
+}
+
+.html-content pre {
+  background-color: #f9f9f9;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  overflow-x: auto;
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.dark .html-content pre {
+  background-color: #374151;
+}
+
+.html-content blockquote {
+  border-left: 3px solid #d1d5db;
+  padding-left: 0.75rem;
+  margin: 0;
+  color: #6b7280;
+}
+
+.html-content table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.html-content th,
+.html-content td {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.dark .html-content blockquote {
+  border-left-color: #4b5563;
+  color: #9ca3af;
+}

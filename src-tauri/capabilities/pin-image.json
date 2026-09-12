@@ -1,0 +1,22 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "pin-image",
+  "description": "Capability for the pin image window",
+  "windows": [
+    "pin-image-*"
+  ],
+  "permissions": [
+    "core:default",
+    "core:event:allow-emit",
+    "core:event:allow-listen",
+    "core:window:allow-start-dragging",
+    "core:window:allow-is-always-on-top",
+    "core:window:allow-set-always-on-top",
+    "core:window:allow-set-shadow",
+    "core:window:allow-inner-size",
+    "core:window:allow-set-size",
+    "core:window:allow-scale-factor",
+    "core:window:allow-set-position",
+    "core:window:allow-outer-position"
+  ]
+}

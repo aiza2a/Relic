@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>输入对话框</title>
+    <link rel="stylesheet" href="inputDialog.css">
+</head>
+<body>
+    <div class="dialog-container">
+        <div class="dialog-message" id="message">请输入：</div>
+        <input type="text" class="dialog-input" id="input" autocomplete="off" spellcheck="false">
+        <div class="dialog-buttons">
+            <button class="dialog-button cancel-button" id="cancelBtn">取消</button>
+            <button class="dialog-button confirm-button" id="confirmBtn">确定</button>
+        </div>
+    </div>
+    <script type="module" src="inputDialog.js"></script>
+</body>
+</html>
+

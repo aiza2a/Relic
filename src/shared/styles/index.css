@@ -1,0 +1,166 @@
+@import './htmlContent.css';
+@import './customScrollbar.css';
+@import './animations.css';
+@import './dark-theme.css';
+@import './wireframe-theme.css';
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* QuickClipboard 主题 token（默认给 light，具体主题由 body 的 theme-* 类覆盖） */
+body {
+  --qc-fg: #111827;
+  --qc-fg-muted: #6b7280;
+  --qc-fg-subtle: #9ca3af;
+  --qc-surface: #ffffff;
+  --qc-panel: #f9f9f9;
+  --qc-panel-2: #e5e7eb;
+  --qc-hover: rgba(156, 163, 175, 0.25);
+  --qc-active: rgba(59, 130, 246, 0.12);
+  --qc-favorite: #eab308;
+  --qc-border: rgba(17, 24, 39, 0.12);
+  --qc-border-strong: rgba(17, 24, 39, 0.22);
+  --qc-search-highlight-bg: #fde047;
+  --qc-search-highlight-fg: #111827;
+
+  /* accent (for slider/radio/etc.) */
+  --qc-accent: #3b82f6;
+  --qc-accent-hover: #2563eb;
+  --qc-accent-fg: #ffffff;
+
+  /* controls */
+  --qc-toggle-track-off: var(--qc-panel-2);
+  --qc-toggle-track-on: var(--qc-accent);
+  --qc-toggle-thumb: var(--qc-surface);
+
+  /* 当前主题别名（给 bg-theme-100 / text-theme-200 这种用） */
+  --theme-100: var(--qc-surface);
+  --theme-200: var(--qc-panel);
+  --theme-300: var(--qc-panel-2);
+  --theme-400: var(--qc-hover);
+  --theme-500: var(--qc-active);
+  --theme-600: var(--qc-border);
+  --theme-700: var(--qc-border-strong);
+
+  /* 主题具名变量（可选：bg-theme-light-100 这种用） */
+  --theme-light-100: var(--qc-surface);
+  --theme-light-200: var(--qc-panel);
+  --theme-light-300: var(--qc-panel-2);
+  --theme-light-400: var(--qc-hover);
+  --theme-light-500: var(--qc-active);
+  --theme-light-600: var(--qc-border);
+  --theme-light-700: var(--qc-border-strong);
+}
+
+body.theme-dark {
+  --qc-fg: #e5e7eb;
+  --qc-fg-muted: #cbd5e1;
+  --qc-fg-subtle: #94a3b8;
+  --qc-surface: #111827;
+  --qc-panel: #1f2937;
+  --qc-panel-2: #2d3342;
+  --qc-hover: rgba(148, 163, 184, 0.16);
+  --qc-active: rgba(96, 165, 250, 0.18);
+  --qc-favorite: #facc15;
+  --qc-border: rgba(255, 255, 255, 0.12);
+  --qc-border-strong: rgba(255, 255, 255, 0.22);
+
+  --qc-accent: #3b82f6;
+  --qc-accent-hover: #2563eb;
+  --qc-accent-fg: #ffffff;
+
+  --qc-toggle-track-off: var(--qc-panel-2);
+  --qc-toggle-track-on: var(--qc-accent);
+  --qc-toggle-thumb: var(--qc-surface);
+
+  --theme-100: var(--qc-surface);
+  --theme-200: var(--qc-panel);
+  --theme-300: var(--qc-panel-2);
+  --theme-400: var(--qc-hover);
+  --theme-500: var(--qc-active);
+  --theme-600: var(--qc-border);
+  --theme-700: var(--qc-border-strong);
+
+  --theme-dark-100: var(--qc-surface);
+  --theme-dark-200: var(--qc-panel);
+  --theme-dark-300: var(--qc-panel-2);
+  --theme-dark-400: var(--qc-hover);
+  --theme-dark-500: var(--qc-active);
+  --theme-dark-600: var(--qc-border);
+  --theme-dark-700: var(--qc-border-strong);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  background: none !important;
+  color: var(--qc-fg);
+}
+
+body.dragging-cursor,
+body.dragging-cursor * {
+  cursor: grabbing !important;
+}
+
+#root {
+  width: 100%;
+}
+
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.5);
+}
+
+/* 暗色模式滚动条 */
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(75, 85, 99, 0.5);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(75, 85, 99, 0.7);
+}
+
+.settings-tab-bar button {
+  border: none;
+  padding: 0.5rem 1rem;
+}
+
+input, select {
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  font-size: 14px;
+  height: 36px;
+}

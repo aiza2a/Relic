@@ -1,0 +1,104 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "QuickClipboard",
+  "version": "../package.json",
+  "identifier": "com.quickclipboard.app",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "http://localhost:1421",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "快速剪贴板",
+        "url": "windows/main/index.html",
+        "width": 360,
+        "height": 520,
+        "minWidth": 150,
+        "minHeight": 150,
+        "decorations": false,
+        "transparent": true,
+        "alwaysOnTop": true,
+        "skipTaskbar": true,
+        "center": true,
+        "visible": false,
+        "resizable": true,
+        "focus": false,
+        "maximizable": false,
+        "dragDropEnabled": false,
+        "shadow": false,
+        "visibleOnAllWorkspaces": true
+      }
+    ],
+    "security": {
+      "csp": null,
+      "capabilities": [
+        "default",
+        "settings",
+        "quickpaste",
+        "community",
+        "text-editor",
+        "pin-image",
+        "input-dialog",
+        "context-menu",
+        "preview-window",
+        "transfer-shelf",
+        "receive-box",
+        "updater"
+      ],
+      "assetProtocol": {
+        "enable": true,
+        "scope": {
+          "allow": [
+            "**"
+          ]
+        }
+      }
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "nsis",
+      "app"
+    ],
+    "publisher": "MoSheng",
+    "homepage": "https://github.com/mosheng1/QuickClipboard",
+    "copyright": "Copyright © 2025 MoSheng. All rights reserved.",
+    "icon": [
+      "icons/icon32.png",
+      "icons/icon64.png",
+      "icons/icon128.png",
+      "icons/icon256.png",
+      "icons/icon1024.icns",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "nsis": {
+        "installerIcon": "icons/icon.ico",
+        "installerHooks": "bundle-scripts/windows/nsis/installer-hooks.nsh",
+        "installMode": "perMachine",
+        "languages": [
+          "SimpChinese"
+        ],
+        "displayLanguageSelector": false
+      },
+      "wix": {
+        "language": "zh-CN"
+      }
+    },
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": [
+        "https://api.quickclipboard.cn/update/latest.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDlCMDU4RTQxRTUyRTg3Q0MKUldUTWh5N2xRWTRGbTVxWUFhdXJPUzVKTkZkcjF6OE55dzg3UUJlRGF4em8yczliUUpTR29CKzQK"
+    }
+  }
+}

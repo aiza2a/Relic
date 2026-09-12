@@ -1,0 +1,13 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "community",
+  "description": "Capability for the community window",
+  "windows": [
+    "community"
+  ],
+  "permissions": [
+    "core:default",
+    "core:window:allow-start-dragging",
+    "opener:default"
+  ]
+}

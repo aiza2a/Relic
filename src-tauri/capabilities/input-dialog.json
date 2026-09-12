@@ -1,0 +1,17 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "input-dialog",
+  "description": "Capability for the input dialog window",
+  "windows": [
+    "input-dialog"
+  ],
+  "permissions": [
+    "core:default",
+    "core:event:allow-emit",
+    "core:event:allow-listen",
+    "core:window:allow-close",
+    "core:window:allow-center",
+    "core:window:allow-show"
+  ]
+}
+

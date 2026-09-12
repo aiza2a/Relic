@@ -1,0 +1,23 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "context-menu",
+  "description": "Capability for the context menu plugin",
+  "windows": [
+    "context-menu"
+  ],
+  "permissions": [
+    "core:default",
+    "core:event:allow-emit",
+    "core:event:allow-listen",
+    "core:window:allow-close",
+    "core:window:allow-set-focus",
+    "core:window:allow-set-always-on-top",
+    "core:window:allow-hide",
+    "core:window:allow-show",
+    "core:window:allow-set-size",
+    "core:window:allow-inner-size",
+    "core:window:allow-scale-factor"
+  ]
+}
+
+

@@ -1,0 +1,71 @@
+/* 搜索结果高亮样式 */
+.settings-search-highlight {
+  background-color: #fef3c7;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.dark .settings-search-highlight {
+  background-color: #92400e;
+  color: #fef3c7;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.search-result-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.search-result-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 200ms, transform 200ms;
+}
+
+/* 滚动条样式 */
+.settings-search-results::-webkit-scrollbar {
+  width: 6px;
+}
+
+.settings-search-results::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.settings-search-results::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.dark .settings-search-results::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+.settings-search-results::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+.dark .settings-search-results::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* 自动滚动定位后的高亮样式 */
+.settings-scroll-highlight {
+  background-color: rgba(59, 130, 246, 0.10); 
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.35) inset;
+  border-radius: 8px;
+  animation: settingsScrollPulse 1.2s ease;
+}
+
+@keyframes settingsScrollPulse {
+  0% { background-color: rgba(59, 130, 246, 0.18); }
+  60% { background-color: rgba(59, 130, 246, 0.10); }
+  100% { background-color: transparent; }
+}

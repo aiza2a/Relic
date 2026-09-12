@@ -1,0 +1,104 @@
+name: ✨ 功能请求
+description: 提出新功能或改进建议
+title: "[Feature] "
+labels: ["enhancement", "需要分类"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你为 QuickClipboard 提出新想法！💡
+        
+        在提交之前，请：
+        - ✅ 搜索现有 Issues，确认这不是重复建议
+        - ✅ 确保这个功能符合 QuickClipboard 的定位
+        
+  - type: textarea
+    id: problem
+    attributes:
+      label: 问题或需求
+      description: 你遇到了什么问题？或者想解决什么需求？
+      placeholder: |
+        描述你希望解决的问题或满足的需求...
+        例如：当我需要...时，我总是感到不便，因为...
+    validations:
+      required: true
+      
+  - type: textarea
+    id: solution
+    attributes:
+      label: 期望的解决方案
+      description: 你希望如何解决这个问题？
+      placeholder: |
+        详细描述你期望的功能或改进...
+        例如：希望增加一个...功能，可以通过...来实现
+    validations:
+      required: true
+      
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 替代方案
+      description: 你考虑过哪些替代方案？
+      placeholder: |
+        描述你考虑过的其他解决方法...
+        例如：也可以通过...来解决，但是...
+        
+  - type: textarea
+    id: use-cases
+    attributes:
+      label: 使用场景
+      description: 这个功能会在什么场景下使用？
+      placeholder: |
+        描述具体的使用场景...
+        例如：当用户在编写代码时，需要频繁复制粘贴代码片段...
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 优先级
+      description: 你认为这个功能的优先级如何？
+      options:
+        - 🔴 高 - 严重影响使用体验
+        - 🟡 中 - 能显著提升使用体验
+        - 🟢 低 - 锦上添花的功能
+    validations:
+      required: true
+      
+  - type: textarea
+    id: mockup
+    attributes:
+      label: 界面设计（可选）
+      description: 如果涉及 UI 改动，可以提供设计草图或示意图
+      placeholder: 拖拽图片到这里或粘贴图片链接
+      
+  - type: textarea
+    id: examples
+    attributes:
+      label: 参考示例（可选）
+      description: 其他软件中类似的功能实现
+      placeholder: |
+        提供其他软件的参考示例...
+        例如：Ditto 中的...功能，Snipaste 中的...特性
+        
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 补充信息
+      description: 添加任何其他相关信息
+      placeholder: 任何能帮助理解这个功能请求的额外信息
+      
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 检查清单
+      description: 请确认以下内容
+      options:
+        - label: 我已经搜索过现有的 Issues
+          required: true
+        - label: 这个功能符合 QuickClipboard 的产品定位
+          required: true
+        - label: 我愿意参与讨论并提供更多细节
+          required: true
+

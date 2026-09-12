@@ -1,0 +1,567 @@
+/* =================== 背景主题样式 =================== */
+
+/* 基础透明背景 */
+body.theme-background {
+  background: transparent;
+
+  --theme-superbg-blur-scale: 1;
+  --theme-superbg-blur-4: calc(4px * var(--theme-superbg-blur-scale, 1));
+  --theme-superbg-blur-6: calc(6px * var(--theme-superbg-blur-scale, 1));
+  --theme-superbg-blur-8: calc(8px * var(--theme-superbg-blur-scale, 1));
+  --theme-superbg-blur-10: calc(10px * var(--theme-superbg-blur-scale, 1));
+  --theme-superbg-blur-12: calc(12px * var(--theme-superbg-blur-scale, 1));
+  --theme-superbg-blur-16: calc(16px * var(--theme-superbg-blur-scale, 1));
+  --theme-superbg-blur-24: calc(24px * var(--theme-superbg-blur-scale, 1));
+
+  --qc-surface: rgba(255, 255, 255, 0.08);
+  --qc-panel: rgba(255, 255, 255, 0.18);
+  --qc-panel-2: rgba(255, 255, 255, 0.26);
+  --qc-border: rgba(255, 255, 255, 0.22);
+  --qc-border-strong: rgba(255, 255, 255, 0.32);
+  --qc-hover: rgba(255, 255, 255, 0.18);
+  --qc-active: color-mix(in srgb, var(--bg-dynamic-primary, #3b82f6) 18%, transparent);
+  --qc-accent: var(--bg-dynamic-primary, #3b82f6);
+  --qc-accent-hover: var(--bg-dynamic-dark, #2563eb);
+
+  --qc-toggle-track-off: color-mix(in srgb, var(--bg-dynamic-primary, #3b82f6) 22%, var(--bg-titlebar-bg, #ffffff));
+  --qc-toggle-track-on: var(--bg-dynamic-primary, #3b82f6);
+  --qc-toggle-thumb: rgba(255, 255, 255, 0.78);
+
+  --theme-100: var(--qc-surface);
+  --theme-200: var(--qc-panel);
+  --theme-300: var(--qc-panel-2);
+  --theme-400: var(--qc-hover);
+  --theme-500: var(--qc-active);
+  --theme-600: var(--qc-border);
+  --theme-700: var(--qc-border-strong);
+
+  --theme-superbg-classic-100: var(--qc-surface);
+  --theme-superbg-classic-200: var(--qc-panel);
+  --theme-superbg-classic-300: var(--qc-panel-2);
+  --theme-superbg-classic-400: var(--qc-hover);
+  --theme-superbg-classic-500: var(--qc-active);
+  --theme-superbg-classic-600: var(--qc-border);
+  --theme-superbg-classic-700: var(--qc-border-strong);
+}
+
+.theme-background .backdrop-blur-sm {
+  backdrop-filter: blur(var(--theme-superbg-blur-4));
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-4));
+}
+
+.theme-background .backdrop-blur-md {
+  backdrop-filter: blur(var(--theme-superbg-blur-12));
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-12));
+}
+
+.theme-background .backdrop-blur-lg {
+  backdrop-filter: blur(var(--theme-superbg-blur-16));
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-16));
+}
+
+.theme-background .backdrop-blur-xl {
+  backdrop-filter: blur(var(--theme-superbg-blur-24));
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-24));
+}
+
+.theme-background .backdrop-blur-\[6px\] {
+  backdrop-filter: blur(var(--theme-superbg-blur-6));
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-6));
+}
+
+.theme-background .after\:backdrop-blur-md::after {
+  backdrop-filter: blur(var(--theme-superbg-blur-12));
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-12));
+}
+
+.theme-background .main-container,
+.theme-background .settings-container {
+  background-color: transparent;
+}
+
+/* 动态标题栏样式 */
+.theme-background.has-dynamic-titlebar .title-bar,
+.theme-background.has-dynamic-titlebar .settings-header {
+  background-color: color-mix(in srgb, var(--bg-titlebar-bg, rgb(240, 240, 240)) 100%, transparent);
+  color: var(--bg-titlebar-text, #333333);
+  border-bottom-color: var(--bg-titlebar-border, rgba(232, 233, 234, 0.8));
+  transition: all 0.3s ease;
+  z-index: 999999;
+}
+
+/* 标题栏未激活按钮 */
+.theme-background.has-dynamic-titlebar .title-bar button:not(.bg-blue-500) {
+  color: var(--bg-titlebar-text, #333333) !important;
+}
+
+.theme-background.has-dynamic-titlebar .tab-navigation button:not(.bg-blue-500) {
+  color: var(--bg-titlebar-text, #333333) !important;
+}
+
+.theme-background.has-dynamic-titlebar .settings-header button svg {
+  color: var(--bg-titlebar-text, #333333) !important;
+}
+
+.theme-background.has-dynamic-titlebar .title-bar button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]),
+.theme-background.has-dynamic-titlebar .settings-header button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]),
+.theme-background.has-dynamic-titlebar .tools-panel button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]),
+.theme-background.has-dynamic-titlebar .groups-panel button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]),
+.theme-background.has-dynamic-titlebar .tab-bar button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]),
+.theme-background.has-dynamic-titlebar .footer-bar button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]) {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: var(--bg-dynamic-primary, #4a89dc) !important;
+  transition: all 0.2s ease !important;
+}
+
+.theme-background.has-dynamic-titlebar .title-bar button.bg-dynamic-primary {
+  background-color: var(--bg-dynamic-primary, #4a89dc);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.theme-background.has-dynamic-titlebar .title-bar button.bg-dynamic-primary:hover {
+  background-color: var(--bg-dynamic-dark, #3b7ac9);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+}
+
+.theme-background.has-dynamic-titlebar #tools-toggle {
+  color: var(--bg-titlebar-text, #333333);
+  transition: all 0.2s ease;
+}
+
+.theme-background.has-dynamic-titlebar #tools-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: var(--bg-dynamic-primary, #4a89dc) !important;
+}
+
+/* 工具面板按钮 */
+.theme-background.has-dynamic-titlebar .tools-panel button:not(.bg-blue-500) {
+  color: var(--bg-titlebar-text, #333333) !important;
+}
+
+.theme-background.has-dynamic-titlebar .groups-panel button:not(.bg-blue-500) {
+  color: #374151 !important;
+}
+
+.theme-background.has-dynamic-titlebar .groups-panel button.bg-blue-500 {
+  background-color: var(--bg-dynamic-primary, #4a89dc) !important;
+  color: #ffffff !important;
+}
+
+.theme-background.has-dynamic-titlebar .settings-header button.hover\:bg-red-50:hover {
+  background-color: rgba(244, 67, 54, 0.15);
+}
+
+/* 搜索框和图标样式 */
+.theme-background.has-dynamic-titlebar .titlebar-search input {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--bg-titlebar-border, rgba(229, 231, 235, 0.8));
+  color: var(--bg-titlebar-text, #333333);
+}
+
+.theme-background.has-dynamic-titlebar .titlebar-search button {
+  color: var(--bg-titlebar-text, #333333) !important;
+  transition: all 0.2s ease;
+}
+
+.theme-background.has-dynamic-titlebar .titlebar-search button:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: var(--bg-dynamic-primary, #4a89dc) !important;
+}
+
+.theme-background.has-dynamic-titlebar .titlebar-search input:focus {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: var(--bg-dynamic-primary, #4a89dc);
+}
+
+/* 面板样式 */
+.theme-background.has-dynamic-titlebar .tools-panel {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+  border-color: var(--bg-titlebar-border, rgba(229, 231, 235, 0.8)) !important;
+  backdrop-filter: blur(var(--theme-superbg-blur-12)) !important;
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-12)) !important;
+  background-color: color-mix(in srgb, var(--bg-titlebar-bg, rgb(240, 240, 240)) 100%) !important;
+  z-index: 50;
+}
+
+/* 悬浮工具栏*/
+.theme-background.has-dynamic-titlebar .absolute.right-4.flex.flex-col.rounded-md.shadow-lg {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid var(--bg-titlebar-border, rgba(229, 231, 235, 0.8)) !important;
+  backdrop-filter: blur(var(--theme-superbg-blur-10)) !important;
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-10)) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* 悬浮工具栏按钮 */
+.theme-background.has-dynamic-titlebar .absolute.right-4.flex.flex-col.rounded-md.shadow-lg button {
+  background-color: var(--bg-dynamic-primary, #4a89dc) !important;
+  color: white !important;
+  border: 1px solid var(--bg-dynamic-dark, #3b7ac9) !important;
+  transition: all 0.2s ease !important;
+}
+
+.theme-background.has-dynamic-titlebar .absolute.right-4.flex.flex-col.rounded-md.shadow-lg button:hover {
+  background-color: var(--bg-dynamic-dark, #3b7ac9) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* 拖拽手柄  */
+.theme-background.has-dynamic-titlebar .absolute.right-4.flex.flex-col.rounded-md.shadow-lg .cursor-grab,
+.theme-background.has-dynamic-titlebar .absolute.right-4.flex.flex-col.rounded-md.shadow-lg .cursor-grabbing {
+  color: var(--bg-dynamic-primary, #4a89dc) !important;
+  background-color: rgba(255, 255, 255, 0.3) !important;
+  border-radius: 4px !important;
+  margin-top: 4px !important;
+}
+
+/* 暗色主题下的悬浮工具栏 */
+.theme-background.has-dynamic-titlebar.dark .absolute.right-4.flex.flex-col.rounded-md.shadow-lg {
+  background-color: rgba(30, 41, 59, 0.85) !important;
+  border-color: rgba(75, 85, 99, 0.6) !important;
+}
+
+.theme-background.has-dynamic-titlebar.dark .absolute.right-4.flex.flex-col.rounded-md.shadow-lg button {
+  background-color: var(--bg-dynamic-primary, #4a89dc) !important;
+  border-color: var(--bg-dynamic-dark, #3b7ac9) !important;
+}
+
+.theme-background.has-dynamic-titlebar.dark .absolute.right-4.flex.flex-col.rounded-md.shadow-lg .cursor-grab,
+.theme-background.has-dynamic-titlebar.dark .absolute.right-4.flex.flex-col.rounded-md.shadow-lg .cursor-grabbing {
+  color: var(--bg-dynamic-primary, #4a89dc) !important;
+  background-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.theme-background.has-dynamic-titlebar .groups-panel {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: var(--bg-titlebar-border, rgba(229, 231, 235, 0.8));
+  backdrop-filter: blur(var(--theme-superbg-blur-10));
+}
+
+.theme-background.has-dynamic-titlebar .row-height-menu,
+.theme-background.has-dynamic-titlebar .group-modal {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: var(--bg-titlebar-border, rgba(229, 231, 235, 0.8));
+  backdrop-filter: blur(var(--theme-superbg-blur-12));
+  z-index: 999;
+  position: relative;
+}
+
+/* 侧边栏毛玻璃效果 */
+.theme-background .settings-sidebar {
+  background-color: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(var(--theme-superbg-blur-6)) !important;
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-6)) !important;
+  border-right-color: rgba(229, 231, 235, 0.8);
+}
+
+/* 设置窗口 Tab 栏毛玻璃效果 */
+
+/* 设置窗口搜索框增强透明度 */
+.theme-background .settings-header input[type="text"][placeholder*="搜索"] {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(229, 231, 235, 0.6) !important;
+  backdrop-filter: blur(var(--theme-superbg-blur-4)) !important;
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-4)) !important;
+}
+
+.theme-background .settings-header input[type="text"][placeholder*="搜索"]:focus {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+  border-color: var(--bg-dynamic-primary, #4a89dc) !important;
+  backdrop-filter: blur(var(--theme-superbg-blur-8)) !important;
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-8)) !important;
+}
+
+.theme-background .settings-container main {
+  background-color: transparent !important;
+}
+
+.theme-background .settings-section-header {
+  backdrop-filter: blur(var(--theme-superbg-blur-10));
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-10));
+}
+
+/* 暗色主题下的设置窗口样式 */
+.theme-background.dark .settings-header {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  border-bottom-color: rgba(75, 85, 99, 0.5);
+  backdrop-filter: blur(var(--theme-superbg-blur-8)) !important;
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-8)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.theme-background.dark .settings-sidebar {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  border-right-color: rgba(75, 85, 99, 0.5);
+  backdrop-filter: blur(var(--theme-superbg-blur-8)) !important;
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-8)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.theme-background.dark .settings-container .bg-white,
+.theme-background.dark .settings-container .dark\:bg-gray-800,
+.theme-background.dark .settings-container .settings-section-content {
+  background-color: rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(var(--theme-superbg-blur-12)) !important;
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-12)) !important;
+}
+
+
+
+.theme-background .tools-panel {
+  backdrop-filter: blur(var(--theme-superbg-blur-10));
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-10));
+}
+
+
+.theme-background.has-dynamic-titlebar .footer-bar {
+  background-color: var(--bg-titlebar-bg, rgb(240, 240, 240)) !important;
+  border-top-color: var(--bg-titlebar-border, rgba(232, 233, 234, 0.8)) !important;
+  color: var(--bg-titlebar-text, #333333) !important;
+}
+
+.theme-background.has-dynamic-titlebar .tab-bar {
+  background-color: var(--bg-titlebar-bg, rgb(240, 240, 240)) !important;
+  border-bottom-color: var(--bg-titlebar-border, rgba(232, 233, 234, 0.8)) !important;
+  color: var(--bg-titlebar-text, #333333) !important;
+}
+
+.theme-background.has-dynamic-titlebar .multi-select-action-bar {
+  background-color: var(--bg-titlebar-bg, rgb(240, 240, 240)) !important;
+  border-top-color: var(--bg-titlebar-border, rgba(232, 233, 234, 0.8)) !important;
+}
+
+.theme-background .multi-select-action-bar {
+  background-color: var(--bg-titlebar-bg, rgb(240, 240, 240)) !important;
+  border-top-color: var(--bg-titlebar-border, rgba(232, 233, 234, 0.8)) !important;
+}
+
+.theme-background .main-content-area::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 8px;
+  pointer-events: none;
+  background-color: transparent;
+  backdrop-filter: blur(var(--theme-superbg-blur-8));
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-8));
+}
+
+
+.theme-background.has-dynamic-titlebar .footer-bar button {
+  color: var(--bg-titlebar-text, #333333) !important;
+}
+
+.theme-background.has-dynamic-titlebar .footer-bar button:hover {
+  color: var(--bg-dynamic-primary, #4a89dc) !important;
+}
+
+.theme-background .settings-section-content,
+.theme-background .settings-container .card {
+  backdrop-filter: blur(var(--theme-superbg-blur-10));
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-10));
+}
+
+.theme-background .settings-tab-bar {
+  backdrop-filter: blur(var(--theme-superbg-blur-10));
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-10));
+}
+
+.theme-background .clipboard-item,
+.theme-background .favorite-item {
+  backdrop-filter: blur(var(--theme-superbg-blur-10));
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-10));
+}
+
+/* 动态主题色应用 */
+.theme-background.has-dynamic-titlebar .bg-blue-500 {
+  background-color: var(--bg-dynamic-primary, #4a89dc);
+}
+
+.theme-background.has-dynamic-titlebar .bg-blue-600 {
+  background-color: var(--bg-dynamic-dark, #3b7ac9);
+}
+
+.theme-background.has-dynamic-titlebar .bg-blue-50 {
+  background-color: var(--bg-dynamic-light, #e6f7ff);
+}
+
+.theme-background.has-dynamic-titlebar .text-blue-500,
+.theme-background.has-dynamic-titlebar .text-blue-600 {
+  color: var(--bg-dynamic-primary, #4a89dc);
+}
+
+.theme-background.has-dynamic-titlebar .border-blue-500,
+.theme-background.has-dynamic-titlebar .border-blue-200 {
+  border-color: var(--bg-dynamic-primary, #4a89dc);
+}
+
+
+.theme-background.has-dynamic-titlebar button[role="switch"][aria-checked="true"] {
+  background-color: var(--bg-dynamic-primary, #4a89dc);
+}
+
+.theme-background.has-dynamic-titlebar.dark .title-bar button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]),
+.theme-background.has-dynamic-titlebar.dark .settings-header button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]),
+.theme-background.has-dynamic-titlebar.dark .tools-panel button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]),
+.theme-background.has-dynamic-titlebar.dark .groups-panel button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]),
+.theme-background.has-dynamic-titlebar.dark .tab-bar button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]),
+.theme-background.has-dynamic-titlebar.dark .footer-bar button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]) {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: var(--bg-dynamic-primary, #4a89dc) !important;
+}
+
+
+.theme-background.has-dynamic-titlebar.dark .settings-header button svg {
+  color: var(--bg-titlebar-text, #ffffff) !important;
+}
+
+.theme-background.has-dynamic-titlebar.dark #tools-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: var(--bg-dynamic-primary, #4a89dc) !important;
+}
+
+.theme-background.has-dynamic-titlebar.dark .titlebar-search button:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: var(--bg-dynamic-primary, #4a89dc) !important;
+}
+
+
+.theme-background.has-dynamic-titlebar.dark .footer-bar button {
+  color: var(--bg-titlebar-text, #e0e0e0) !important;
+}
+
+
+.theme-background.has-dynamic-titlebar.dark .footer-bar button:hover {
+  color: var(--bg-dynamic-primary, #4a89dc) !important;
+}
+
+
+.theme-background.has-dynamic-titlebar.dark .titlebar-search input {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(75, 85, 99, 0.5);
+  color: var(--bg-titlebar-text, #e0e0e0);
+}
+
+.theme-background.has-dynamic-titlebar.dark .titlebar-search input:focus {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-color: var(--bg-dynamic-primary, #4a89dc);
+}
+
+
+.theme-background.dark .settings-header input[type="text"][placeholder*="搜索"] {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  border-color: rgba(75, 85, 99, 0.4) !important;
+  backdrop-filter: blur(var(--theme-superbg-blur-4)) !important;
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-4)) !important;
+  color: var(--bg-titlebar-text, #e0e0e0) !important;
+}
+
+.theme-background.dark .settings-header input[type="text"][placeholder*="搜索"]:focus {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  border-color: var(--bg-dynamic-primary, #4a89dc) !important;
+  backdrop-filter: blur(var(--theme-superbg-blur-8)) !important;
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-8)) !important;
+}
+
+
+/* EmojiTab 侧边栏和搜索栏 */
+.theme-background.has-dynamic-titlebar .emoji-sidebar {
+  background-color: color-mix(in srgb, var(--bg-titlebar-bg, rgb(240, 240, 240)) 35%, transparent) !important;
+  border-right-color: var(--bg-titlebar-border, rgba(232, 233, 234, 0.8)) !important;
+  backdrop-filter: blur(var(--theme-superbg-blur-12)) !important;
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-12)) !important;
+}
+
+.theme-background.has-dynamic-titlebar .emoji-sidebar button {
+  color: var(--bg-titlebar-text, #333333) !important;
+}
+
+.theme-background.has-dynamic-titlebar .emoji-sidebar button:hover:not(.bg-blue-100):not(.text-blue-600) {
+  background-color: var(--bg-dynamic-primary, #4a89dc) !important;
+  color: #ffffff !important;
+}
+
+.theme-background.has-dynamic-titlebar .emoji-sidebar button.bg-blue-100,
+.theme-background.has-dynamic-titlebar .emoji-sidebar button.text-blue-600 {
+  background-color: var(--bg-dynamic-primary, #4a89dc) !important;
+  color: #ffffff !important;
+}
+
+.theme-background.has-dynamic-titlebar .emoji-search-bar {
+  background-color: color-mix(in srgb, var(--bg-titlebar-bg, rgb(240, 240, 240)) 35%, transparent) !important;
+  border-bottom-color: var(--bg-titlebar-border, rgba(232, 233, 234, 0.8)) !important;
+  backdrop-filter: blur(var(--theme-superbg-blur-12)) !important;
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-12)) !important;
+}
+
+.theme-background.has-dynamic-titlebar .emoji-search-bar i {
+  color: var(--bg-titlebar-text, #333333) !important;
+  opacity: 0.7;
+}
+
+.theme-background.has-dynamic-titlebar .emoji-search-bar input {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  border-color: var(--bg-titlebar-border, rgba(229, 231, 235, 0.8)) !important;
+  color: var(--bg-titlebar-text, #333333) !important;
+}
+
+.theme-background.has-dynamic-titlebar .emoji-search-bar input::placeholder {
+  color: var(--bg-titlebar-text, #333333) !important;
+  opacity: 0.5;
+}
+
+.theme-background.has-dynamic-titlebar .emoji-search-bar input:focus {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+  border-color: var(--bg-dynamic-primary, #4a89dc) !important;
+}
+
+.theme-background.has-dynamic-titlebar .emoji-search-bar button {
+  color: var(--bg-titlebar-text, #333333) !important;
+}
+
+.theme-background.has-dynamic-titlebar .emoji-search-bar button:hover {
+  color: var(--bg-dynamic-primary, #4a89dc) !important;
+}
+
+.theme-background.has-dynamic-titlebar .emoji-content .text-gray-700,
+.theme-background.has-dynamic-titlebar .emoji-content .text-gray-500,
+.theme-background.has-dynamic-titlebar .emoji-content .text-gray-400 {
+  color: var(--bg-titlebar-text, #333333) !important;
+}
+
+.theme-background.has-dynamic-titlebar .emoji-content button {
+  color: var(--bg-titlebar-text, #333333) !important;
+}
+
+.theme-background.has-dynamic-titlebar .emoji-content .bg-gray-50,
+.theme-background.has-dynamic-titlebar .emoji-content .bg-gray-800 {
+  background-color: color-mix(in srgb, var(--bg-titlebar-bg, rgb(240, 240, 240)) 50%, transparent) !important;
+}
+
+.theme-background.has-dynamic-titlebar .emoji-content .sticky {
+  background-color: color-mix(in srgb, var(--bg-titlebar-bg, rgb(240, 240, 240)) 35%, transparent) !important;
+  backdrop-filter: blur(var(--theme-superbg-blur-12)) !important;
+  -webkit-backdrop-filter: blur(var(--theme-superbg-blur-12)) !important;
+  color: var(--bg-titlebar-text, #333333) !important;
+}
+
+@media (prefers-reduced-transparency) {
+
+  .theme-background .main-container,
+  .theme-background .settings-container {
+    backdrop-filter: none;
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+
+  .theme-background .settings-sidebar,
+  .theme-background .clipboard-item,
+  .theme-background .favorite-item,
+  .theme-background .card {
+    backdrop-filter: none;
+  }
+}

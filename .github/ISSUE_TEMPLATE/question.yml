@@ -1,0 +1,95 @@
+name: ❓ 问题咨询
+description: 关于使用、配置或其他方面的问题
+title: "[Question] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        欢迎提问！🤔
+        
+        提示：
+        - 💡 简单的使用问题可以先查看[官方网站](https://quickclipboard.cn/)或[哔哩哔哩教程](https://space.bilibili.com/438982697)
+        - 💬 深入讨论可以前往 [Discussions](https://github.com/mosheng1/QuickClipboard/discussions)
+        
+  - type: dropdown
+    id: question-type
+    attributes:
+      label: 问题类型
+      description: 选择最符合你问题的类型
+      options:
+        - 使用方法
+        - 配置设置
+        - 故障排查
+        - 功能咨询
+        - 兼容性问题
+        - 其他问题
+    validations:
+      required: true
+      
+  - type: textarea
+    id: question
+    attributes:
+      label: 问题描述
+      description: 详细描述你的问题
+      placeholder: |
+        请清晰地描述你的问题...
+        包含具体的场景和想要达到的效果
+    validations:
+      required: true
+      
+  - type: textarea
+    id: tried
+    attributes:
+      label: 已尝试的方法
+      description: 你已经尝试过什么方法？
+      placeholder: |
+        描述你已经尝试过的操作...
+        例如：我尝试了...但是...
+        
+  - type: input
+    id: version
+    attributes:
+      label: 软件版本
+      description: 你正在使用的 QuickClipboard 版本号
+      placeholder: 例如：v0.0.6
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: os
+    attributes:
+      label: 操作系统
+      description: 你使用的 Windows 版本
+      options:
+        - Windows 11
+        - Windows 10
+        - Windows 其他版本
+    validations:
+      required: true
+      
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 相关截图
+      description: 如果适用，添加截图来帮助说明问题
+      placeholder: 拖拽图片到这里或粘贴图片链接
+      
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 补充信息
+      description: 添加任何其他相关信息
+      placeholder: 任何能帮助回答你问题的额外信息
+      
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 检查清单
+      description: 请确认以下内容
+      options:
+        - label: 我已经查看过官方文档和教程
+          required: false
+        - label: 我已经搜索过现有的 Issues
+          required: true
+

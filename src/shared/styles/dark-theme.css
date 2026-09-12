@@ -1,0 +1,33 @@
+/* =================== 暗色主题样式（经典） =================== */
+
+body.theme-dark.theme-dark-classic {
+  --qc-fg: #e0e0e0;
+  --qc-fg-muted: #c7c7c7;
+  --qc-fg-subtle: #9a9a9a;
+
+  --qc-surface: #1e1e1e;
+  --qc-panel: #2a2a2a;
+  --qc-panel-2: #333333;
+
+  --qc-hover: rgba(255, 255, 255, 0.08);
+  --qc-active: rgba(74, 137, 220, 0.18);
+  --qc-accent: #4a89dc;
+  --qc-accent-hover: #5b95e1;
+  --qc-border: rgba(255, 255, 255, 0.12);
+  --qc-border-strong: rgba(255, 255, 255, 0.22);
+  --qc-toggle-track-off: #4a4a4a;
+  --qc-toggle-track-on: var(--qc-accent);
+  --qc-toggle-thumb: #f5f5f5;
+
+  --theme-dark-classic-100: var(--qc-surface);
+  --theme-dark-classic-200: var(--qc-panel);
+  --theme-dark-classic-300: var(--qc-panel-2);
+  --theme-dark-classic-400: var(--qc-hover);
+  --theme-dark-classic-500: var(--qc-active);
+  --theme-dark-classic-600: var(--qc-border);
+  --theme-dark-classic-700: var(--qc-border-strong);
+}
+
+body.theme-dark.theme-dark-classic {
+  color: var(--qc-fg);
+}
