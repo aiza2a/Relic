@@ -139,8 +139,6 @@ fn create_tables(conn: &Connection) -> Result<(), String> {
         [],
     ).map_err(|e| format!("创建分组表失败: {}", e))?;
 
-    conn.execute(
-    
     if !color_exists {
         conn.execute(
             "ALTER TABLE groups ADD COLUMN color TEXT NOT NULL DEFAULT '#dc2626'",
@@ -343,9 +341,6 @@ fn create_tables(conn: &Connection) -> Result<(), String> {
         [],
     ).map_err(|e| format!("创建收藏来源历史唯一索引失败: {}", e))?;
 
-    conn.execute(
-        [],
-    ).map_err(|e| format!("创建同步删除状态索引失败: {}", e))?;
     migrate_favorites_auto_titles(conn);
 
     Ok(())

@@ -272,7 +272,7 @@ mod tests {
         assert_eq!(normalize_group_icon("   "), "ti ti-folder");
         assert_eq!(normalize_group_icon(" ti ti-star "), "ti ti-star");
     }
-
+}
 
 // 更新分组排序
 pub fn reorder_groups(group_orders: Vec<(String, i32)>) -> Result<(), String> {
