@@ -61,7 +61,7 @@ pub fn detect_blocking_previous_instance() -> Option<String> {
     }
 
     Some(format!(
-        "检测到一个可能异常卡住的旧进程，阻止了新实例正常启动。\n\n旧进程 PID：{}\n旧进程停留阶段：{}\n\n请先在任务管理器中结束该 QuickClipboard 进程，然后重新启动应用。\n\n如果问题仍然出现，请将此窗口截图反馈给开发者。",
+        "检测到一个可能异常卡住的旧进程，阻止了新实例正常启动。\n\n旧进程 PID：{}\n旧进程停留阶段：{}\n\n请先在任务管理器中结束该 Relic 进程，然后重新启动应用。\n\n如果问题仍然出现，请将此窗口截图反馈给开发者。",
         status.pid,
         status.stage
     ))
@@ -108,7 +108,7 @@ pub fn install_panic_hook() {
             if startup_state == "starting" && !suppress_dialog {
                 *STARTUP_STATE.write() = "panic".to_string();
                 persist_status();
-                show_error_dialog("QuickClipboard 启动异常", &detail);
+                show_error_dialog("Relic 启动异常", &detail);
             }
 
             default_hook(panic_info);
@@ -129,7 +129,7 @@ pub fn report_startup_error(summary: &str, error: impl std::fmt::Display) {
         summary,
         error
     );
-    show_error_dialog("QuickClipboard 启动失败", &detail);
+    show_error_dialog("Relic 启动失败", &detail);
 }
 
 #[cfg(windows)]
@@ -230,13 +230,13 @@ fn read_status() -> Option<StartupStatus> {
 }
 
 fn status_file_path() -> Option<PathBuf> {
-    let base_dir = dirs::data_local_dir()?.join("quickclipboard");
+    let base_dir = dirs::data_local_dir()?.join("relic");
     fs::create_dir_all(&base_dir).ok()?;
     Some(base_dir.join("startup-status.json"))
 }
 
 fn panic_log_file_path() -> Option<PathBuf> {
-    let base_dir = dirs::data_local_dir()?.join("quickclipboard");
+    let base_dir = dirs::data_local_dir()?.join("relic");
     fs::create_dir_all(&base_dir).ok()?;
     Some(base_dir.join("startup-panic.log"))
 }

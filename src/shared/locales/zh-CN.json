@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "QuickClipboard",
+    "title": "Relic",
     "subtitle": "React 版本 - 开发中",
     "description": "这是一个基础的 React 项目框架"
   },
@@ -219,7 +219,7 @@
       "languageChanged": "语言已切换",
       "languageChangeFailed": "切换语言失败",
       "autoStart": "开机自启动",
-      "autoStartDesc": "系统启动时自动运行快速剪贴板",
+      "autoStartDesc": "系统启动时自动运行 Relic",
       "autoStartEnabled": "已启用开机自启动",
       "autoStartDisabled": "已禁用开机自启动",
       "autoStartFailed": "设置开机自启动失败",
@@ -234,7 +234,7 @@
       "startupNotification": "启动通知",
       "startupNotificationDesc": "应用启动时显示系统通知",
       "autoLowMemory": "自动进入低占用模式",
-      "autoLowMemoryDesc": "当 QuickClipboard 的所有窗口在一段时间内都没有交互时，自动进入低占用模式",
+      "autoLowMemoryDesc": "当 Relic 的所有窗口在一段时间内都没有交互时，自动进入低占用模式",
       "autoLowMemoryIdleMinutes": "窗口空闲时长",
       "autoLowMemoryIdleMinutesDesc": "超过该时长仍未与任意窗口交互时，自动进入低占用模式",
       "autoExitLowMemoryMode": "自动退出低占用模式",
@@ -242,7 +242,7 @@
       "memoryOptimization": "内存优化",
       "memoryOptimizationDesc": "开启此项后，窗口在后台时可大幅降低内存占用，但如果遇到卡顿问题请关闭此项",
       "showTrayIcon": "显示托盘图标",
-      "showTrayIconDesc": "在系统托盘区域显示 QuickClipboard 图标，隐藏后可通过快捷键打开设置界面重新显示",
+      "showTrayIconDesc": "在系统托盘区域显示 Relic 图标，隐藏后可通过快捷键打开设置界面重新显示",
       "tooltipsEnabled": "显示提示框",
       "tooltipsEnabledDesc": "鼠标悬停或聚焦元素时显示提示信息",
       "historyLimit": "剪贴板历史数量",
@@ -707,7 +707,7 @@
       "resetAllSuccess": "已重置所有数据",
       "resetAllFailed": "重置所有数据失败: {{message}}",
       "migrationConflictTitle": "目标位置已有数据",
-      "migrationConflictDesc": "检测到目标位置已存在 QuickClipboard 数据，请选择如何处理：",
+      "migrationConflictDesc": "检测到目标位置已存在 Relic 数据，请选择如何处理：",
       "targetHasDatabase": "数据库",
       "targetHasImages": "图片",
       "targetHasImageLibrary": "图库",

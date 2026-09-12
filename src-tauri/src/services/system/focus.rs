@@ -273,7 +273,7 @@ unsafe extern "system" fn focus_callback(
         || class_name == "#32768"
         || class_name == "DropDown"
         || class_name == "Xaml_WindowedPopupClass"
-        || name == "快速剪贴板"
+        || name == "Relic"
         || name == "菜单" {
         return;
     }

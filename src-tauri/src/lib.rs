@@ -64,7 +64,7 @@ pub fn run() {
     startup_diagnostics::mark_starting();
     security::check_webview_security();
     if let Some(message) = startup_diagnostics::detect_blocking_previous_instance() {
-        startup_diagnostics::show_error_dialog("QuickClipboard 检测到异常旧进程", &message);
+        startup_diagnostics::show_error_dialog("Relic 检测到异常旧进程", &message);
         return;
     }
     #[cfg(windows)]
@@ -322,11 +322,11 @@ pub fn run() {
                 }
 
                 startup_diagnostics::set_startup_stage("执行 setup：初始化数据库");
-                let db_path_buf = get_data_directory()?.join("quickclipboard.db");
+                let db_path_buf = get_data_directory()?.join("relic.db");
                 let db_path_str = db_path_buf.to_str().ok_or("数据库路径无效")?;
                 if let Err(e1) = services::database::init_database(db_path_str) {
                     if let Some(dir) = db_path_buf.parent() {
-                        for name in ["quickclipboard.db-wal", "quickclipboard.db-shm"] {
+                        for name in ["relic.db-wal", "relic.db-shm"] {
                             let p = dir.join(name);
                             if p.exists() { let _ = fs::remove_file(&p); }
                         }

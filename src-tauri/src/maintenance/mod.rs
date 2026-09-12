@@ -24,33 +24,33 @@ pushd \"%~dp0\"\r\n\
 \r\n\
 set \"EXE=\"\r\n\
 \r\n\
-if exist \"%~dp0QuickClipboard.exe\" (\r\n\
-    set \"EXE=%~dp0QuickClipboard.exe\"\r\n\
+if exist \"%~dp0Relic.exe\" (\r\n\
+    set \"EXE=%~dp0Relic.exe\"\r\n\
 )\r\n\
 if not defined EXE (\r\n\
-    if exist \"%~dp0quickclipboard.exe\" (\r\n\
-        set \"EXE=%~dp0quickclipboard.exe\"\r\n\
+    if exist \"%~dp0relic.exe\" (\r\n\
+        set \"EXE=%~dp0relic.exe\"\r\n\
     )\r\n\
 )\r\n\
 if not defined EXE (\r\n\
-    if exist \"%~dp0target\\debug\\QuickClipboard.exe\" (\r\n\
-        set \"EXE=%~dp0target\\debug\\QuickClipboard.exe\"\r\n\
+    if exist \"%~dp0target\\debug\\Relic.exe\" (\r\n\
+        set \"EXE=%~dp0target\\debug\\Relic.exe\"\r\n\
     )\r\n\
 )\r\n\
 if not defined EXE (\r\n\
-    if exist \"%~dp0target\\release\\QuickClipboard.exe\" (\r\n\
-        set \"EXE=%~dp0target\\release\\QuickClipboard.exe\"\r\n\
+    if exist \"%~dp0target\\release\\Relic.exe\" (\r\n\
+        set \"EXE=%~dp0target\\release\\Relic.exe\"\r\n\
     )\r\n\
 )\r\n\
 \r\n\
 if not defined EXE (\r\n\
-    echo [ERROR] QuickClipboard.exe not found\r\n\
-    echo Please place this .bat next to QuickClipboard.exe\r\n\
+    echo [ERROR] Relic.exe not found\r\n\
+    echo Please place this .bat next to Relic.exe\r\n\
     pause\r\n\
     exit /b 1\r\n\
 )\r\n\
 \r\n\
-set QUICKCLIPBOARD_MAINTENANCE=1\r\n\
+set RELIC_MAINTENANCE=1\r\n\
 start \"\" \"%EXE%\" --maintenance\r\n\
 \r\n\
 popd\r\n\
@@ -83,7 +83,7 @@ fn find_data_dir() -> Option<PathBuf> {
 }
 
 pub fn run() {
-    println!("QuickClipboard 维护模式");
+    println!("Relic 维护模式");
     println!("正在启动...\n");
 
     let data_dir = match find_data_dir() {
@@ -96,12 +96,12 @@ pub fn run() {
         }
     };
 
-    let db_path = data_dir.join("quickclipboard.db");
+    let db_path = data_dir.join("relic.db");
 
     if !db_path.exists() {
         eprintln!("错误: 数据库文件不存在");
         eprintln!("路径: {}", db_path.display());
-        eprintln!("请确保 QuickClipboard 至少运行过一次以生成数据库。");
+        eprintln!("请确保 Relic 至少运行过一次以生成数据库。");
         wait_for_key();
         return;
     }

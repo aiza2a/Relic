@@ -268,7 +268,7 @@ pub fn toggle_clipboard_monitor(app: &tauri::AppHandle) -> Result<(), String> {
     }
 
     let message = if enabled { "剪贴板监听已启用" } else { "剪贴板监听已禁用" };
-    let _ = crate::services::notification::show_notification(app, "QuickClipboard", message);
+    let _ = crate::services::notification::show_notification(app, "Relic", message);
     
     result
 }
@@ -290,7 +290,7 @@ pub fn toggle_paste_with_format(app: &tauri::AppHandle) -> Result<(), String> {
     }
 
     let message = if enabled { "格式粘贴已启用" } else { "格式粘贴已禁用" };
-    let _ = crate::services::notification::show_notification(app, "QuickClipboard", message);
+    let _ = crate::services::notification::show_notification(app, "Relic", message);
     
     result
 }

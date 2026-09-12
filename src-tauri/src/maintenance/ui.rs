@@ -548,7 +548,7 @@ pub fn draw(f: &mut Frame, app: &mut App) {
     let area = f.area();
 
     let outer = Block::bordered()
-        .title(" QuickClipboard 维护模式 ")
+        .title(" Relic 维护模式 ")
         .title_alignment(Alignment::Center)
         .border_style(Style::new().fg(Color::Cyan));
     let inner = outer.inner(area);

@@ -27,7 +27,7 @@ pub fn create_text_editor_window(
         &window_label,
         tauri::WebviewUrl::App(url.into()),
     )
-    .title("文本编辑器 - 快速剪贴板")
+    .title("文本编辑器 - Relic")
     .inner_size(900.0, 700.0)
     .min_inner_size(600.0, 400.0)
     .center()

@@ -48,7 +48,7 @@ mod windows_display_change_monitor {
             let mut init_msg = MSG::default();
             let _ = PeekMessageW(&mut init_msg, None, 0, 0, PM_NOREMOVE);
 
-            let class_name = w!("QuickClipboardDisplayChangeSink");
+            let class_name = w!("RelicDisplayChangeSink");
             let wnd_class = WNDCLASSEXW {
                 cbSize: size_of::<WNDCLASSEXW>() as u32,
                 style: CS_HREDRAW | CS_VREDRAW,

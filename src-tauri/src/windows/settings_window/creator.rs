@@ -7,7 +7,7 @@ pub fn create_settings_window(app: &AppHandle) -> Result<(), String> {
         "settings",
         tauri::WebviewUrl::App("windows/settings/index.html".into()),
     )
-    .title("设置 - 快速剪贴板")
+    .title("设置 - Relic")
     .inner_size(900.0, 630.0)
     .min_inner_size(800.0, 600.0)
     .center()

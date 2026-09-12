@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "QuickClipboard",
+    "title": "Relic",
     "subtitle": "React Version - In Development",
     "description": "This is a basic React project framework"
   },
@@ -219,7 +219,7 @@
       "languageChanged": "Language changed",
       "languageChangeFailed": "Failed to change language",
       "autoStart": "Auto Start",
-      "autoStartDesc": "Launch QuickClipboard automatically when system starts",
+      "autoStartDesc": "Launch Relic automatically when system starts",
       "autoStartEnabled": "Auto start enabled",
       "autoStartDisabled": "Auto start disabled",
       "autoStartFailed": "Failed to set auto start",
@@ -234,7 +234,7 @@
       "startupNotification": "Startup Notification",
       "startupNotificationDesc": "Show system notification when app starts",
       "autoLowMemory": "Auto Low Memory Mode",
-      "autoLowMemoryDesc": "Automatically enter low memory mode when none of the QuickClipboard windows have been interacted with for a while",
+      "autoLowMemoryDesc": "Automatically enter low memory mode when none of the Relic windows have been interacted with for a while",
       "autoLowMemoryIdleMinutes": "Window idle duration",
       "autoLowMemoryIdleMinutesDesc": "Automatically enter low memory mode when no window interaction occurs for the selected duration",
       "autoExitLowMemoryMode": "Auto Exit Low Memory Mode",
@@ -242,7 +242,7 @@
       "memoryOptimization": "Memory Optimization",
       "memoryOptimizationDesc": "Enabling this can greatly reduce memory usage while windows are in the background, but turn it off if you encounter stuttering.",
       "showTrayIcon": "Show Tray Icon",
-      "showTrayIconDesc": "Show QuickClipboard icon in the system tray. When hidden, use shortcut to open settings and re-enable",
+      "showTrayIconDesc": "Show Relic icon in the system tray. When hidden, use shortcut to open settings and re-enable",
       "tooltipsEnabled": "Show Tooltips",
       "tooltipsEnabledDesc": "Show hints when hovering or focusing on elements",
       "historyLimit": "History Limit",
@@ -706,7 +706,7 @@
       "resetAllSuccess": "All data has been reset",
       "resetAllFailed": "Reset all data failed: {{message}}",
       "migrationConflictTitle": "Data Exists at Target",
-      "migrationConflictDesc": "QuickClipboard data already exists at the target location. Please choose how to proceed:",
+      "migrationConflictDesc": "Relic data already exists at the target location. Please choose how to proceed:",
       "targetHasDatabase": "Database",
       "targetHasImages": "Images",
       "targetHasImageLibrary": "Image Library",

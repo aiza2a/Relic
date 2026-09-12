@@ -55,7 +55,7 @@ impl SettingsStorage {
 
         Ok(dirs::data_local_dir()
             .ok_or("无法获取数据目录")?
-            .join("quickclipboard"))
+            .join("relic"))
     }
 
     pub fn get_settings_path() -> Result<PathBuf, String> {

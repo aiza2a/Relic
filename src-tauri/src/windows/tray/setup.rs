@@ -33,7 +33,7 @@ pub fn setup_tray(app: &AppHandle) -> Result<(), Box<dyn std::error::Error>> {
     let click_handler = create_click_handler(app_handle.clone());
     
     let _tray = TrayIconBuilder::with_id("main-tray")
-        .tooltip("快速剪贴板")
+        .tooltip("Relic")
         .icon(icon)
         .show_menu_on_left_click(false)
         .on_menu_event(move |_app, event| {

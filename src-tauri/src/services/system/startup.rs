@@ -95,14 +95,14 @@ mod platform {
     use winreg::enums::{HKEY_CURRENT_USER, KEY_READ, KEY_SET_VALUE, REG_BINARY};
     use winreg::{RegKey, RegValue};
 
-    const APP_NAME: &str = "QuickClipboard";
+    const APP_NAME: &str = "Relic";
     const RUN_KEY: &str = r"Software\Microsoft\Windows\CurrentVersion\Run";
     const STARTUP_APPROVED_KEY: &str =
         r"Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run";
-    const STARTUP_STATE_KEY: &str = r"Software\QuickClipboard\Startup";
+    const STARTUP_STATE_KEY: &str = r"Software\Relic\Startup";
     const ADMIN_TASK_NAME_VALUE: &str = "AdminTaskName";
-    const LEGACY_ADMIN_TASK_NAME: &str = "QuickClipboardAdmin";
-    const ADMIN_TASK_PREFIX: &str = "QuickClipboardAdmin-";
+    const LEGACY_ADMIN_TASK_NAME: &str = "RelicAdmin";
+    const ADMIN_TASK_PREFIX: &str = "RelicAdmin-";
 
     struct ComApartment {
         should_uninitialize: bool,
@@ -537,7 +537,7 @@ mod platform {
             info.SetAuthor(&BSTR::from(APP_NAME))
                 .map_err(|error| format!("设置管理员任务作者失败: {error}"))?;
             info.SetDescription(&BSTR::from(
-                "用于 QuickClipboard 在管理员窗口中响应快捷键和模拟粘贴",
+                "用于 Relic 在管理员窗口中响应快捷键和模拟粘贴",
             ))
             .map_err(|error| format!("设置管理员任务说明失败: {error}"))?;
 
@@ -813,10 +813,10 @@ mod platform {
 
         #[test]
         fn registry_command_quotes_paths_without_startup_arguments() {
-            let path = Path::new(r"C:\程序 文件\QuickClipboard.exe");
+            let path = Path::new(r"C:\程序 文件\Relic.exe");
             assert_eq!(
                 expected_registry_command(path).unwrap(),
-                r#""C:\程序 文件\QuickClipboard.exe""#
+                r#""C:\程序 文件\Relic.exe""#
             );
         }
 
@@ -841,7 +841,7 @@ mod platform {
             let task_name = task_name_for_user(r"DOMAIN\User");
             assert_eq!(task_name, task_name_for_user(r"domain\user"));
             assert!(is_managed_task_name(&task_name));
-            assert!(!is_managed_task_name("QuickClipboardAdmin-../../OtherTask"));
+            assert!(!is_managed_task_name("RelicAdmin-../../OtherTask"));
         }
 
         #[test]

@@ -53,7 +53,7 @@ function DataManagementSection() {
       const ts = new Date();
       const pad = (n) => String(n).padStart(2, '0');
       const tsText = `${ts.getFullYear()}${pad(ts.getMonth() + 1)}${pad(ts.getDate())}_${pad(ts.getHours())}${pad(ts.getMinutes())}${pad(ts.getSeconds())}`;
-      const suggested = `quickclipboardData_${tsText}.zip`;
+      const suggested = `relicData_${tsText}.zip`;
 
       const target = await save({
         defaultPath: suggested,

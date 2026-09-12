@@ -106,7 +106,7 @@ mod windows_raw_input {
             let mut init_msg = MSG::default();
             let _ = PeekMessageW(&mut init_msg, None, 0, 0, PM_NOREMOVE);
 
-            let class_name = w!("QuickClipboardRawInputSink");
+            let class_name = w!("RelicRawInputSink");
 
             let wnd_class = WNDCLASSEXW {
                 cbSize: size_of::<WNDCLASSEXW>() as u32,

@@ -322,7 +322,7 @@ fn recreate_main_window(app: &AppHandle) -> Result<(), String> {
         "main",
         WebviewUrl::App("windows/main/index.html".into()),
     )
-    .title("快速剪贴板")
+    .title("Relic")
     .inner_size(360.0, 520.0)
     .min_inner_size(350.0, 500.0)
     .decorations(false)

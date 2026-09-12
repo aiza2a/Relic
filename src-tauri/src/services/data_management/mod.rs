@@ -22,7 +22,7 @@ pub struct TargetDataInfo {
 }
 
 pub fn check_target_has_data(target_dir: &Path) -> Result<TargetDataInfo, String> {
-    let db_path = target_dir.join("quickclipboard.db");
+    let db_path = target_dir.join("relic.db");
     let images_dir = target_dir.join("clipboard_images");
     let image_library_dir = target_dir.join("image_library");
     
@@ -113,7 +113,7 @@ fn copy_dir_all(src: &Path, dst: &Path) -> Result<(), String> {
 }
 
 fn backup_full_zip(dir: &Path) -> Result<Option<PathBuf>, String> {
-    let db = dir.join("quickclipboard.db");
+    let db = dir.join("relic.db");
     let images_dir = dir.join("clipboard_images");
     let app_icons_dir = dir.join("app_icons");
     if !db.exists() && !images_dir.exists() { return Ok(None); }
@@ -121,7 +121,7 @@ fn backup_full_zip(dir: &Path) -> Result<Option<PathBuf>, String> {
     let backups = dir.join("backups");
     fs::create_dir_all(&backups).map_err(|e| e.to_string())?;
     let ts_str = Local::now().format("%Y%m%d-%H%M%S").to_string();
-    let name = format!("quickclipboard-backup-{}.zip", ts_str);
+    let name = format!("relic-backup-{}.zip", ts_str);
     let target = backups.join(&name);
     
     let file = fs::File::create(&target).map_err(|e| e.to_string())?;
@@ -131,7 +131,7 @@ fn backup_full_zip(dir: &Path) -> Result<Option<PathBuf>, String> {
     
     if db.exists() {
         let mut f = fs::File::open(&db).map_err(|e| e.to_string())?;
-        zip.start_file("quickclipboard.db", options).map_err(|e| e.to_string())?;
+        zip.start_file("relic.db", options).map_err(|e| e.to_string())?;
         std::io::copy(&mut f, &mut zip).map_err(|e| e.to_string())?;
     }
     
@@ -196,7 +196,7 @@ pub fn list_backups() -> Result<Vec<BackupInfo>, String> {
         let e = e.map_err(|e| e.to_string())?;
         let p = e.path();
         let fname = p.file_name().and_then(|s| s.to_str()).unwrap_or("").to_string();
-        if !fname.starts_with("quickclipboard-backup-") || !fname.ends_with(".zip") { continue; }
+        if !fname.starts_with("relic-backup-") || !fname.ends_with(".zip") { continue; }
         let md = e.metadata().map_err(|e| e.to_string())?;
         let size = md.len();
         let modified = md.modified().unwrap_or(SystemTime::UNIX_EPOCH);
@@ -218,7 +218,7 @@ fn enforce_backup_retention(backups_dir: &Path, keep: usize) -> Result<(), Strin
         let e = e.map_err(|e| e.to_string())?;
         let p = e.path();
         let fname = p.file_name().and_then(|s| s.to_str()).unwrap_or("");
-        if !fname.starts_with("quickclipboard-backup-") || !fname.ends_with(".zip") { continue; }
+        if !fname.starts_with("relic-backup-") || !fname.ends_with(".zip") { continue; }
         let md = e.metadata().map_err(|e| e.to_string())?;
         let t = md.modified().unwrap_or(SystemTime::UNIX_EPOCH);
         items.push((t, p));
@@ -251,7 +251,7 @@ pub fn reset_all_data() -> Result<String, String> {
         if image_library.exists() { let _ = fs::remove_dir_all(&image_library); }
         let app_icons = dir.join("app_icons");
         if app_icons.exists() { let _ = fs::remove_dir_all(&app_icons); }
-        for name in ["quickclipboard.db", "quickclipboard.db-shm", "quickclipboard.db-wal"] {
+        for name in ["relic.db", "relic.db-shm", "relic.db-wal"] {
             let p = dir.join(name);
             if p.exists() { let _ = fs::remove_file(&p); }
         }
@@ -266,7 +266,7 @@ pub fn reset_all_data() -> Result<String, String> {
     defaults.custom_storage_path = None;
     update_settings(defaults.clone())?;
 
-    let db_path = default_dir.join("quickclipboard.db");
+    let db_path = default_dir.join("relic.db");
     init_database(db_path.to_str().ok_or("数据库路径无效")?)?;
     let _ = crate::services::database::connection::with_connection(|conn| {
         conn.execute_batch("PRAGMA wal_checkpoint(TRUNCATE);")
@@ -282,7 +282,7 @@ pub fn import_data_zip(zip_path: PathBuf, mode: &str) -> Result<String, String> 
         return Err("导入文件不存在".into());
     }
 
-    let temp_root = std::env::temp_dir().join(format!("quickclipboard_import_{}", fastrand::u32(..)));
+    let temp_root = std::env::temp_dir().join(format!("relic_import_{}", fastrand::u32(..)));
     fs::create_dir_all(&temp_root).map_err(|e| e.to_string())?;
     let file = fs::File::open(&zip_path).map_err(|e| format!("打开导入文件失败: {}", e))?;
     let mut archive = zip::ZipArchive::new(file).map_err(|e| format!("读取压缩包失败: {}", e))?;
@@ -300,7 +300,7 @@ pub fn import_data_zip(zip_path: PathBuf, mode: &str) -> Result<String, String> 
         }
     }
 
-    let imported_db = temp_root.join("quickclipboard.db");
+    let imported_db = temp_root.join("relic.db");
     let imported_images = temp_root.join("clipboard_images");
     let imported_image_library = temp_root.join("image_library");
     let imported_app_icons = temp_root.join("app_icons");
@@ -353,18 +353,18 @@ pub fn import_data_zip(zip_path: PathBuf, mode: &str) -> Result<String, String> 
             if target_app_icons.exists() { fs::remove_dir_all(&target_app_icons).map_err(|e| e.to_string())?; }
             if imported_app_icons.exists() { copy_dir_all(&imported_app_icons, &target_app_icons)?; }
 
-            let src_db = temp_root.join("quickclipboard.db");
-            let dst_db = target_dir.join("quickclipboard.db");
+            let src_db = temp_root.join("relic.db");
+            let dst_db = target_dir.join("relic.db");
             if src_db.exists() {
                 if let Some(p) = dst_db.parent() { fs::create_dir_all(p).map_err(|e| e.to_string())?; }
                 fs::copy(&src_db, &dst_db).map_err(|e| e.to_string())?;
             }
-            for name in ["quickclipboard.db-shm", "quickclipboard.db-wal"] {
+            for name in ["relic.db-shm", "relic.db-wal"] {
                 let p = target_dir.join(name);
                 if p.exists() { let _ = fs::remove_file(&p); }
             }
 
-            let db_path = target_dir.join("quickclipboard.db");
+            let db_path = target_dir.join("relic.db");
             init_database(db_path.to_str().ok_or("数据库路径无效")?)?;
             let _ = crate::services::database::connection::with_connection(|conn| {
                 conn.execute_batch("PRAGMA wal_checkpoint(TRUNCATE);")
@@ -452,7 +452,7 @@ pub fn change_storage_dir(new_dir: PathBuf, mode: &str) -> Result<PathBuf, Strin
     settings.custom_storage_path = Some(new_dir.to_string_lossy().to_string());
     update_settings(settings.clone())?;
 
-    let db_path = new_dir.join("quickclipboard.db");
+    let db_path = new_dir.join("relic.db");
     init_database(db_path.to_str().ok_or("数据库路径无效")?)?;
     let _ = crate::services::database::connection::with_connection(|conn| {
         conn.execute_batch("PRAGMA wal_checkpoint(TRUNCATE);")
@@ -947,7 +947,7 @@ pub fn reset_storage_dir_to_default(mode: &str) -> Result<PathBuf, String> {
     settings.custom_storage_path = None;
     update_settings(settings.clone())?;
 
-    let db_path = default_dir.join("quickclipboard.db");
+    let db_path = default_dir.join("relic.db");
     init_database(db_path.to_str().ok_or("数据库路径无效")?)?;
     let _ = crate::services::database::connection::with_connection(|conn| {
         conn.execute_batch("PRAGMA wal_checkpoint(TRUNCATE);")
@@ -973,8 +973,8 @@ fn change_storage_dir_internal(src_dir: &Path, dst_dir: &Path, mode: &str) -> Re
     let dst_image_library = dst_dir.join("image_library");
     let src_app_icons = src_dir.join("app_icons");
     let dst_app_icons = dst_dir.join("app_icons");
-    let src_db = src_dir.join("quickclipboard.db");
-    let dst_db = dst_dir.join("quickclipboard.db");
+    let src_db = src_dir.join("relic.db");
+    let dst_db = dst_dir.join("relic.db");
 
     match mode {
         "source_only" => {
@@ -1067,7 +1067,7 @@ fn change_storage_dir_internal(src_dir: &Path, dst_dir: &Path, mode: &str) -> Re
         }
     }
 
-    for name in ["quickclipboard.db-shm", "quickclipboard.db-wal"] {
+    for name in ["relic.db-shm", "relic.db-wal"] {
         let p = dst_dir.join(name);
         if p.exists() { let _ = fs::remove_file(&p); }
         let sp = src_dir.join(name);
@@ -1088,7 +1088,7 @@ pub fn export_data_zip(target_path: PathBuf) -> Result<PathBuf, String> {
     let image_library_dir = current_dir.join("image_library");
     let app_icons_dir = current_dir.join("app_icons");
     let db_files = [
-        "quickclipboard.db",
+        "relic.db",
     ];
     let settings_path = crate::services::settings::storage::SettingsStorage::get_settings_path()?;
 
@@ -1146,7 +1146,7 @@ pub fn export_data_zip(target_path: PathBuf) -> Result<PathBuf, String> {
 
     zip.finish().map_err(|e| e.to_string())?;
 
-    let db_path = current_dir.join("quickclipboard.db");
+    let db_path = current_dir.join("relic.db");
     if db_path.exists() {
         init_database(db_path.to_str().ok_or("数据库路径无效")?)?;
     }

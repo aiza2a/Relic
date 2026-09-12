@@ -35,7 +35,7 @@ export default defineConfig({
   },
   theme: {
     colors: {
-      // QuickClipboard 主题 token（由 CSS 变量驱动）
+      // Relic 主题 token（由 CSS 变量驱动）
       qc: {
         fg: 'var(--qc-fg, #111827)',
         'fg-muted': 'var(--qc-fg-muted, #6b7280)',

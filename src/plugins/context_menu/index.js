@@ -55,7 +55,7 @@ function normalizeMenuItem(item = {}) {
   });
 }
 
-export function getQuickClipboardMenuAppearance(overrides = {}) {
+export function getRelicMenuAppearance(overrides = {}) {
   return {
     theme: valueOrNull(overrides.theme ?? settingsStore.theme),
     lightThemeStyle: valueOrNull(
@@ -109,7 +109,7 @@ function normalizeRequest(request = {}) {
       ? request.items.map(normalizeMenuItem)
       : [],
     placement: request.placement ?? createCursorMenuPlacement(),
-    appearance: getQuickClipboardMenuAppearance(request.appearance ?? {}),
+    appearance: getRelicMenuAppearance(request.appearance ?? {}),
     behavior: {
       isTrayMenu: Boolean(request.behavior?.isTrayMenu),
       forceFocus: Boolean(request.behavior?.forceFocus),

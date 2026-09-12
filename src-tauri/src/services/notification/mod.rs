@@ -15,13 +15,13 @@ pub fn show_startup_notification(app: &AppHandle) -> Result<(), String> {
     };
     
     let notification_body = format!(
-        "QuickClipboard已启动\n按 {} 打开剪贴板窗口",
+        "Relic已启动\n按 {} 打开剪贴板窗口",
         shortcut
     );
     
     app.notification()
         .builder()
-        .title("QuickClipboard")
+        .title("Relic")
         .body(&notification_body)
         .show()
         .map_err(|e| format!("显示通知失败: {}", e))?;

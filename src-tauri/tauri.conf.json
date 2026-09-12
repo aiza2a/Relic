@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "QuickClipboard",
+  "productName": "Relic",
   "version": "../package.json",
-  "identifier": "com.quickclipboard.app",
+  "identifier": "com.relic.app",
   "build": {
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
@@ -14,7 +14,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "快速剪贴板",
+        "title": "Relic",
         "url": "windows/main/index.html",
         "width": 360,
         "height": 520,
@@ -62,9 +62,7 @@
       "nsis",
       "app"
     ],
-    "publisher": "MoSheng",
-    "homepage": "https://github.com/mosheng1/QuickClipboard",
-    "copyright": "Copyright © 2025 MoSheng. All rights reserved.",
+    "copyright": "Personal build",
     "icon": [
       "icons/icon32.png",
       "icons/icon64.png",
@@ -86,15 +84,6 @@
       "wix": {
         "language": "zh-CN"
       }
-    },
-    "createUpdaterArtifacts": true
-  },
-  "plugins": {
-    "updater": {
-      "endpoints": [
-        "https://api.quickclipboard.cn/update/latest.json"
-      ],
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDlCMDU4RTQxRTUyRTg3Q0MKUldUTWh5N2xRWTRGbTVxWUFhdXJPUzVKTkZkcjF6OE55dzg3UUJlRGF4em8yczliUUpTR29CKzQK"
     }
   }
 }

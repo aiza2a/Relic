@@ -50,7 +50,7 @@ fn show_security_warning(warning: &str) {
     use windows::Win32::UI::WindowsAndMessaging::{MessageBoxW, MB_OK, MB_ICONWARNING};
     use windows::core::PCWSTR;
     
-    let title: Vec<u16> = "安全警告 - QuickClipboard\0".encode_utf16().collect();
+    let title: Vec<u16> = "安全警告 - Relic\0".encode_utf16().collect();
     let message: Vec<u16> = format!(
         "检测到可能影响应用安全的环境变量配置：\n\n{}\n\n\
         为保护您的数据安全，应用将退出。\n\n\

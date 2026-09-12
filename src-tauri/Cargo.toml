@@ -1,12 +1,11 @@
 [package]
-name = "QuickClipboard"
-version = "0.5.0"
-description = "一个功能强大的剪贴板管理工具，帮助您更高效地管理和使用剪贴板内容"
-authors = ["MoSheng"]
+name = "Relic"
+version = "0.1.0"
+description = "Relic - 本地剪贴板增强工具（个人自用分支）"
 edition = "2021"
 
 [lib]
-name = "quickclipboard_lib"
+name = "relic_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

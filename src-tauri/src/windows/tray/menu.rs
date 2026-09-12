@@ -233,7 +233,7 @@ fn toggle_hotkeys(app: &AppHandle) {
     }
 
     let message = if enabled { "快捷键已启用" } else { "快捷键已禁用" };
-    let _ = crate::services::notification::show_notification(app, "QuickClipboard", message);
+    let _ = crate::services::notification::show_notification(app, "Relic", message);
 }
 
 // 打开贴图目录
