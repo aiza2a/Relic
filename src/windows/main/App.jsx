@@ -494,7 +494,23 @@ function App() {
     transition-colors duration-500 ease-in-out
     bg-qc-surface
   `.trim().replace(/\s+/g, ' ');
-  const TitleBarComponent = <TitleBar ref={searchRef} searchQuery={searchQuery} onSearchChange={setSearchQuery} searchPlaceholder={t('search.placeholder')} position={settings.titleBarPosition} activeTab={activeTab} compactActions={isCompactTitleBar} />;
+  const isVerticalTitleBar = settings.titleBarPosition === 'left' || settings.titleBarPosition === 'right';
+  const dockElement = (
+    <SideDock
+      showTabs={isSidebarTabsLayout || isVerticalTitleBar}
+      variant={isVerticalTitleBar ? 'titlebar' : 'dock'}
+      activeTab={activeTab}
+      contentFilter={contentFilter}
+      onFilterChange={setContentFilter}
+      pasteFilter={pasteFilter}
+      onPasteFilterChange={setPasteFilter}
+      emojiMode={emojiMode}
+      onEmojiModeChange={setEmojiMode}
+      onGroupChange={handleGroupChange}
+      groupsPopupRef={groupsPopupRef}
+    />
+  );
+  const TitleBarComponent = <TitleBar ref={searchRef} searchQuery={searchQuery} onSearchChange={setSearchQuery} searchPlaceholder={t('search.placeholder')} position={settings.titleBarPosition} activeTab={activeTab} compactActions={isCompactTitleBar} navSlot={isVerticalTitleBar ? dockElement : null} />;
   const TabNavigationComponent = <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} contentFilter={contentFilter} onFilterChange={setContentFilter} pasteFilter={pasteFilter} onPasteFilterChange={setPasteFilter} emojiMode={emojiMode} onEmojiModeChange={setEmojiMode} onGroupChange={handleGroupChange} groupsPopupRef={groupsPopupRef} navigationMode={tabNavigationMode} compactFilters={isCompactFilters} />;
   const ContentComponent = <div ref={contentDragRef} className="main-content-area flex-1 min-h-0 overflow-hidden relative pb-[8px] bg-qc-surface transition-colors duration-500">
       {activeTab === 'clipboard' && <ClipboardTab ref={clipboardTabRef} contentFilter={contentFilter} pasteFilter={pasteFilter} searchQuery={searchQuery} />}
@@ -516,7 +532,8 @@ function App() {
         {TabNavigationComponent}
         <div className="flex flex-1 min-h-0 min-w-0 flex-row overflow-hidden">
           {ContentComponent}
-          <SideDock
+          {!isVerticalTitleBar && dockElement}
+          {isVerticalTitleBar && null && (<SideDock
             showTabs={isSidebarTabsLayout}
             activeTab={activeTab}
             contentFilter={contentFilter}

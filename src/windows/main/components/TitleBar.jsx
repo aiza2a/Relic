@@ -69,6 +69,7 @@ const TitleBar = forwardRef(
       position = "top",
       activeTab = "clipboard",
       compactActions = false,
+      navSlot = null,
     },
     ref,
   ) => {
@@ -484,6 +485,9 @@ const TitleBar = forwardRef(
             position={position}
           />
 
+          {isVertical && navSlot && (
+            <div className="flex flex-col items-center gap-1 my-1">{navSlot}</div>
+          )}
           <div className={actionContainerClass}>
             <Tooltip
               content={

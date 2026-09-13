@@ -11,8 +11,9 @@ body.theme-dark.theme-dark-classic {
 
   --qc-hover: rgba(255, 255, 255, 0.08);
   --qc-active: rgba(241, 221, 223, 0.14);
-  --qc-accent: #e3aeb5;
-  --qc-accent-hover: #f1c6cc;
+  --qc-accent: #f2dde1;
+  --qc-accent-fg: #3a2b2e;
+  --qc-accent-hover: #ffffff;
   --qc-border: rgba(255, 255, 255, 0.12);
   --qc-border-strong: rgba(255, 255, 255, 0.22);
   --qc-toggle-track-off: #4a4a4a;

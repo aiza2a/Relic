@@ -34,9 +34,9 @@ body {
   --qc-search-highlight-fg: #111827;
 
   /* accent (for slider/radio/etc.) */
-  --qc-accent: #d68d98;
-  --qc-accent-hover: #c2747f;
-  --qc-accent-fg: #ffffff;
+  --qc-accent: #f2dde1;
+  --qc-accent-hover: #faf0f2;
+  --qc-accent-fg: #3a2b2e;
 
   /* controls */
   --qc-toggle-track-off: var(--qc-panel-2);

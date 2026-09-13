@@ -8,6 +8,7 @@ const FILTER_IDS = ['text', 'image', 'file', 'link'];
 // 右侧竖排功能坞：内容筛选、粘贴状态筛选、符号模式与分组入口
 function SideDock({
   showTabs = false,
+  variant = 'dock',
   activeTab,
   contentFilter,
   onFilterChange,
@@ -95,7 +96,7 @@ function SideDock({
 
   return (
     <div
-      className="flex h-full w-11 flex-shrink-0 flex-col items-center gap-1 border-l border-qc-border bg-qc-panel px-1.5 py-2 overflow-y-auto"
+      className={`flex h-full flex-col items-center gap-1 overflow-y-auto ${variant === 'titlebar' ? 'w-full px-1 py-1' : 'w-11 flex-shrink-0 border-l border-qc-border bg-qc-panel px-1.5 py-2'}`}
       data-no-drag
     >
       {showTabs && tabs.map(tab => (
