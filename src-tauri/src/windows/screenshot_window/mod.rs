@@ -56,15 +56,12 @@ fn capture_virtual_desktop(app: &AppHandle) -> Result<Vec<u8>, String> {
     for screen in &screens {
         let info = &screen.display_info;
         let shot = screen.capture().map_err(|e| format!("抓取屏幕失败: {}", e))?;
-        let sx = info.x - vx;
-        let sy = info.y - vy;
-        for (px, py, pixel) in shot.enumerate_pixels() {
-            let dx = sx + px as i32;
-            let dy = sy + py as i32;
-            if dx >= 0 && dy >= 0 && dx < vw && dy < vh {
-                canvas.put_pixel(dx as u32, dy as u32, *pixel);
-            }
-        }
+        // screenshots 内嵌旧版 image，先转为本项目类型再合成
+        let shot = image::RgbaImage::from_raw(shot.width(), shot.height(), shot.into_raw())
+            .ok_or_else(|| "转换截图数据失败".to_string())?;
+        let sx = (info.x - vx) as i64;
+        let sy = (info.y - vy) as i64;
+        image::imageops::overlay(&mut canvas, &shot, sx, sy);
     }
 
     let mut png = Vec::new();
@@ -258,7 +255,7 @@ pub fn get_css_monitors(window: tauri::WebviewWindow) -> Result<Vec<CssMonitorIn
             height: h / scale,
             is_primary: primary
                 .as_ref()
-                .map(|p| p.label() == m.label())
+                .map(|p| p.name == m.name)
                 .unwrap_or(false),
         });
     }

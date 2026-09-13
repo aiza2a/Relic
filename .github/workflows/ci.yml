@@ -34,6 +34,8 @@ jobs:
 
       - name: Rust 编译缓存
         uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
 
       - name: 安装前端依赖
         run: npm ci
@@ -69,6 +71,7 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           prefix-key: release
+          cache-on-failure: true
 
       - name: 安装前端依赖
         run: npm ci
