@@ -533,18 +533,6 @@ function App() {
         <div className="flex flex-1 min-h-0 min-w-0 flex-row overflow-hidden">
           {ContentComponent}
           {!isVerticalTitleBar && dockElement}
-          {isVerticalTitleBar && null && (<SideDock
-            showTabs={isSidebarTabsLayout}
-            activeTab={activeTab}
-            contentFilter={contentFilter}
-            onFilterChange={setContentFilter}
-            pasteFilter={pasteFilter}
-            onPasteFilterChange={setPasteFilter}
-            emojiMode={emojiMode}
-            onEmojiModeChange={setEmojiMode}
-            onGroupChange={handleGroupChange}
-            groupsPopupRef={groupsPopupRef}
-          />
         </div>
         {ActionBarComponent}
       </div>;
