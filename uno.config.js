@@ -110,16 +110,16 @@ export default defineConfig({
         },
         // 动态主题色
         dynamic: {
-          primary: 'var(--bg-dynamic-primary, #73ae52)',
-          hover: 'var(--bg-dynamic-hover, #5c9639)',
-          light: 'var(--bg-dynamic-light, #eaf4e3)',
-          dark: 'var(--bg-dynamic-dark, #639c45)',
+          primary: 'var(--bg-dynamic-primary, #d68d98)',
+          hover: 'var(--bg-dynamic-hover, #c2747f)',
+          light: 'var(--bg-dynamic-light, #f7edef)',
+          dark: 'var(--bg-dynamic-dark, #b56b76)',
         },
         // 主题强调色（跟随 --qc-accent，深浅主题自动适配）
         accent: {
-          DEFAULT: 'var(--qc-accent, #73ae52)',
-          hover: 'var(--qc-accent-hover, #5c9639)',
-          soft: 'var(--qc-active, rgba(115, 174, 82, 0.14))',
+          DEFAULT: 'var(--qc-accent, #d68d98)',
+          hover: 'var(--qc-accent-hover, #c2747f)',
+          soft: 'var(--qc-active, rgba(214, 141, 152, 0.16))',
         },
       },
     },

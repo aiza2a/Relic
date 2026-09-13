@@ -7,6 +7,7 @@ const FILTER_IDS = ['text', 'image', 'file', 'link'];
 
 // 右侧竖排功能坞：内容筛选、粘贴状态筛选、符号模式与分组入口
 function SideDock({
+  showTabs = false,
   activeTab,
   contentFilter,
   onFilterChange,
@@ -78,11 +79,44 @@ function SideDock({
         : 'text-qc-fg-muted hover:bg-qc-hover'
     }`;
 
+  const tabs = [{
+    id: 'clipboard',
+    label: '剪贴板',
+    icon: 'ti ti-clipboard-text'
+  }, {
+    id: 'favorites',
+    label: '收藏',
+    icon: 'ti ti-star'
+  }, {
+    id: 'emoji',
+    label: '符号',
+    icon: 'ti ti-mood-smile'
+  }];
+
   return (
     <div
       className="flex h-full w-11 flex-shrink-0 flex-col items-center gap-1 border-l border-qc-border bg-qc-panel px-1.5 py-2 overflow-y-auto"
       data-no-drag
     >
+      {showTabs && tabs.map(tab => (
+        <Tooltip key={tab.id} content={tab.label} placement="left" asChild>
+          <button
+            type="button"
+            className={`flex items-center justify-center w-8 h-8 rounded-lg focus:outline-none transition-colors duration-200 ${
+              activeTab === tab.id
+                ? 'qc-active-icon-button bg-[var(--qc-accent)] text-[var(--qc-accent-fg)] shadow-md hover:bg-[var(--qc-accent)]'
+                : 'text-qc-fg-muted hover:bg-qc-hover'
+            }`}
+            onClick={() => window.dispatchEvent(new CustomEvent('relic-switch-tab', { detail: tab.id }))}
+          >
+            <i className={tab.icon} style={{ fontSize: 15 }} />
+          </button>
+        </Tooltip>
+      ))}
+      {showTabs && <div
+        className="my-1 h-px w-6 shrink-0"
+        style={{ backgroundColor: 'var(--bg-titlebar-border, var(--qc-border-strong))', opacity: 0.95 }}
+      />}
       {activeTab === 'emoji'
         ? emojiModes.map(mode => (
             <Tooltip key={mode.id} content={mode.label} placement="left" asChild>

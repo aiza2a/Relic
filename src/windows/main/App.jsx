@@ -90,6 +90,16 @@ function App() {
   useSettingsSync();
 
   useEffect(() => {
+    const handler = event => {
+      if (typeof event.detail === 'string') {
+        setActiveTab(event.detail);
+      }
+    };
+    window.addEventListener('relic-switch-tab', handler);
+    return () => window.removeEventListener('relic-switch-tab', handler);
+  }, []);
+
+  useEffect(() => {
     if (!isMainTabVisible(activeTab, settings.visibleOptionalTabs)) {
       setActiveTab('clipboard');
     }
@@ -495,7 +505,6 @@ function App() {
   const renderWorkspace = () => {
     if (isSidebarTabsLayout) {
       return <div className="flex flex-1 min-h-0 min-w-0 flex-row overflow-hidden">
-          {TabNavigationComponent}
           <div className="flex-1 min-h-0 min-w-0 flex flex-col overflow-hidden">
             {ContentComponent}
             {ActionBarComponent}
@@ -508,6 +517,7 @@ function App() {
         <div className="flex flex-1 min-h-0 min-w-0 flex-row overflow-hidden">
           {ContentComponent}
           <SideDock
+            showTabs={isSidebarTabsLayout}
             activeTab={activeTab}
             contentFilter={contentFilter}
             onFilterChange={setContentFilter}

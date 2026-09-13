@@ -19,12 +19,12 @@ body.theme-background {
   --qc-border: rgba(255, 255, 255, 0.22);
   --qc-border-strong: rgba(255, 255, 255, 0.32);
   --qc-hover: rgba(255, 255, 255, 0.18);
-  --qc-active: color-mix(in srgb, var(--bg-dynamic-primary, #73ae52) 18%, transparent);
-  --qc-accent: var(--bg-dynamic-primary, #73ae52);
-  --qc-accent-hover: var(--bg-dynamic-dark, #5c9639);
+  --qc-active: color-mix(in srgb, var(--bg-dynamic-primary, #d68d98) 18%, transparent);
+  --qc-accent: var(--bg-dynamic-primary, #d68d98);
+  --qc-accent-hover: var(--bg-dynamic-dark, #c2747f);
 
-  --qc-toggle-track-off: color-mix(in srgb, var(--bg-dynamic-primary, #73ae52) 22%, var(--bg-titlebar-bg, #ffffff));
-  --qc-toggle-track-on: var(--bg-dynamic-primary, #73ae52);
+  --qc-toggle-track-off: color-mix(in srgb, var(--bg-dynamic-primary, #d68d98) 22%, var(--bg-titlebar-bg, #ffffff));
+  --qc-toggle-track-on: var(--bg-dynamic-primary, #d68d98);
   --qc-toggle-thumb: rgba(255, 255, 255, 0.78);
 
   --theme-100: var(--qc-surface);
@@ -109,18 +109,18 @@ body.theme-background {
 .theme-background.has-dynamic-titlebar .tab-bar button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]),
 .theme-background.has-dynamic-titlebar .footer-bar button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]) {
   background-color: rgba(255, 255, 255, 0.2) !important;
-  color: var(--bg-dynamic-primary, #73ae52) !important;
+  color: var(--bg-dynamic-primary, #d68d98) !important;
   transition: all 0.2s ease !important;
 }
 
 .theme-background.has-dynamic-titlebar .title-bar button.bg-dynamic-primary {
-  background-color: var(--bg-dynamic-primary, #73ae52);
+  background-color: var(--bg-dynamic-primary, #d68d98);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .theme-background.has-dynamic-titlebar .title-bar button.bg-dynamic-primary:hover {
-  background-color: var(--bg-dynamic-dark, #639c45);
+  background-color: var(--bg-dynamic-dark, #b56b76);
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -131,7 +131,7 @@ body.theme-background {
 
 .theme-background.has-dynamic-titlebar #tools-toggle:hover {
   background-color: rgba(255, 255, 255, 0.2) !important;
-  color: var(--bg-dynamic-primary, #73ae52) !important;
+  color: var(--bg-dynamic-primary, #d68d98) !important;
 }
 
 /* 工具面板按钮 */
@@ -144,7 +144,7 @@ body.theme-background {
 }
 
 .theme-background.has-dynamic-titlebar .groups-panel button.bg-accent {
-  background-color: var(--bg-dynamic-primary, #73ae52) !important;
+  background-color: var(--bg-dynamic-primary, #d68d98) !important;
   color: #ffffff !important;
 }
 
@@ -166,12 +166,12 @@ body.theme-background {
 
 .theme-background.has-dynamic-titlebar .titlebar-search button:hover {
   background-color: rgba(255, 255, 255, 0.2) !important;
-  color: var(--bg-dynamic-primary, #73ae52) !important;
+  color: var(--bg-dynamic-primary, #d68d98) !important;
 }
 
 .theme-background.has-dynamic-titlebar .titlebar-search input:focus {
   background-color: rgba(255, 255, 255, 0.3);
-  border-color: var(--bg-dynamic-primary, #73ae52);
+  border-color: var(--bg-dynamic-primary, #d68d98);
 }
 
 /* 面板样式 */
@@ -195,14 +195,14 @@ body.theme-background {
 
 /* 悬浮工具栏按钮 */
 .theme-background.has-dynamic-titlebar .absolute.right-4.flex.flex-col.rounded-md.shadow-lg button {
-  background-color: var(--bg-dynamic-primary, #73ae52) !important;
+  background-color: var(--bg-dynamic-primary, #d68d98) !important;
   color: white !important;
-  border: 1px solid var(--bg-dynamic-dark, #639c45) !important;
+  border: 1px solid var(--bg-dynamic-dark, #b56b76) !important;
   transition: all 0.2s ease !important;
 }
 
 .theme-background.has-dynamic-titlebar .absolute.right-4.flex.flex-col.rounded-md.shadow-lg button:hover {
-  background-color: var(--bg-dynamic-dark, #639c45) !important;
+  background-color: var(--bg-dynamic-dark, #b56b76) !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
   transform: translateY(-1px) !important;
 }
@@ -210,7 +210,7 @@ body.theme-background {
 /* 拖拽手柄  */
 .theme-background.has-dynamic-titlebar .absolute.right-4.flex.flex-col.rounded-md.shadow-lg .cursor-grab,
 .theme-background.has-dynamic-titlebar .absolute.right-4.flex.flex-col.rounded-md.shadow-lg .cursor-grabbing {
-  color: var(--bg-dynamic-primary, #73ae52) !important;
+  color: var(--bg-dynamic-primary, #d68d98) !important;
   background-color: rgba(255, 255, 255, 0.3) !important;
   border-radius: 4px !important;
   margin-top: 4px !important;
@@ -223,13 +223,13 @@ body.theme-background {
 }
 
 .theme-background.has-dynamic-titlebar.dark .absolute.right-4.flex.flex-col.rounded-md.shadow-lg button {
-  background-color: var(--bg-dynamic-primary, #73ae52) !important;
-  border-color: var(--bg-dynamic-dark, #639c45) !important;
+  background-color: var(--bg-dynamic-primary, #d68d98) !important;
+  border-color: var(--bg-dynamic-dark, #b56b76) !important;
 }
 
 .theme-background.has-dynamic-titlebar.dark .absolute.right-4.flex.flex-col.rounded-md.shadow-lg .cursor-grab,
 .theme-background.has-dynamic-titlebar.dark .absolute.right-4.flex.flex-col.rounded-md.shadow-lg .cursor-grabbing {
-  color: var(--bg-dynamic-primary, #73ae52) !important;
+  color: var(--bg-dynamic-primary, #d68d98) !important;
   background-color: rgba(0, 0, 0, 0.2) !important;
 }
 
@@ -268,7 +268,7 @@ body.theme-background {
 
 .theme-background .settings-header input[type="text"][placeholder*="搜索"]:focus {
   background-color: rgba(255, 255, 255, 0.25) !important;
-  border-color: var(--bg-dynamic-primary, #73ae52) !important;
+  border-color: var(--bg-dynamic-primary, #d68d98) !important;
   backdrop-filter: blur(var(--theme-superbg-blur-8)) !important;
   -webkit-backdrop-filter: blur(var(--theme-superbg-blur-8)) !important;
 }
@@ -357,7 +357,7 @@ body.theme-background {
 }
 
 .theme-background.has-dynamic-titlebar .footer-bar button:hover {
-  color: var(--bg-dynamic-primary, #73ae52) !important;
+  color: var(--bg-dynamic-primary, #d68d98) !important;
 }
 
 .theme-background .settings-section-content,
@@ -379,11 +379,11 @@ body.theme-background {
 
 /* 动态主题色应用 */
 .theme-background.has-dynamic-titlebar .bg-accent {
-  background-color: var(--bg-dynamic-primary, #73ae52);
+  background-color: var(--bg-dynamic-primary, #d68d98);
 }
 
 .theme-background.has-dynamic-titlebar .bg-accent-hover {
-  background-color: var(--bg-dynamic-dark, #639c45);
+  background-color: var(--bg-dynamic-dark, #b56b76);
 }
 
 .theme-background.has-dynamic-titlebar .bg-accent-soft {
@@ -392,17 +392,17 @@ body.theme-background {
 
 .theme-background.has-dynamic-titlebar .text-accent,
 .theme-background.has-dynamic-titlebar .text-accent-hover {
-  color: var(--bg-dynamic-primary, #73ae52);
+  color: var(--bg-dynamic-primary, #d68d98);
 }
 
 .theme-background.has-dynamic-titlebar .border-accent,
 .theme-background.has-dynamic-titlebar .border-accent {
-  border-color: var(--bg-dynamic-primary, #73ae52);
+  border-color: var(--bg-dynamic-primary, #d68d98);
 }
 
 
 .theme-background.has-dynamic-titlebar button[role="switch"][aria-checked="true"] {
-  background-color: var(--bg-dynamic-primary, #73ae52);
+  background-color: var(--bg-dynamic-primary, #d68d98);
 }
 
 .theme-background.has-dynamic-titlebar.dark .title-bar button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]),
@@ -412,7 +412,7 @@ body.theme-background {
 .theme-background.has-dynamic-titlebar.dark .tab-bar button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]),
 .theme-background.has-dynamic-titlebar.dark .footer-bar button:hover:not(.bg-dynamic-primary):not([aria-checked="true"]) {
   background-color: rgba(255, 255, 255, 0.1) !important;
-  color: var(--bg-dynamic-primary, #73ae52) !important;
+  color: var(--bg-dynamic-primary, #d68d98) !important;
 }
 
 
@@ -422,12 +422,12 @@ body.theme-background {
 
 .theme-background.has-dynamic-titlebar.dark #tools-toggle:hover {
   background-color: rgba(255, 255, 255, 0.1) !important;
-  color: var(--bg-dynamic-primary, #73ae52) !important;
+  color: var(--bg-dynamic-primary, #d68d98) !important;
 }
 
 .theme-background.has-dynamic-titlebar.dark .titlebar-search button:hover {
   background-color: rgba(255, 255, 255, 0.1) !important;
-  color: var(--bg-dynamic-primary, #73ae52) !important;
+  color: var(--bg-dynamic-primary, #d68d98) !important;
 }
 
 
@@ -437,7 +437,7 @@ body.theme-background {
 
 
 .theme-background.has-dynamic-titlebar.dark .footer-bar button:hover {
-  color: var(--bg-dynamic-primary, #73ae52) !important;
+  color: var(--bg-dynamic-primary, #d68d98) !important;
 }
 
 
@@ -449,7 +449,7 @@ body.theme-background {
 
 .theme-background.has-dynamic-titlebar.dark .titlebar-search input:focus {
   background-color: rgba(0, 0, 0, 0.2);
-  border-color: var(--bg-dynamic-primary, #73ae52);
+  border-color: var(--bg-dynamic-primary, #d68d98);
 }
 
 
@@ -463,7 +463,7 @@ body.theme-background {
 
 .theme-background.dark .settings-header input[type="text"][placeholder*="搜索"]:focus {
   background-color: rgba(0, 0, 0, 0.2) !important;
-  border-color: var(--bg-dynamic-primary, #73ae52) !important;
+  border-color: var(--bg-dynamic-primary, #d68d98) !important;
   backdrop-filter: blur(var(--theme-superbg-blur-8)) !important;
   -webkit-backdrop-filter: blur(var(--theme-superbg-blur-8)) !important;
 }
@@ -482,13 +482,13 @@ body.theme-background {
 }
 
 .theme-background.has-dynamic-titlebar .emoji-sidebar button:hover:not(.bg-accent-soft):not(.text-accent-hover) {
-  background-color: var(--bg-dynamic-primary, #73ae52) !important;
+  background-color: var(--bg-dynamic-primary, #d68d98) !important;
   color: #ffffff !important;
 }
 
 .theme-background.has-dynamic-titlebar .emoji-sidebar button.bg-accent-soft,
 .theme-background.has-dynamic-titlebar .emoji-sidebar button.text-accent-hover {
-  background-color: var(--bg-dynamic-primary, #73ae52) !important;
+  background-color: var(--bg-dynamic-primary, #d68d98) !important;
   color: #ffffff !important;
 }
 
@@ -517,7 +517,7 @@ body.theme-background {
 
 .theme-background.has-dynamic-titlebar .emoji-search-bar input:focus {
   background-color: rgba(255, 255, 255, 0.3) !important;
-  border-color: var(--bg-dynamic-primary, #73ae52) !important;
+  border-color: var(--bg-dynamic-primary, #d68d98) !important;
 }
 
 .theme-background.has-dynamic-titlebar .emoji-search-bar button {
@@ -525,7 +525,7 @@ body.theme-background {
 }
 
 .theme-background.has-dynamic-titlebar .emoji-search-bar button:hover {
-  color: var(--bg-dynamic-primary, #73ae52) !important;
+  color: var(--bg-dynamic-primary, #d68d98) !important;
 }
 
 .theme-background.has-dynamic-titlebar .emoji-content .text-gray-700,

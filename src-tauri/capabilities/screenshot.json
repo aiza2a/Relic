@@ -3,12 +3,11 @@
   "identifier": "screenshot",
   "description": "Capability for the screenshot overlay window",
   "windows": [
-    "screenshot-overlay"
+    "screenshot"
   ],
   "permissions": [
     "core:default",
     "core:event:allow-emit",
-    "core:event:allow-listen",
-    "core:window:allow-close"
+    "core:event:allow-listen"
   ]
 }

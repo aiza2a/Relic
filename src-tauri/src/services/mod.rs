@@ -2,7 +2,6 @@ pub mod clipboard;
 pub mod database;
 pub mod data_management;
 pub mod notification;
-pub mod screenshot;
 pub mod settings;
 pub mod system;
 pub mod paste;
