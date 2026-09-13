@@ -27,6 +27,10 @@ export const navigationItems = [{
   icon: "ti ti-filter",
   labelKey: 'settings.sections.appFilter'
 }, {
+  id: 'screenshot',
+  icon: "ti ti-camera",
+  labelKey: 'settings.sections.screenshot'
+}, {
   id: 'dataManagement',
   icon: "ti ti-database",
   labelKey: 'settings.sections.dataManagement'

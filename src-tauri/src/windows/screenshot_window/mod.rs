@@ -13,6 +13,7 @@ static SERVER_STOP: AtomicBool = AtomicBool::new(true);
 static SERVER_PORT: AtomicU16 = AtomicU16::new(0);
 static SERVER_LISTENER: Lazy<Mutex<Option<TcpListener>>> = Lazy::new(|| Mutex::new(None));
 static PNG_PAYLOAD: Lazy<Mutex<Vec<u8>>> = Lazy::new(|| Mutex::new(Vec::new()));
+static PENDING_PAYLOAD: Lazy<Mutex<Option<serde_json::Value>>> = Lazy::new(|| Mutex::new(None));
 
 const OVERLAY_LABEL: &str = "screenshot";
 
@@ -161,12 +162,26 @@ fn ensure_overlay_window(app: &AppHandle) -> Result<tauri::WebviewWindow, String
     .drag_and_drop(false)
     .build()
     .map_err(|e| format!("创建截屏窗口失败: {}", e))?;
+
+    // 关闭请求一律转为隐藏，窗口常驻复用
+    let window_for_close = window.clone();
+    window.on_window_event(move |event| {
+        if let tauri::WindowEvent::CloseRequested { api, .. } = event {
+            api.prevent_close();
+            let _ = window_for_close.hide();
+            SCREENSHOT_WINDOW_VISIBLE.store(false, Ordering::Relaxed);
+            stop_server();
+        }
+    });
     Ok(window)
 }
 
-// 热键/托盘入口
+// 热键/托盘入口：可见时切换隐藏（应急退出通道），否则开启截屏
 pub fn start_screenshot_session(app: &AppHandle) -> Result<(), String> {
     if SCREENSHOT_WINDOW_VISIBLE.load(Ordering::Relaxed) {
+        return hide_impl(app);
+    }
+    if !crate::get_settings().screenshot_enabled {
         return Ok(());
     }
     let window = ensure_overlay_window(app)?;
@@ -202,6 +217,8 @@ fn show_impl(app: &AppHandle, window: &tauri::WebviewWindow) -> Result<(), Strin
                 "height": capture_height,
                 "image_url": image_url,
             });
+            // 事件可能早于页面加载完成，同时存入待领取队列
+            *PENDING_PAYLOAD.lock() = Some(payload.clone());
             let _ = window_for_data.emit("screenshot-ready", payload);
         }
         Err(_) => {
@@ -308,6 +325,12 @@ pub fn set_cursor_position_physical(x: i32, y: i32) -> Result<(), String> {
 pub fn get_settings(_app: AppHandle) -> Result<serde_json::Value, String> {
     let settings = crate::get_settings();
     serde_json::to_value(&settings).map_err(|e| format!("序列化设置失败: {}", e))
+}
+
+// 前端页面就绪后主动领取待处理的截屏数据（解决事件竞态）
+#[tauri::command]
+pub fn take_screenshot_payload() -> Option<serde_json::Value> {
+    PENDING_PAYLOAD.lock().take()
 }
 
 // 元素检测：预留桩，后续基于 UIA 移植

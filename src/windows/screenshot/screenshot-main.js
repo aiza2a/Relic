@@ -239,6 +239,31 @@ export class ScreenshotController {
         
         // 监听后端截屏事件
         this.listenToBackendEvents();
+
+        // 兜底：页面尚未初始化完成时也允许 Esc 退出
+        this.preInitCancel = (event) => {
+            if (event.key === 'Escape') {
+                window.removeEventListener('keydown', this.preInitCancel);
+                window.__TAURI__.core.invoke('hide_screenshot_window').catch(() => {});
+            }
+        };
+        window.addEventListener('keydown', this.preInitCancel);
+
+        // 竞态修复：后端事件可能先于页面加载发出，这里主动领取待处理数据
+        window.__TAURI__.core.invoke('take_screenshot_payload').then(async (payload) => {
+            window.removeEventListener('keydown', this.preInitCancel);
+            if (payload && payload.image_url) {
+                this.pendingScreenshotData = payload;
+                await this.reinitialize();
+            }
+        }).catch((error) => console.error('领取截屏数据失败:', error));
+
+        // 兜底：迟迟没有截屏数据则自动隐藏，避免空遮罩卡死
+        setTimeout(() => {
+            if (!this.pendingScreenshotData) {
+                window.__TAURI__.core.invoke('hide_screenshot_window').catch(() => {});
+            }
+        }, 8000);
         
         // 页面加载完成时初始化背景
         if (document.readyState === 'complete') {

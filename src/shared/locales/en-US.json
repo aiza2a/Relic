@@ -209,7 +209,8 @@
       "translation": "Translation",
       "quickpaste": "Quick Paste",
       "appFilter": "App Filter",
-      "dataManagement": "Data Management"
+      "dataManagement": "Data Management",
+      "screenshot": "Screenshot"
     },
     "general": {
       "title": "General Settings",
@@ -724,6 +725,31 @@
       "noBackups": "No backups available",
       "selectBackup": "Select Backup",
       "selectBackupDesc": "Choose a backup file to restore"
+    },
+    "screenshot": {
+      "title": "Screenshot",
+      "description": "Configure screenshot features and behavior",
+      "enabled": "Enable screenshot",
+      "enabledDesc": "Turn the screenshot feature on or off",
+      "elementDetection": "Element detection",
+      "elementDetectionDesc": "Detect and highlight elements automatically",
+      "detectionNone": "Off",
+      "detectionWindow": "Windows",
+      "detectionAll": "Windows and controls",
+      "magnifier": "Magnifier",
+      "magnifierDesc": "Show a magnifier while capturing",
+      "hints": "Hints",
+      "hintsDesc": "Show operation hints while capturing",
+      "colorIncludeFormat": "Color formats",
+      "colorIncludeFormatDesc": "Show RGB/HEX formats when picking colors",
+      "lifecycleMode": "Window release strategy",
+      "lifecycleModeDesc": "How the screenshot window is handled after capture.",
+      "lifecycleModeQuick": "Quick mode",
+      "lifecycleModeQuickDesc": "Hide the window after capture for the fastest next start.",
+      "lifecycleModeDispose": "Dispose mode",
+      "lifecycleModeDisposeDesc": "Destroy the window after capture to free memory.",
+      "lifecycleModeAuto": "Auto",
+      "lifecycleModeAutoDesc": "Automatically choose between quick and dispose."
     }
   },
   "footer": {

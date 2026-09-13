@@ -169,6 +169,7 @@ pub fn run() {
                 windows::preview_window::reveal_preview_window,
                 windows::preview_window::finalize_hide_preview_window,
                 windows::preview_window::get_preview_window_data,
+                windows::screenshot_window::take_screenshot_payload,
                 windows::screenshot_window::get_css_monitors,
                 windows::screenshot_window::constrain_selection_bounds,
                 windows::screenshot_window::show_screenshot_window,

@@ -17,6 +17,7 @@ import TranslationSection from './sections/TranslationSection';
 import PreviewSection from './sections/PreviewSection';
 import AppFilterSection from './sections/AppFilterSection';
 import DataManagementSection from './sections/DataManagementSection';
+import ScreenshotSection from './sections/ScreenshotSection';
 import ToastContainer from '@shared/components/common/ToastContainer';
 
 function App() {
@@ -142,6 +143,9 @@ function App() {
         break;
       case 'appFilter':
         content = <AppFilterSection settings={snap} onSettingChange={handleSettingChange} />;
+        break;
+      case 'screenshot':
+        content = <ScreenshotSection settings={snap} onSettingChange={handleSettingChange} />;
         break;
       case 'dataManagement':
         content = <DataManagementSection />;
