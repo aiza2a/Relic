@@ -255,7 +255,7 @@ pub fn get_css_monitors(window: tauri::WebviewWindow) -> Result<Vec<CssMonitorIn
             height: h / scale,
             is_primary: primary
                 .as_ref()
-                .map(|p| p.name == m.name)
+                .map(|p| p.name() == m.name())
                 .unwrap_or(false),
         });
     }
